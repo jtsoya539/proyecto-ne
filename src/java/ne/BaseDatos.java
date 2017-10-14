@@ -19,7 +19,8 @@ public class BaseDatos {
     public Connection connection;
     private Statement statement;
     private ResultSet resultSet;
-    public static final String URL_BASE_DATOS = "jdbc:oracle:thin:@127.0.0.1:1521:XE";
+    public static final String URL_BASE_DATOS = "jdbc:oracle:thin:@www.rama.com.py:1521:RAMA";
+    // jdbc:oracle:thin:@127.0.0.1:1521:XE
     // jdbc:oracle:thin:@hostname:portNumber:databaseName
 
     public BaseDatos() {
