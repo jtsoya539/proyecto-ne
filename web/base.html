@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+    <!-- Titulo -->
+    <title>Proyecto NE</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/w3.css">
+
+    <!-- JavaScript -->
+    <script src="js/w3.js"></script>
+
+    <!-- Colores -->
+
+    <!-- Temas -->
+    <link rel="stylesheet" href="css/themes/w3-theme-blue.css">
+
+    <!-- Fuentes -->
+    <link rel="stylesheet" href="css/fonts/lato.css">
+    <link rel="stylesheet" href="css/fonts/montserrat.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+        .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+    </style>
+
+
+    <body>
+
+
+        <!-- Menu en pantallas grandes -->
+        <div id="menuLarge" class="w3-top">
+        </div>
+
+        <!-- Menu en pantallas pequeñas -->
+        <div id="menuSmall" class="w3-top w3-hide w3-hide-medium w3-hide-large">
+        </div>
+
+        <!-- Mensaje -->
+        <div id="mensaje" class="w3-modal">
+            <div class="w3-modal-content w3-card-4 w3-animate-top w3-animate-opacity w3-theme-l3">
+                <div class="w3-container">
+                    <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">X</span>
+                    <h3 id="mensaje_titulo">mensaje_titulo</h3>
+                    <p id="mensaje_contenido">mensaje_contenido</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login -->
+        <div id="login" class="w3-modal">
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
+                <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
+                <span onclick="w3.hide('#login')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">X</span>
+                <form class="w3-container" action="Login" method="POST">
+                    <div class="w3-section">
+                        <label>Correo Electrónico o Usuario</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Correo Electrónico o Usuario" name="usuario" required>
+                        <label>Clave</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Ingresá tu Clave" name="clave" required>
+                        <button class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="submit">Iniciar sesión</button>
+                        <input class="w3-check" type="checkbox" checked="checked"> Recordarme
+                    </div>
+                </form>
+                <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                    <button onclick="w3.hide('#login')" class="w3-button w3-theme-action">Cancelar</button>
+                    <span class="w3-right w3-padding w3-hide-small"><a href="#">¿Olvidaste tu clave?</a></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Container -->
+        <div class="w3-container w3-content" style="margin-top:70px;margin-bottom:30px;max-width:1400px;">
+            <!-- The Grid -->
+            <div class="w3-row-padding">
+                <!-- Left Column -->
+                <div class="w3-col m8">
+
+
+                    <div class="w3-bar w3-theme-action">
+                        <button class="boton-seccion w3-bar-item w3-button w3-theme-d1" onclick="abrirSeccion(event, '#faq')">PREGUNTAS FRECUENTES</button>
+                        <button class="boton-seccion w3-bar-item w3-button" onclick="abrirSeccion(event, '#reg')">REGLAS</button>
+                        <button class="boton-seccion w3-bar-item w3-button" onclick="abrirSeccion(event, '#tyc')">TERMINOS Y CONDICIONES</button>
+                    </div>
+                    <div id="faq" class="seccion w3-border">
+                        <button onclick="w3.toggleClass('#faq1', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">FAQCan I have more than one team?</button>
+                        <div id="faq1" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>In the interest of fair play each person may only enter one team. You may enter this team in multiple leagues and compete against different groups of friends.</p></div>
+                        <button onclick="w3.toggleClass('#faq2', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">FAQCan I make changes to my squad after entering the game?</button>
+                        <div id="faq2" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>Yes, unlimited free transfers can be made before the next deadline.</p></div>
+                        <button onclick="w3.toggleClass('#faq3', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">FAQIs thera a print-friendly list of players I can view?</button>
+                        <div id="faq3" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>We have a full player list you can view and print.</p></div>
+                    </div>
+                    <div id="reg" class="seccion w3-border w3-hide">
+                        <button onclick="w3.toggleClass('#reg1', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">REGCan I have more than one team?</button>
+                        <div id="reg1" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>In the interest of fair play each person may only enter one team. You may enter this team in multiple leagues and compete against different groups of friends.</p></div>
+                        <button onclick="w3.toggleClass('#reg2', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">REGCan I make changes to my squad after entering the game?</button>
+                        <div id="reg2" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>Yes, unlimited free transfers can be made before the next deadline.</p></div>
+                        <button onclick="w3.toggleClass('#reg3', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">REGIs thera a print-friendly list of players I can view?</button>
+                        <div id="reg3" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>We have a full player list you can view and print.</p></div>
+                    </div>
+                    <div id="tyc" class="seccion w3-border w3-hide">
+                        <button onclick="w3.toggleClass('#tyc1', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">TYCCan I have more than one team?</button>
+                        <div id="tyc1" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>In the interest of fair play each person may only enter one team. You may enter this team in multiple leagues and compete against different groups of friends.</p></div>
+                        <button onclick="w3.toggleClass('#tyc2', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">TYCCan I make changes to my squad after entering the game?</button>
+                        <div id="tyc2" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>Yes, unlimited free transfers can be made before the next deadline.</p></div>
+                        <button onclick="w3.toggleClass('#tyc3', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">TYCIs thera a print-friendly list of players I can view?</button>
+                        <div id="tyc3" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>We have a full player list you can view and print.</p></div>
+                    </div>
+                    <script>
+                        function abrirSeccion(botonSeccion, idSeccion) {
+                            w3.addClass('.seccion', 'w3-hide');                // Oculta todos los .seccion
+                            w3.removeClass('.boton-seccion', 'w3-theme-d1');        // Desmarca todos los .boton-seccion
+                            w3.removeClass(idSeccion, 'w3-hide');              // Muestra el .seccion elegido
+                            botonSeccion.currentTarget.className += " w3-theme-d1"; // Marca el .boton-seccion elegido
+                        }
+                    </script>
+
+                </div>
+
+                <!-- Right Column -->
+                <div class="w3-col m4">
+                    <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom ">
+                        <span onclick="this.parentElement.style.display = 'none'" class="w3-button w3-theme-l3 w3-display-topright">
+                            <i class="fa fa-remove"></i>
+                        </span>
+                        <p><strong>Hey!</strong></p>
+                        <p>People are looking at your profile. Find out who.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Quote of the day -->
+        <div class="w3-container w3-padding-32 w3-center w3-theme-l4">
+            <h1 class="w3-xlarge w3-margin">Quote of the day: live life</h1>
+        </div>
+
+        <!-- Footer -->
+        <footer class="w3-container w3-padding-32 w3-center w3-theme-d2">
+            <div class="w3-xlarge w3-padding-16">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
+                <i class="fa fa-twitter w3-hover-opacity"></i>
+                <i class="fa fa-instagram w3-hover-opacity"></i>
+                <i class="fa fa-linkedin w3-hover-opacity"></i>
+            </div>
+            <p>Creado por <a href="https://twitter.com/jtsoya539" target="_blank">@jtsoya539</a></p>
+        </footer>
+
+
+    </body>
+
+
+</html>

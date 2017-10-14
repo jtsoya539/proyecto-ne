@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+    <!-- Titulo -->
+    <title>Proyecto NE</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/w3.css">
+
+    <!-- JavaScript -->
+    <script src="js/w3.js"></script>
+
+    <!-- Colores -->
+
+    <!-- Temas -->
+    <link rel="stylesheet" href="css/themes/w3-theme-purple.css">
+
+    <!-- Fuentes -->
+    <link rel="stylesheet" href="css/fonts/lato.css">
+    <link rel="stylesheet" href="css/fonts/montserrat.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+        .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+        .fa-anchor,.fa-coffee {font-size:200px}
+    </style>
+
+
+    <body>
+
+
+        <!-- Menu en pantallas grandes -->
+        <div id="menuLarge" class="w3-top">
+            <div class="w3-bar w3-theme-d2">
+                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="INICIO"><i class="fa fa-home"></i><i> INICIO</i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-left w3-hide-small" href="#" title="MI EQUIPO"><i class="fa fa-futbol-o"></i><i> MI EQUIPO</i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-left w3-hide-small" href="#" title="MIS LIGAS"><i class="fa fa-users"></i><i> MIS LIGAS</i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-left w3-hide-small" href="#" title="AYUDA"><i class="fa fa-info"></i><i> AYUDA</i></a>
+
+                <a class="w3-bar-item w3-button w3-padding-large w3-right w3-hide-small" href="#" title="USUARIO" onclick="w3.show('#login')"><i class="">INICIAR SESION </i><img src="img/cesped.jpg" class="w3-circle" style="height:20px;width:20px" alt="USUARIO"></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-right w3-hide-medium w3-hide-large" href="#" title="EXTENDER" onclick="w3.toggleClass('#menuSmall', 'w3-hide'); w3.toggleClass('#menuLarge', 'w3-hide');"><i class="fa fa-navicon"></i><i> EXTENDER</i></a>
+            </div>
+        </div>
+
+        <!-- Menu en pantallas pequeñas -->
+        <div id="menuSmall" class="w3-top w3-hide w3-hide-medium w3-hide-large">
+            <div class="w3-bar-block w3-theme-d2">
+                <div class="w3-bar-item" style="padding:0px">
+                    <a class="w3-button w3-padding-large w3-left" href="#" title="INICIO"><i class="fa fa-home"></i><i> INICIO</i></a>
+                    <a class="w3-button w3-padding-large w3-right" href="#" title="EXTENDER" onclick="w3.toggleClass('#menuSmall', 'w3-hide'); w3.toggleClass('#menuLarge', 'w3-hide');"><i class="fa fa-navicon"></i><i> EXTENDER</i></a>
+                </div>
+                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="MI EQUIPO"><i class="fa fa-futbol-o"></i><i> MI EQUIPO</i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="MIS LIGAS"><i class="fa fa-users"></i><i> MIS LIGAS</i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="AYUDA"><i class="fa fa-info"></i><i> AYUDA</i></a>
+
+                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="USUARIO" onclick="w3.show('#login')"><i class="">INICIAR SESION </i><img src="img/cesped.jpg" class="w3-circle" style="height:20px;width:20px" alt="USUARIO"></a>
+            </div>
+        </div>
+
+        <!-- Mensaje -->
+        <div id="mensaje" class="w3-modal">
+            <div class="w3-modal-content w3-card-4 w3-animate-top w3-animate-opacity w3-theme-l3">
+                <div class="w3-container">
+                    <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">X</span>
+                    <h3 id="mensaje_titulo">mensaje_titulo</h3>
+                    <p id="mensaje_contenido">mensaje_contenido</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login -->
+        <div id="login" class="w3-modal">
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
+                <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
+                <span onclick="w3.hide('#login')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">X</span>
+                <form class="w3-container" action="Login" method="POST">
+                    <div class="w3-section">
+                        <label>Correo Electrónico o Usuario</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Correo Electrónico o Usuario" name="usuario" required>
+                        <label>Clave</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Ingresá tu Clave" name="clave" required>
+                        <button class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="submit">Iniciar sesión</button>
+                        <input class="w3-check" type="checkbox" checked="checked"> Recordarme
+                    </div>
+                </form>
+                <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                    <button onclick="w3.hide('#login')" class="w3-button w3-theme-action">Cancelar</button>
+                    <span class="w3-right w3-padding w3-hide-small"><a href="#">¿Olvidaste tu clave?</a></span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Header -->
+        <header class="w3-container w3-center w3-padding-64 w3-theme-l1">
+            <h1 class="w3-xxxlarge w3-margin ">Proyecto NE</h1>
+            <p class="w3-xlarge">Template by w3.css</p>
+            <button class="w3-button w3-padding-large w3-large w3-margin w3-theme-action" onclick="w3.show('#login')">Registrarse</button>
+            <button class="w3-button w3-padding-large w3-large w3-margin w3-theme-action" onclick="w3.show('#login')">Iniciar sesion</button>
+        </header>
+
+        <!-- First Grid -->
+        <div class="w3-row-padding w3-padding-48 w3-container w3-theme-l5">
+            <div class="w3-content">
+                <div class="w3-twothird">
+                    <h1>Lorem Ipsum</h1>
+                    <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+
+                    <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
+                        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+
+                <div class="w3-third w3-center">
+                    <i class="fa fa-anchor w3-padding-48"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Grid -->
+        <div class="w3-row-padding w3-padding-48 w3-container w3-theme-l4">
+            <div class="w3-content">
+                <div class="w3-third w3-center">
+                    <i class="fa fa-coffee w3-padding-48"></i>
+                </div>
+
+                <div class="w3-twothird">
+                    <h1>Lorem Ipsum</h1>
+                    <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+
+                    <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
+                        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quote of the day -->
+        <div class="w3-container w3-padding-32 w3-center w3-theme">
+            <h1 class="w3-xlarge w3-margin">Quote of the day: live life</h1>
+        </div>
+
+        <!-- Footer -->
+        <footer class="w3-container w3-padding-32 w3-center w3-theme-d2">
+            <div class="w3-xlarge w3-padding-16">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
+                <i class="fa fa-twitter w3-hover-opacity"></i>
+                <i class="fa fa-instagram w3-hover-opacity"></i>
+                <i class="fa fa-linkedin w3-hover-opacity"></i>
+            </div>
+            <p>Creado por <a href="https://twitter.com/jtsoya539" target="_blank">@jtsoya539</a></p>
+        </footer>
+
+
+    </body>
+
+
+</html>
