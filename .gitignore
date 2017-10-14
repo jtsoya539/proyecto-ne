@@ -1,1 +1,7 @@
 nbproject/genfiles.properties
+/dist/
+/target/
+/build/
+nbproject/project.properties
+nbproject/project.xml
+nbproject/private/
