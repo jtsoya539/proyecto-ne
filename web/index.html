@@ -12,6 +12,8 @@
 
     <!-- JavaScript -->
     <script src="js/w3.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/md5.js"></script>
 
     <!-- Colores -->
 
@@ -80,10 +82,11 @@
                 <form class="w3-container" action="Login" method="POST">
                     <div class="w3-section">
                         <label>Correo Electrónico o Usuario</label>
-                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Correo Electrónico o Usuario" name="usuario" required>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Correo Electrónico o Usuario" name="usuario" id="user" required>
                         <label>Clave</label>
-                        <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Ingresá tu Clave" name="clave" required>
-                        <button class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="submit">Iniciar sesión</button>
+                        <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Ingresá tu Clave" name="clave" id="pwd" required>
+			<input name="clavemd5" type="hidden" id="pwdmd5" />
+                        <button class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="submit" id="acceso">Iniciar sesión</button>
                         <input class="w3-check" type="checkbox" checked="checked"> Recordarme
                     </div>
                 </form>
@@ -155,6 +158,21 @@
             <p>Creado por <a href="https://twitter.com/jtsoya539" target="_blank">@jtsoya539</a></p>
         </footer>
 
+    <script>
+        $( "#acceso" ).click(function() {
+          if  (!($("#user").val())) {
+             alert('Debe ingresar el usuario o correo electronico');
+             return false;
+          }
+          if ($("#pwd").val()){
+            $("#pwdmd5").val(CryptoJS.MD5($("#pwd").val()).toString());
+            $("#form-id").submit();
+          } else {
+             alert('Debe ingresar una contraseña');
+             return false;
+          }
+        });
+    </script>  
 
     </body>
 

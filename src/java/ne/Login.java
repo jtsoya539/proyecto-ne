@@ -57,7 +57,7 @@ public class Login extends HttpServlet {
         processRequest(request, response);
 
         String usuario = request.getParameter("usuario");
-        String clave = request.getParameter("clave");
+        String clave = request.getParameter("clavemd5");
 
         BaseDatos db = new BaseDatos();
         String resultado = null;
