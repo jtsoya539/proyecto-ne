@@ -62,6 +62,7 @@ public class Login extends HttpServlet {
         BaseDatos db = new BaseDatos();
         String resultado = null;
         String menu = null;
+        String visualizador = null;
 
         try {
             db.conectar("ne", "ruffus");
@@ -75,6 +76,7 @@ public class Login extends HttpServlet {
             db.conectar("ne", "ruffus");
             db.ejecutarProcedimiento("k_sistema.p_set_usuario('" + usuario + "')");
             menu = db.ejecutarFuncionClob("k_aplicacion_web.f_menu('WEB')");
+            // visualizador = db.ejecutarFuncionClob("k_aplicacion_web.f_imagen('Imagen?tb=T_CLUBES&cp=IMAGEN&pk=ID_CLUB&id=CER')");
             db.cerrar();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -98,6 +100,7 @@ public class Login extends HttpServlet {
                 rd.include(request, response);
                 out.println(resultado);
                 out.println(menu);
+                // out.println(visualizador);
                 out.close();
             }
 

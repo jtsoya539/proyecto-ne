@@ -13,6 +13,8 @@
 
     <!-- JavaScript -->
     <script src="js/w3.js"></script>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/md5.js"></script>
 
     <!-- Colores -->
 
@@ -49,6 +51,14 @@
                     <h3 id="mensaje_titulo">mensaje_titulo</h3>
                     <p id="mensaje_contenido">mensaje_contenido</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- Visualizador -->
+        <div id="visualizador" class="w3-modal">
+            <div class="w3-modal-content w3-border-red w3-card-4 w3-animate-top">
+                <span onclick="w3.removeClass('#visualizador', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">X</span>
+                <img id="visualizador_imagen" src="visualizador_imagen" alt="visualizador_imagen" style="align-content: center">
             </div>
         </div>
 
