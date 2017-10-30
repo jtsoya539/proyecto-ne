@@ -41,10 +41,13 @@ public class Imagen extends HttpServlet {
             db.cerrar();
         } catch (SQLException ex) {
             imagen = null;
+        } catch (NullPointerException ex) {
+            imagen = null;
         }
 
         ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(imagen);
+        if (imagen != null)
+          outputStream.write(imagen);
 
     }
 

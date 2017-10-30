@@ -15,6 +15,8 @@
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/md5.js"></script>
 
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.register.js"></script>
     <!-- Colores -->
 
     <!-- Temas -->
@@ -105,12 +107,16 @@
             </div>
         </div>
 
+        <div ng-app="register">
+            <div ng-include="'register.html'">
+            </div>
+        </div>
 
         <!-- Header -->
         <header class="w3-container w3-center w3-padding-64 w3-theme-l1">
             <h1 class="w3-xxxlarge w3-margin ">Proyecto NE</h1>
             <p class="w3-xlarge">Template by w3.css</p>
-            <button class="w3-button w3-padding-large w3-large w3-margin w3-theme-action" onclick="w3.show('#login')">Registrarse</button>
+            <button class="w3-button w3-padding-large w3-large w3-margin w3-theme-action" onclick="w3.show('#register')">Registrarse</button>
             <button class="w3-button w3-padding-large w3-large w3-margin w3-theme-action" onclick="w3.show('#login')">Iniciar sesion</button>
         </header>
 
@@ -167,22 +173,21 @@
         </footer>
 
         <script>
-            $("#acceso").click(function () {
-                if (!($("#user").val())) {
-                    alert('Debe ingresar el usuario o correo electronico');
-                    return false;
-                }
-                if ($("#pwd").val()) {
-                    $("#pwdmd5").val(CryptoJS.MD5($("#pwd").val()).toString());
-                    $("#form-id").submit();
-                } else {
-                    alert('Debe ingresar una contraseña');
-                    return false;
-                }
+            $( "#acceso" ).click(function() {
+              if  (!($("#user").val())) {
+                 alert('Debe ingresar el usuario o correo electronico');
+                 return false;
+              }
+              if ($("#pwd").val()){
+                $("#pwdmd5").val(CryptoJS.MD5($("#pwd").val()).toString());
+                $("#form-id").submit();
+              } else {
+                 alert('Debe ingresar una contraseña');
+                 return false;
+              }
             });
         </script>  
 
     </body>
-
 
 </html>

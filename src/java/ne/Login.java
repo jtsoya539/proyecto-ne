@@ -63,6 +63,7 @@ public class Login extends HttpServlet {
         String resultado = null;
         String menu = null;
         String visualizador = null;
+        String seleccionJugadores = null;
 
         try {
             db.conectar("ne", "ruffus");
@@ -77,6 +78,7 @@ public class Login extends HttpServlet {
             db.ejecutarProcedimiento("k_sistema.p_set_usuario('" + usuario + "')");
             menu = db.ejecutarFuncionClob("k_aplicacion_web.f_menu('WEB')");
             // visualizador = db.ejecutarFuncionClob("k_aplicacion_web.f_imagen('Imagen?tb=T_CLUBES&cp=IMAGEN&pk=ID_CLUB&id=CER')");
+            seleccionJugadores = db.ejecutarFuncionClob("k_aplicacion_web.f_seleccion_jugadores('WEB')");
             db.cerrar();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -101,6 +103,7 @@ public class Login extends HttpServlet {
                 out.println(resultado);
                 out.println(menu);
                 // out.println(visualizador);
+                out.println(seleccionJugadores);
                 out.close();
             }
 

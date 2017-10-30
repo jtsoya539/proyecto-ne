@@ -1,0 +1,53 @@
+        <!-- Register -->
+        <div id="register" class="w3-modal"  ng-controller="ControllerRegistro">
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
+                <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
+                <span onclick="w3.hide('#register')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">X</span>
+                <form class="w3-container" >
+                    <div class="w3-section">
+                        <!-- Nombres -->
+                        <label>Nombres</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tus Nombres" name="nombre" id="nombre" required ng-model="registro.nombre" ng-change="registro.nombre = registro.nombre.toUpperCase()">
+                        <!-- Apellidos -->
+                        <label>Apellidos</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tus Apellidos" name="apellido" id="apellido" required ng-model="registro.apellido" ng-change="registro.apellido = registro.apellido.toUpperCase()">
+                        <!-- Correo electronico -->
+                        <label>Correo Electronico</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu correo electronico" name="correo" id="correo" required ng-model="registro.correo">
+                        <!-- Usuario -->
+                        <label>Usuario</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Usuario" name="usuario" id="usuario" required ng-model="registro.usuario">
+                        <!-- Clave -->
+                        <label>Clave</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Ingresá tu Clave" name="clave" id="pwd" required ng-model="clave">
+			<input name="clavemd5" type="hidden" id="pwdmd5" ng-model="registro.clave"/>
+                        <!-- Sexo -->
+                        <label>Sexo</label>
+                        <div class="w3-input w3-border w3-margin-bottom w3-row">
+                            <div class="w3-col m4 l4 ">
+                                <input class="w3-radio" type="radio" name="sexo" value="M" ng-model="registro.sexo">
+                                <label>Masculino</label>
+                            </div>
+                            <div class="w3-col m4 l4 ">
+                                <input class="w3-radio" type="radio" name="sexo" value="F" ng-model="registro.sexo">
+                                <label>Femenino</label>
+                            </div>
+                            <div class="w3-col m4 l4 ">
+                                <input class="w3-radio" type="radio" name="sexo" value="" ng-model="registro.sexo">
+                                <label>No especificado</label>
+                            </div>
+                        </div>
+                        <!-- Fecha de Nacimiento -->
+                        <label>Fecha de Nacimiento</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="date" placeholder="Ingresá tu Fecha de Nacimiento" name="nacimiento" id="nacimiento" required ng-model="registro.nacimiento">
+                        
+                        <!-- Registrarme -->
+                        <input class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="button" value="Registrarme" id="acceso" ng-click="enviar()" />
+                        
+                    </div>
+                </form>
+                <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                    <button onclick="w3.hide('#register')" class="w3-button w3-theme-action">Cancelar</button>
+                </div>
+            </div>
+        </div>
