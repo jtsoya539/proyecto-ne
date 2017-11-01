@@ -1,0 +1,20 @@
+        <!-- Jugador -->
+        <div id="jugador" class="w3-modal">
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3 w3-center" style="max-width:640px">
+              <span onclick="w3.hide('#jugador')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">X</span>
+              <h2 class="w3-container w3-blue">{{player.nombre}}</h2>
+              <div>{{player.club}}</div>
+              <div class="w3-tag w3-{{player.color}} w3-small">{{player.posicion}}</div>
+              <hr>
+              <div class="w3-row w3-small">
+                  <div class="w3-col w3-border-white s3 m3 l3">Jornada {{player.jornada}}<br>{{player.pts_jornada}} pts</div>
+                  <div class="w3-col w3-border-left w3-border-white s3 m3 l3">Total<br>{{player.pts_totales}} pts</div>
+                  <div class="w3-col w3-border-left w3-border-white s3 m3 l3">Precio<br>{{player.precio}}</div>
+                  <div class="w3-col w3-border-left w3-border-white s3 m3 l3">Elegido por<br>{{player.elegido}}%</div>
+              </div>
+              <hr>
+              <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                <button onclick="w3.hide('#jugador')" class="w3-button w3-theme-action">Agregar a mi equipo</button>
+              </div>
+            </div>
+        </div>
