@@ -11,16 +11,16 @@
     <link rel="stylesheet" href="css/w3.css">
 
     <!-- JavaScript -->
-    <script src="js/w3.js"></script>
-    <script src="js/jquery-3.2.1.js"></script>
-    <script src="js/md5.js"></script>
-
+    <script type="text/javascript" src="js/w3.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/app.register.js"></script>
+
     <!-- Colores -->
 
     <!-- Temas -->
-    <link rel="stylesheet" href="css/themes/w3-theme-purple.css">
+    <link rel="stylesheet" href="css/themes/w3-theme-blue.css">
 
     <!-- Fuentes -->
     <link rel="stylesheet" href="css/fonts/lato.css">
@@ -36,32 +36,25 @@
 
     <body>
 
-
         <!-- Menu en pantallas grandes -->
         <div id="menuLarge" class="w3-top">
             <div class="w3-bar w3-theme-d2">
-                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="INICIO"><i class="fa fa-home"></i><i> INICIO</i></a>
-                <a class="w3-bar-item w3-button w3-padding-large w3-left w3-hide-small" href="#" title="MI EQUIPO"><i class="fa fa-futbol-o"></i><i> MI EQUIPO</i></a>
-                <a class="w3-bar-item w3-button w3-padding-large w3-left w3-hide-small" href="#" title="MIS LIGAS"><i class="fa fa-users"></i><i> MIS LIGAS</i></a>
-                <a class="w3-bar-item w3-button w3-padding-large w3-left w3-hide-small" href="#" title="AYUDA"><i class="fa fa-info"></i><i> AYUDA</i></a>
-
-                <a class="w3-bar-item w3-button w3-padding-large w3-right w3-hide-small" href="#" title="USUARIO" onclick="w3.show('#login')"><i class="">INICIAR SESION </i><img src="img/cesped.jpg" class="w3-circle" style="height:20px;width:20px" alt="USUARIO"></a>
-                <a class="w3-bar-item w3-button w3-padding-large w3-right w3-hide-medium w3-hide-large" href="#" title="EXTENDER" onclick="w3.toggleClass('#menuSmall', 'w3-hide'); w3.toggleClass('#menuLarge', 'w3-hide');"><i class="fa fa-navicon"></i><i> EXTENDER</i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="Inicio"><i class="fa fa-home"></i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-right w3-hide-medium w3-hide-large" href="#" title="Extender" onclick="w3.toggleClass('#menuSmall', 'w3-hide'); w3.toggleClass('#menuLarge', 'w3-hide');"><i class="fa fa-navicon"></i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-left w3-hide-small" href="#" title="Ayuda"><i class="fa fa-info"></i><i> Ayuda</i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-right w3-hide-small" href="#" title="Iniciar Sesión" onclick="w3.show('#login')"><i class="fa fa-sign-in"></i></a>
             </div>
         </div>
 
-        <!-- Menu en pantallas pequeñas -->
+        <!-- Menu en pantallas pequenas -->
         <div id="menuSmall" class="w3-top w3-hide w3-hide-medium w3-hide-large">
             <div class="w3-bar-block w3-theme-d2">
                 <div class="w3-bar-item" style="padding:0px">
-                    <a class="w3-button w3-padding-large w3-left" href="#" title="INICIO"><i class="fa fa-home"></i><i> INICIO</i></a>
-                    <a class="w3-button w3-padding-large w3-right" href="#" title="EXTENDER" onclick="w3.toggleClass('#menuSmall', 'w3-hide'); w3.toggleClass('#menuLarge', 'w3-hide');"><i class="fa fa-navicon"></i><i> EXTENDER</i></a>
+                    <a class="w3-button w3-padding-large w3-left" href="#" title="Inicio"><i class="fa fa-home"></i></a>
+                    <a class="w3-button w3-padding-large w3-right" href="#" title="Extender" onclick="w3.toggleClass('#menuSmall', 'w3-hide'); w3.toggleClass('#menuLarge', 'w3-hide');"><i class="fa fa-navicon"></i></a>
                 </div>
-                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="MI EQUIPO"><i class="fa fa-futbol-o"></i><i> MI EQUIPO</i></a>
-                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="MIS LIGAS"><i class="fa fa-users"></i><i> MIS LIGAS</i></a>
-                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="AYUDA"><i class="fa fa-info"></i><i> AYUDA</i></a>
-
-                <a class="w3-bar-item w3-button w3-padding-large w3-left" href="#" title="USUARIO" onclick="w3.show('#login')"><i class="">INICIAR SESION </i><img src="img/cesped.jpg" class="w3-circle" style="height:20px;width:20px" alt="USUARIO"></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-center" href="#" title="Ayuda"><i class="fa fa-info"></i><i> Ayuda</i></a>
+                <a class="w3-bar-item w3-button w3-padding-large w3-center" href="#" title="Iniciar Sesión" onclick="w3.show('#login')"><i class="fa fa-sign-in"></i></a>
             </div>
         </div>
 
@@ -69,7 +62,7 @@
         <div id="mensaje" class="w3-modal">
             <div class="w3-modal-content w3-card-4 w3-animate-top w3-animate-opacity w3-theme-l3">
                 <div class="w3-container">
-                    <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">X</span>
+                    <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">&times;</span>
                     <h3 id="mensaje_titulo">mensaje_titulo</h3>
                     <p id="mensaje_contenido">mensaje_contenido</p>
                 </div>
@@ -79,8 +72,8 @@
         <!-- Visualizador -->
         <div id="visualizador" class="w3-modal">
             <div class="w3-modal-content w3-border-red w3-card-4 w3-animate-top">
-                <span onclick="w3.removeClass('#visualizador', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">X</span>
-                <img id="visualizador_imagen" src="visualizador_imagen" alt="visualizador_imagen" style="align-content: center">
+                <span onclick="w3.removeClass('#visualizador', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">&times;</span>
+                <img id="visualizador_imagen" src="#" alt="visualizador_imagen" style="align-content: center">
             </div>
         </div>
 
@@ -88,7 +81,7 @@
         <div id="login" class="w3-modal">
             <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
                 <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
-                <span onclick="w3.hide('#login')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">X</span>
+                <span onclick="w3.hide('#login')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">&times;</span>
                 <form class="w3-container" action="Login" method="POST">
                     <div class="w3-section">
                         <label>Correo Electrónico o Usuario</label>
@@ -173,18 +166,18 @@
         </footer>
 
         <script>
-            $( "#acceso" ).click(function() {
-              if  (!($("#user").val())) {
-                 alert('Debe ingresar el usuario o correo electronico');
-                 return false;
-              }
-              if ($("#pwd").val()){
-                $("#pwdmd5").val(CryptoJS.MD5($("#pwd").val()).toString());
-                $("#form-id").submit();
-              } else {
-                 alert('Debe ingresar una contraseña');
-                 return false;
-              }
+            $("#acceso").click(function () {
+                if (!($("#user").val())) {
+                    alert('Debe ingresar el usuario o correo electronico');
+                    return false;
+                }
+                if ($("#pwd").val()) {
+                    $("#pwdmd5").val(CryptoJS.MD5($("#pwd").val()).toString());
+                    $("#form-id").submit();
+                } else {
+                    alert('Debe ingresar una contraseña');
+                    return false;
+                }
             });
         </script>  
 
