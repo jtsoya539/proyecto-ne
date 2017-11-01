@@ -5,19 +5,37 @@
  */
 angular.module('register', [])
 .controller('ControllerRegistro', function($scope, $http){
-   $scope.registro = {
-      nombre: '',
-      apellido: '',
-      correo: '',
-      usuario: '',
-      clave: '',
-      sexo: '',
-      nacimiento: ''
-      //integrantes: []
-   };
-   $scope.clave = '';
+    /* Definimos registro con los datos del usuario */
+    $scope.registro = {
+        nombre: '',
+        apellido: '',
+        correo: '',
+        usuario: '',
+        clave: '',
+        sexo: '',
+        nacimiento: '',
+        pais: ''
+        //integrantes: []
+    };
+    $scope.clave = '';
+    $scope.paises = {};
 
-   $scope.enviar = function(){
+    /* Obtenemos datos de los paises */
+    $http.get("GetDatos?ori=datos_paises")
+    .then(function(response) {
+        $scope.paises = response.data.paises;
+        // $scope.registro.integrantes = [];
+        console.log("imprimo respuesta 3..");
+        console.log(response);
+        w3.show('#jugador');
+    }, function(response) {
+        //Second function handles error
+         alert('Error al intentar enviar el registro.');
+         alert(response);
+    });
+
+    /* Funcion que envia los datos del nuevo usuario al servidor */
+    $scope.enviar = function(){
        console.log("valido los datos..");
         if  ($scope.registro.usuario == '') {
            alert('Debe ingresar el usuario');
@@ -43,6 +61,7 @@ angular.module('register', [])
          $scope.registro.clave = '';
          $scope.registro.sexo = '';
          $scope.registro.nacimiento = '';
+         $scope.registro.pais = '';
          $scope.clave = '';
         // $scope.registro.integrantes = [];
        console.log("imprimo respuesta..");

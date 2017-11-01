@@ -40,7 +40,11 @@
                         <!-- Fecha de Nacimiento -->
                         <label>Fecha de Nacimiento</label>
                         <input class="w3-input w3-border w3-margin-bottom" type="date" placeholder="Ingresá tu Fecha de Nacimiento" name="nacimiento" id="nacimiento" required ng-model="registro.nacimiento">
-                        
+                        <!-- Pais -->
+                        <label>Pais</label>
+                        <select class="w3-select w3-border w3-margin-bottom" ng-model="registro.pais" ng-options="x.desc for x in paises">
+                        </select>
+
                         <!-- Registrarme -->
                         <input class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="button" value="Registrarme" id="acceso" ng-click="enviar()" />
                         
