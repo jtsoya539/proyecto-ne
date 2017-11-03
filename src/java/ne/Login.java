@@ -15,6 +15,14 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
 
+    BaseDatos db;
+    int errorCode;
+    String message;
+
+    public Login() {
+        this.db = new BaseDatos();
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -56,57 +64,97 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
 
+        this.errorCode = 0;
+        this.message = null;
+
+        // Obtener parametros
         String usuario = request.getParameter("usuario");
         String clave = request.getParameter("clavemd5");
 
-        BaseDatos db = new BaseDatos();
-        String resultado = null;
+        String mensaje = null;
         String menu = null;
-        String visualizador = null;
         String seleccionJugadores = null;
 
         try {
             db.conectar("ne", "ruffus");
-            resultado = db.ejecutarFuncionString("f_valida_usuario('" + usuario + "', '" + clave + "')");
+            mensaje = db.ejecutarFuncionString("f_valida_usuario('" + usuario + "', '" + clave + "')");
             db.cerrar();
         } catch (SQLException ex) {
-            resultado = ex.getMessage();
+            errorCode = ex.getErrorCode();
+            message = ex.getMessage();
         }
 
-        try {
-            db.conectar("ne", "ruffus");
-            db.ejecutarProcedimiento("k_sistema.p_set_usuario('" + usuario + "')");
-            menu = db.ejecutarFuncionClob("k_aplicacion_web.f_menu('WEB')");
-            // visualizador = db.ejecutarFuncionClob("k_aplicacion_web.f_imagen('Imagen?tb=T_CLUBES&cp=IMAGEN&pk=ID_CLUB&id=CER')");
-            seleccionJugadores = db.ejecutarFuncionClob("k_aplicacion_web.f_seleccion_jugadores('WEB')");
-            db.cerrar();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        HttpSession sesion = request.getSession();
-        sesion.setAttribute("usuario", usuario);
-        sesion.setAttribute("clave", clave);
-        sesion.setMaxInactiveInterval(60 * 15); // 15 minutos
-
-        // Agregar cookie
-        Cookie cookie = new Cookie("usuario", usuario);
-        cookie.setPath("/ProyectoNE");
-        cookie.setMaxAge(60 * 60); // 60 minutos
-        response.addCookie(cookie);
-
-        if (resultado != null) {
-
-            try (PrintWriter out = response.getWriter()) {
-                RequestDispatcher rd = request.getRequestDispatcher("base.html");
-                rd.include(request, response);
-                out.println(resultado);
-                out.println(menu);
-                // out.println(visualizador);
-                out.println(seleccionJugadores);
-                out.close();
+        if (errorCode != 0) {
+            try {
+                db.conectar("ne", "ruffus");
+                mensaje = db.ejecutarFuncionString("k_aplicacion_web.f_mensaje('" + db.limpiarMensajeError(message) + "')");
+                db.cerrar();
+            } catch (SQLException ex) {
+                errorCode = ex.getErrorCode();
+                message = ex.getMessage();
+                System.out.println("SQLException: " + errorCode + ' ' + message);
             }
 
+        } else {
+
+            try {
+                db.conectar("ne", "ruffus");
+                db.ejecutarProcedimiento("k_sistema.p_set_usuario('" + usuario + "')");
+                menu = db.ejecutarFuncionClob("k_aplicacion_web.f_menu('WEB')");
+                seleccionJugadores = db.ejecutarFuncionClob("k_aplicacion_web.f_seleccion_jugadores('WEB')");
+                db.cerrar();
+            } catch (SQLException ex) {
+                errorCode = ex.getErrorCode();
+                message = ex.getMessage();
+            }
+
+            if (errorCode != 0) {
+                try {
+                    db.conectar("ne", "ruffus");
+                    mensaje = db.ejecutarFuncionString("k_aplicacion_web.f_mensaje('" + db.limpiarMensajeError(message) + "')");
+                    db.cerrar();
+                } catch (SQLException ex) {
+                    errorCode = ex.getErrorCode();
+                    message = ex.getMessage();
+                    System.out.println("SQLException: " + errorCode + ' ' + message);
+                }
+
+            } else {
+                // Agregar sesion
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("usuario", usuario);
+                sesion.setAttribute("clave", clave);
+                sesion.setMaxInactiveInterval(60 * 15); // 15 minutos
+
+                // Agregar cookie
+                Cookie cookie = new Cookie("usuario", usuario);
+                cookie.setPath("/ProyectoNE");
+                cookie.setMaxAge(60 * 60); // 60 minutos
+                response.addCookie(cookie);
+
+            }
+
+        }
+
+        try (PrintWriter out = response.getWriter()) {
+            String responsePage;
+            if (errorCode != 0) {
+                responsePage = "index.html";
+            } else {
+                responsePage = "base.html";
+            }
+            RequestDispatcher rd = request.getRequestDispatcher(responsePage);
+            rd.include(request, response);
+            if (mensaje != null) {
+                out.println(mensaje);
+            }
+            if (menu != null) {
+                out.println(menu);
+            }
+            if (seleccionJugadores != null) {
+                out.println(seleccionJugadores);
+            }
+            out.close();
         }
 
     }

@@ -192,6 +192,11 @@ public class BaseDatos {
         System.out.println("ejecutarProcedimiento: " + sql);
     }
 
+    public String limpiarMensajeError(String error) {
+        int pos = error.indexOf("ORA-", 4);
+        return error.substring(0, pos).trim();
+    }
+
     // ======================================================================================
     public Connection getConnection() {
         return connection;

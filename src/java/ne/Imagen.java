@@ -25,6 +25,7 @@ public class Imagen extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("image/png");
 
+        // Obtener parametros
         String tabla = request.getParameter("tb");
         String campo = request.getParameter("cp");
         String pk = request.getParameter("pk");
@@ -46,8 +47,9 @@ public class Imagen extends HttpServlet {
         }
 
         ServletOutputStream outputStream = response.getOutputStream();
-        if (imagen != null)
-          outputStream.write(imagen);
+        if (imagen != null) {
+            outputStream.write(imagen);
+        }
 
     }
 
