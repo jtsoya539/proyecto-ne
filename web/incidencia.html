@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+    <!-- Titulo -->
+    <title>Proyecto NE</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/w3.css">
+
+    <!-- JavaScript -->
+    <script type="text/javascript" src="js/w3.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.incidencia.js"></script>
+
+    <!-- Colores -->
+
+    <!-- Temas -->
+    <link rel="stylesheet" href="css/themes/w3-theme-blue.css">
+
+    <!-- Fuentes -->
+    <link rel="stylesheet" href="css/fonts/lato.css">
+    <link rel="stylesheet" href="css/fonts/montserrat.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+        .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+    </style>
+
+
+    <body>
+            <!-- Mensaje -->
+            <div id="mensaje" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-top w3-animate-opacity w3-theme-l3">
+                    <div class="w3-container">
+                        <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">&times;</span>
+                        <h3 id="mensaje_titulo">mensaje_titulo</h3>
+                        <p id="mensaje_contenido">mensaje_contenido</p>
+                    </div>
+                </div>
+            </div>
+
+
+            
+            
+
+        <!-- Incidencia -->
+        <div id="incidencia" class="w3-modal" ng-app="incidencia" ng-controller="ControllerIncidencia">
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
+                <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
+                <span onclick="w3.hide('#incidencia')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">X</span>
+                <form class="w3-container" >
+                    <div class="w3-section">
+                        <!-- Torneo -->
+                        <label>Torneo</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" name="torneo" id="torneo" required ng-model="incidencia.torneo" ng-disabled="true">
+                        <!-- Partido -->
+                        <label>Partido</label>
+                        <select class="w3-select w3-border w3-margin-bottom" ng-model="incidencia.partido" ng-options="x.par group by 'Jornada '+x.jor for x in partidos">
+                        </select>
+                        <!-- Club -->
+                        <label>Club</label>
+                        <select class="w3-select w3-border w3-margin-bottom" ng-model="incidencia.club" ng-options="x.desc for x in clubes">
+                        </select>
+                        <!-- Periodo -->
+                        <label>Periodo</label>
+                        <div class="w3-input w3-border w3-margin-bottom w3-row">
+                            <div class="w3-col m6 l6 ">
+                                <input class="w3-radio" type="radio" name="periodo" value=1 ng-model="incidencia.periodo">
+                                <label>Primero</label>
+                            </div>
+                            <div class="w3-col m6 l6 ">
+                                <input class="w3-radio" type="radio" name="periodo" value=2 ng-model="incidencia.periodo">
+                                <label>Segundo</label>
+                            </div>
+                        </div>
+                        <!-- Tiempo de juego -->
+                        <label>Tiempo de juego</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="number" name="tiempo" id="tiempo" required ng-model="incidencia.tiempo">
+                        <!-- Tipo de incidencia -->
+                        <label>Tipo de Incidencia</label>
+                        <select class="w3-select w3-border w3-margin-bottom" ng-model="incidencia.tipo" ng-options="x.desc for x in incidenciaTipos">
+                        </select>
+
+
+                        <!-- Registrar Incidencia -->
+                        <input class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="button" value="Registrar Incidencia" id="acceso" ng-click="enviar()" />
+                        
+                    </div>
+                </form>
+                <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                    <button onclick="w3.hide('#incidencia')" class="w3-button w3-theme-action">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            w3.show('#incidencia');
+        </script>
+        
+        
+    </body>
+</html>

@@ -3,30 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('register', [])
-.controller('ControllerRegistro', function($scope, $http){
-    /* Definimos registro con los datos del usuario */
-    $scope.registro = {
-        nombre: '',
-        apellido: '',
-        correo: '',
-        usuario: '',
-        clave: '',
-        sexo: '',
-        nacimiento: '',
-        pais: '',
-        club: ''
+angular.module('incidencia', [])
+.controller('ControllerIncidencia', function($scope, $http){
+    /* Definimos registro con los datos de la incidencia */
+    $scope.incidencia = {
+        torneo: 'PRI-CLA17',
+        partido: '',
+        club: '',
+        periodo: '',
+        tiempo: '',
+        tipo: ''
         //integrantes: []
     };
     $scope.clave = '';
-    $scope.paises = {};
+    $scope.partidos = {};
     $scope.clubes = {};
+    $scope.incidenciaTipos = {};
 
-    /* Obtenemos datos de los paises */
-    $http.get("GetDatos?ori=datos_paises")
+    /* Obtenemos datos de los partidos */
+    $http.get("GetDatos?ori=datos_partidos")
     .then(function(response) {
-        $scope.paises = response.data.paises;
-        // $scope.registro.integrantes = [];
+        $scope.partidos = response.data.partidos;
+        // $scope.incidencia.integrantes = [];
         console.log("imprimo respuesta..");
         console.log(response);
     }, function(response) {
@@ -39,7 +37,20 @@ angular.module('register', [])
     $http.get("GetDatos?ori=datos_clubes")
     .then(function(response) {
         $scope.clubes = response.data.clubes;
-        // $scope.registro.integrantes = [];
+        // $scope.incidencia.integrantes = [];
+        console.log("imprimo respuesta..");
+        console.log(response);
+    }, function(response) {
+        //Second function handles error
+         alert('Error al intentar enviar el registro.');
+         alert(response);
+    });
+
+    /* Obtenemos datos de los tipos de incidencia */
+    $http.get("GetDatos?ori=datos_incidencia_tipos")
+    .then(function(response) {
+        $scope.incidenciaTipos = response.data.incidenciaTipos;
+        // $scope.incidencia.integrantes = [];
         console.log("imprimo respuesta..");
         console.log(response);
     }, function(response) {
@@ -50,39 +61,23 @@ angular.module('register', [])
 
     /* Funcion que envia los datos del nuevo usuario al servidor */
     $scope.enviar = function(){
-       console.log("valido los datos..");
-        if  ($scope.registro.usuario == '') {
-           alert('Debe ingresar el usuario');
-           return false;
-        }
-        if ($scope.clave == ''){
-           alert('Debe ingresar una contraseña');
-           return false;
-        } else {
-          $scope.registro.clave = CryptoJS.MD5($scope.clave).toString();
-        }
-
        console.log("entro a eviar..");
        /* Envio request al servidor */
-       $http.post("Register", {
-         data: {registro: $scope.registro}
+       $http.post("AddIncidencia", {
+         data: {incidencia: $scope.incidencia}
       })
     .then(function(response) {
-         $scope.registro.nombre = '';
-         $scope.registro.apellido = '';
-         $scope.registro.correo = '';
-         $scope.registro.usuario = '';
-         $scope.registro.clave = '';
-         $scope.registro.sexo = '';
-         $scope.registro.nacimiento = '';
-         $scope.registro.pais = '';
-         $scope.registro.club = '';
-         $scope.clave = '';
-        // $scope.registro.integrantes = [];
+         $scope.incidencia.torneo = 'PRI-CLA17';
+         $scope.incidencia.partido = '';
+         $scope.incidencia.club = '';
+         $scope.incidencia.periodo = '';
+         $scope.incidencia.tiempo = '';
+         $scope.incidencia.tipo = '';
+        // $scope.incidencia.integrantes = [];
        console.log("imprimo respuesta..");
          console.log(response);
         // Mensaje 
-        w3.hide('#register');
+        w3.hide('#incidencia');
         $("#mensaje_titulo").html("Atencion!");
         $("#mensaje_contenido").html(response.data);
         w3.removeClass('.w3-modal', 'w3-show'); // Oculta todos los .w3-modal
