@@ -64,6 +64,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
 
+        String responsePage;
         this.errorCode = 0;
         this.message = null;
 
@@ -137,7 +138,6 @@ public class Login extends HttpServlet {
         }
 
         try (PrintWriter out = response.getWriter()) {
-            String responsePage;
             if (errorCode != 0) {
                 responsePage = "index.html";
             } else {
