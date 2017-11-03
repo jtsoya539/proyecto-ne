@@ -14,20 +14,34 @@ angular.module('register', [])
         clave: '',
         sexo: '',
         nacimiento: '',
-        pais: ''
+        pais: '',
+        club: '',
         //integrantes: []
     };
     $scope.clave = '';
     $scope.paises = {};
+    $scope.clubes = {};
 
     /* Obtenemos datos de los paises */
     $http.get("GetDatos?ori=datos_paises")
     .then(function(response) {
         $scope.paises = response.data.paises;
         // $scope.registro.integrantes = [];
-        console.log("imprimo respuesta 3..");
+        console.log("imprimo respuesta..");
         console.log(response);
-        w3.show('#jugador');
+    }, function(response) {
+        //Second function handles error
+         alert('Error al intentar enviar el registro.');
+         alert(response);
+    });
+
+    /* Obtenemos datos de los clubes */
+    $http.get("GetDatos?ori=datos_clubes")
+    .then(function(response) {
+        $scope.clubes = response.data.clubes;
+        // $scope.registro.integrantes = [];
+        console.log("imprimo respuesta..");
+        console.log(response);
     }, function(response) {
         //Second function handles error
          alert('Error al intentar enviar el registro.');
@@ -62,6 +76,7 @@ angular.module('register', [])
          $scope.registro.sexo = '';
          $scope.registro.nacimiento = '';
          $scope.registro.pais = '';
+         $scope.registro.club = '';
          $scope.clave = '';
         // $scope.registro.integrantes = [];
        console.log("imprimo respuesta..");
