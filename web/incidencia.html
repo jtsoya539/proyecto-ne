@@ -47,8 +47,6 @@
 
 
             
-            
-
         <!-- Incidencia -->
         <div id="incidencia" class="w3-modal" ng-app="incidencia" ng-controller="ControllerIncidencia">
             <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
@@ -61,11 +59,15 @@
                         <input class="w3-input w3-border w3-margin-bottom" type="text" name="torneo" id="torneo" required ng-model="incidencia.torneo" ng-disabled="true">
                         <!-- Partido -->
                         <label>Partido</label>
-                        <select class="w3-select w3-border w3-margin-bottom" ng-model="incidencia.partido" ng-options="x.par group by 'Jornada '+x.jor for x in partidos">
+                        <select class="w3-select w3-border w3-margin-bottom" ng-model="incidencia.partido" ng-options="x.par group by 'Jornada '+x.jor for x in partidos" ng-change="changePartido()">
                         </select>
                         <!-- Club -->
                         <label>Club</label>
-                        <select class="w3-select w3-border w3-margin-bottom" ng-model="incidencia.club" ng-options="x.desc for x in clubes">
+                        <select class="w3-select w3-border w3-margin-bottom" ng-model="incidencia.club" ng-options="x.desc for x in clubes" ng-change="changeClub()">
+                        </select>
+                        <!-- Jugador -->
+                        <label>Jugador</label>
+                        <select class="w3-select w3-border w3-margin-bottom" ng-model="incidencia.jugador" ng-options="x.nom group by x.pos for x in jugadores">
                         </select>
                         <!-- Periodo -->
                         <label>Periodo</label>

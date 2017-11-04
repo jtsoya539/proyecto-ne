@@ -10,54 +10,72 @@ angular.module('incidencia', [])
         torneo: 'PRI-CLA17',
         partido: '',
         club: '',
+        jugador: '',
         periodo: '',
         tiempo: '',
         tipo: ''
         //integrantes: []
     };
-    $scope.clave = '';
-    $scope.partidos = {};
-    $scope.clubes = {};
-    $scope.incidenciaTipos = {};
 
-    /* Obtenemos datos de los partidos */
-    $http.get("GetDatos?ori=datos_partidos")
-    .then(function(response) {
-        $scope.partidos = response.data.partidos;
-        // $scope.incidencia.integrantes = [];
-        console.log("imprimo respuesta..");
-        console.log(response);
-    }, function(response) {
-        //Second function handles error
-         alert('Error al intentar enviar el registro.');
-         alert(response);
-    });
+    /* Funcion que obtiene datos de los partidos */
+    $scope.getPartidos = function(datos) {
+        $http.get("GetDatos?ori=datos_partidos")
+        .then(function(response) {
+            $scope.partidos = response.data.partidos;
+            // $scope.incidencia.integrantes = [];
+            console.log("imprimo respuesta..");
+            console.log(response);
+        }, function(response) {
+            //Second function handles error
+             alert('Error al intentar enviar el registro.');
+             alert(response);
+        });
+    };
 
-    /* Obtenemos datos de los clubes */
-    $http.get("GetDatos?ori=datos_clubes")
-    .then(function(response) {
-        $scope.clubes = response.data.clubes;
-        // $scope.incidencia.integrantes = [];
-        console.log("imprimo respuesta..");
-        console.log(response);
-    }, function(response) {
-        //Second function handles error
-         alert('Error al intentar enviar el registro.');
-         alert(response);
-    });
+    /* Funcion que obtiene datos de los clubes */
+    $scope.getClubes = function(datos) {
+        $http.get("GetDatos?ori=datos_clubes"+datos)
+        .then(function(response) {
+            $scope.clubes = response.data.clubes;
+            // $scope.incidencia.integrantes = [];
+            console.log("imprimo respuesta..");
+            console.log(response);
+        }, function(response) {
+            //Second function handles error
+             alert('Error al intentar enviar el registro.');
+             alert(response);
+        });
+    };
 
-    /* Obtenemos datos de los tipos de incidencia */
-    $http.get("GetDatos?ori=datos_incidencia_tipos")
-    .then(function(response) {
-        $scope.incidenciaTipos = response.data.incidenciaTipos;
-        // $scope.incidencia.integrantes = [];
-        console.log("imprimo respuesta..");
-        console.log(response);
-    }, function(response) {
-        //Second function handles error
-         alert('Error al intentar enviar el registro.');
-         alert(response);
-    });
+    /* Funcion que obtiene datos de los jugadores */
+    $scope.getJugadores = function(datos) {
+        $http.get("GetDatos?ori=datos_jugadores"+datos)
+        .then(function(response) {
+            $scope.jugadores = response.data.jugadores;
+            // $scope.incidencia.integrantes = [];
+            console.log("imprimo respuesta..");
+            console.log(response);
+        }, function(response) {
+            //Second function handles error
+             alert('Error al intentar enviar el registro.');
+             alert(response);
+        });
+    };
+
+    /* Funcion que obtiene datos de los tipos de incidencia */
+    $scope.getIncidenciaTipos = function(datos) {
+        $http.get("GetDatos?ori=datos_incidencia_tipos")
+        .then(function(response) {
+            $scope.incidenciaTipos = response.data.incidenciaTipos;
+            // $scope.incidencia.integrantes = [];
+            console.log("imprimo respuesta..");
+            console.log(response);
+        }, function(response) {
+            //Second function handles error
+             alert('Error al intentar enviar el registro.');
+             alert(response);
+        });
+    };
 
     /* Funcion que envia los datos del nuevo usuario al servidor */
     $scope.enviar = function(){
@@ -70,6 +88,7 @@ angular.module('incidencia', [])
          $scope.incidencia.torneo = 'PRI-CLA17';
          $scope.incidencia.partido = '';
          $scope.incidencia.club = '';
+         $scope.incidencia.jugador = '';
          $scope.incidencia.periodo = '';
          $scope.incidencia.tiempo = '';
          $scope.incidencia.tipo = '';
@@ -88,6 +107,25 @@ angular.module('incidencia', [])
          alert('Error al intentar enviar el registro.');
          alert(response);
     });       
-       
    };
+
+    $scope.partidos = {};
+    $scope.clubes = {};
+    $scope.jugadores = {};
+    $scope.incidenciaTipos = {};
+    $scope.getPartidos();
+    $scope.getClubes();
+    $scope.getJugadores();
+    $scope.getIncidenciaTipos();
+
+    $scope.changePartido = function() {
+        console.log('change partido: '+$scope.incidencia.partido.id);
+        $scope.getClubes('&p='+$scope.incidencia.partido.id);
+    };
+
+    $scope.changeClub = function() {
+        console.log('change club: '+$scope.incidencia.club.id);
+        $scope.getJugadores('&p='+$scope.incidencia.club.id);
+    };
+
 });
