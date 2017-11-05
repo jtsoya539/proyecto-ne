@@ -15,6 +15,7 @@
     <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
     <script type="text/javascript" src="js/md5.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-filter.min.js"></script>
     <script type="text/javascript" src="js/app.jugador.js"></script>
 
     <!-- Colores -->
@@ -46,7 +47,7 @@
             </div>
 
             <!-- Mensaje -->
-            <div id="mensaje" class="w3-modal">
+            <div id="mensaje" class="w3-modal" onclick="w3.removeClass('#mensaje', 'w3-show')">
                 <div class="w3-modal-content w3-card-4 w3-animate-top w3-animate-opacity w3-theme-l3">
                     <div class="w3-container">
                         <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">&times;</span>
@@ -133,6 +134,28 @@
                             }
                         </script>
 
+                        <!-- Mi Equipo -->
+                        <table class="w3-table w3-bordered w3-margin-top">
+                            <thead>
+                              <tr class="w3-blue">
+                                <th></th>
+                                <th>Mi Equipo</th>
+                                <th></th>
+                                <th>$</th>
+                                <th>Pts</th>
+                              </tr>
+                            </thead>
+                            <tbody style="cursor:pointer">
+                                <tr class="w3-hover-light-grey" ng-repeat="jugador in miEquipo.integrantes" ng-click="verIntegrante(jugador)">
+                                        <td><a href="javascript:void(0);" ng-click="eliminarIntegrante(jugador)"> X </a></td>
+                                        <td>{{ jugador.nom }}</td>
+                                        <td>{{ jugador.cl }}</td>
+                                        <td>{{ jugador.prec }}</td>
+                                        <td>{{ jugador.ptst }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                     </div>
 
                     <!-- Right Column -->
@@ -145,7 +168,29 @@
                             <p>People are looking at your profile. Find out who.</p>
                         </div>
 
-                        <div id="seleccion_jugadores">
+                        <!-- Seleccion de jugadores -->
+                        <div ng-repeat="(key1, value) in jugadores | groupBy: '[pos]'">
+                            <div ng-repeat="(key2, value) in value | groupBy: '[color]'">
+                            <table class="w3-table w3-bordered w3-small" >
+                                <thead>
+                                    <tr class="w3-{{ key2 }}">
+                                        <th style="width: 64%">{{ key1 }}</th>
+                                        <th style="width: 12%"></th>
+                                        <th style="width: 12%">$</th>
+                                        <th style="width: 12%">Pts</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody style="cursor:pointer">
+                                    <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value" ng-click="verIntegrante(jugador)">
+                                        <td>{{ jugador.nom }}</td>
+                                        <td>{{ jugador.cl }}</td>
+                                        <td>{{ jugador.prec }}</td>
+                                        <td>{{ jugador.ptst }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
                         </div>
 
                     </div>
