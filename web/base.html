@@ -9,6 +9,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- JavaScript -->
     <script type="text/javascript" src="js/w3.js"></script>
@@ -168,21 +169,36 @@
                             <p>People are looking at your profile. Find out who.</p>
                         </div>
 
+                        <!-- Búsqueda de jugadores -->
+                        <form class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom ">
+                            <div class="w3-section">
+                                <label >Buscar jugador</label>
+                                <input type="text" ng-model="search" class="w3-input w3-border w3-margin-bottom" placeholder="Nombre o club">
+                            </div>
+                        </form>
                         <!-- Seleccion de jugadores -->
                         <div ng-repeat="(key1, value) in jugadores | groupBy: '[pos]'">
                             <div ng-repeat="(key2, value) in value | groupBy: '[color]'">
                             <table class="w3-table w3-bordered w3-small" >
                                 <thead>
                                     <tr class="w3-{{ key2 }}">
-                                        <th style="width: 64%">{{ key1 }}</th>
-                                        <th style="width: 12%"></th>
-                                        <th style="width: 12%">$</th>
-                                        <th style="width: 12%">Pts</th>
+                                        <th style="width: 64%" ng-click="sort('nom')">{{ key1 }}
+                                            <span class="glyphicon sort-icon" ng-show="sortKey=='nom'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                        </th>
+                                        <th style="width: 12%" ng-click="sort('cl')">
+                                            <span class="glyphicon sort-icon" ng-show="sortKey=='cl'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                        </th>
+                                        <th style="width: 12%" ng-click="sort('prec')">$
+                                            <span class="glyphicon sort-icon" ng-show="sortKey=='prec'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                        </th>
+                                        <th style="width: 12%" ng-click="sort('ptst')">Pts
+                                            <span class="glyphicon sort-icon" ng-show="sortKey=='ptst'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                        </th>
                                     </tr>
                                 </thead>
 
                                 <tbody style="cursor:pointer">
-                                    <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value" ng-click="verIntegrante(jugador)">
+                                    <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)">
                                         <td>{{ jugador.nom }}</td>
                                         <td>{{ jugador.cl }}</td>
                                         <td>{{ jugador.prec }}</td>

@@ -70,4 +70,11 @@ appJugador.controller('ControllerJugador', function($scope, $http){
     };
     $scope.getJugadores();
 
+    /* Funcion para ordenar tabla */
+    $scope.sort = function(keyname){
+        console.log('entro a ordenar por:'+keyname);
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
 });
