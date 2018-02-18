@@ -17,6 +17,8 @@
     <script type="text/javascript" src="js/md5.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/angular-filter.min.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
+    <script type="text/javascript" src="js/dirPagination.js"></script>
     <script type="text/javascript" src="js/app.jugador.js"></script>
 
     <!-- Colores -->
@@ -136,6 +138,7 @@
                         </script>
 
                         <!-- Mi Equipo -->
+                        <!--
                         <table class="w3-table w3-bordered w3-margin-top">
                             <thead>
                               <tr class="w3-blue">
@@ -156,7 +159,50 @@
                                 </tr>
                             </tbody>
                         </table>
+                        -->
 
+                        <!-- Mi Equipo2 -->
+                        <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
+                            <h4 class="w3-margin">Mi Equipo</h4>
+                        </div>
+
+                        <div ng-repeat="(key1, value) in misJugadores | groupBy: '[pos]'">
+                        <!-- <div ng-repeat="(key1, value) in items | groupBy: '[pos]'"> -->
+                            <div ng-repeat="(key2, value) in value | groupBy: '[color]'">
+                            <table class="w3-table w3-bordered w3-margin-top" >
+                                <thead>
+                                    <tr class="w3-{{ key2 }}">
+                                        <th></th>
+                                        <th >{{ key1 }}
+                                        </th>
+                                        <th >
+                                        </th>
+                                        <th >$
+                                        </th>
+                                        <th >Pts
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody style="cursor:pointer">
+                                    <!--<tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)"> -->
+                                    <tr class="w3-hover-light-grey" ng-repeat="jugador in value" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}">
+                                        <td><a ng-if="jugador.id !== ''" href="javascript:void(0);" ng-click="eliminarIntegrante(jugador)"> X </a></td>
+                                        <td>{{ jugador.id === '' ? '.' : jugador.nom }}</td>
+                                        <td>{{ jugador.cl }}</td>
+                                        <td>{{ jugador.prec }}</td>
+                                        <td>{{ jugador.ptst }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div> 
+                        
+                        <!-- Confirmar Equipo -->
+                        <div class="w3-container w3-margin-bottom w3-margin-top w3-center">
+                            <input class="w3-button w3-padding w3-theme-action" type="button" value="Confirmar Equipo" id="acceso" ng-click="enviarEquipo()" />
+                        </div>
+                        
                     </div>
 
                     <!-- Right Column -->
@@ -178,6 +224,7 @@
                         </form>
                         <!-- Seleccion de jugadores -->
                         <div ng-repeat="(key1, value) in jugadores | groupBy: '[pos]'">
+                        <!-- <div ng-repeat="(key1, value) in items | groupBy: '[pos]'"> -->
                             <div ng-repeat="(key2, value) in value | groupBy: '[color]'">
                             <table class="w3-table w3-bordered w3-small" >
                                 <thead>
@@ -198,7 +245,8 @@
                                 </thead>
 
                                 <tbody style="cursor:pointer">
-                                    <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)">
+                                    <!--<tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)"> -->
+                                    <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" dir-paginate="jugador in value|filter:search|orderBy:sortKey:reverse|itemsPerPage:6" ng-click="verIntegrante(jugador)">
                                         <td>{{ jugador.nom }}</td>
                                         <td>{{ jugador.cl }}</td>
                                         <td>{{ jugador.prec }}</td>
@@ -206,9 +254,18 @@
                                     </tr>
                                 </tbody>
                             </table>
+                                <div ng-if="key1 == 'Delantera'">
+                                    <!-- style="display: none;" -->
+                                    <dir-pagination-controls id="ss"
+                                            max-size="2"
+                                            direction-links="true"
+                                            boundary-links="true" >
+                                    </dir-pagination-controls>
+                                </div>
                             </div>
-                        </div>
+                        </div> 
 
+                        
                     </div>
                 </div>
             </div>
