@@ -34,6 +34,7 @@
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
         .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+        .team-img {-webkit-filter: drop-shadow(6px 6px 6px #222 ); filter: drop-shadow(6px 6px 6px #222); margin-bottom: 4px;}
     </style>
 
 
@@ -166,38 +167,85 @@
                             <h4 class="w3-margin">Mi Equipo</h4>
                         </div>
 
-                        <div ng-repeat="(key1, value) in misJugadores | groupBy: '[pos]'">
-                        <!-- <div ng-repeat="(key1, value) in items | groupBy: '[pos]'"> -->
-                            <div ng-repeat="(key2, value) in value | groupBy: '[color]'">
-                            <table class="w3-table w3-bordered w3-margin-top" >
-                                <thead>
-                                    <tr class="w3-{{ key2 }}">
-                                        <th></th>
-                                        <th >{{ key1 }}
-                                        </th>
-                                        <th >
-                                        </th>
-                                        <th >$
-                                        </th>
-                                        <th >Pts
-                                        </th>
-                                    </tr>
-                                </thead>
+                        <div class="w3-bar w3-theme-action">
+                            <button class="boton-seleccion w3-bar-item w3-button w3-theme-d1" onclick="openView(event, '#ListView')">LISTA</button>
+                            <button class="boton-seleccion w3-bar-item w3-button" onclick="openView(event, '#PitchView')">CAMPO</button>
+                        </div>
 
-                                <tbody style="cursor:pointer">
-                                    <!--<tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)"> -->
-                                    <tr class="w3-hover-light-grey" ng-repeat="jugador in value" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}">
-                                        <td><a ng-if="jugador.id !== ''" href="javascript:void(0);" ng-click="eliminarIntegrante(jugador)"> X </a></td>
-                                        <td>{{ jugador.id === '' ? '.' : jugador.nom }}</td>
-                                        <td>{{ jugador.cl }}</td>
-                                        <td>{{ jugador.prec }}</td>
-                                        <td>{{ jugador.ptst }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            </div>
+                        <!-- Vista de Lista -->
+                        <div id="ListView" class="seleccion w3-border">
+                            <div ng-repeat="(key1, value) in misJugadores | groupBy: '[pos]'">
+                            <!-- <div ng-repeat="(key1, value) in items | groupBy: '[pos]'"> -->
+                                <div ng-repeat="(key2, value) in value | groupBy: '[color]'">
+                                <table class="w3-table w3-bordered w3-margin-top" >
+                                    <thead>
+                                        <tr class="w3-{{ key2 }}">
+                                            <th></th>
+                                            <th >{{ key1 }}
+                                            </th>
+                                            <th >
+                                            </th>
+                                            <th >$
+                                            </th>
+                                            <th >Pts
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody style="cursor:pointer">
+                                        <!--<tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)"> -->
+                                        <tr class="w3-hover-light-grey" ng-repeat="jugador in value" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}">
+                                            <td><a ng-if="jugador.id !== ''" href="javascript:void(0);" ng-click="eliminarIntegrante(jugador)"> X </a></td>
+                                            <td>{{ jugador.id === '' ? '.' : jugador.nom }}</td>
+                                            <td>{{ jugador.cl }}</td>
+                                            <td>{{ jugador.prec }}</td>
+                                            <td>{{ jugador.ptst }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div> 
                         </div> 
                         
+                        <!-- Vista de Campo -->
+                        <div id="PitchView" class="seleccion w3-border w3-display-container w3-hide">
+                            <!-- Mi Equipo -->
+                            <img class="w3-hover-opacity" src="img/background.png" style="width:100%"> 
+                            <div class="w3-display-topleft w3-center" style="height:100%;width:100%">
+
+                              <div class="w3-display-container" style="height:25%;width:100%" ng-repeat="(key1, value) in misJugadores | groupBy: '[pos]'">
+
+                                <div class="w3-display-middle" style="height:100%" ng-style="{width: key1 === 'Porteria'  ?  '40%' : key1 === 'Delantera' ? '60%' : '100%'}">
+                                  <div class="w3-display-container w3-left" style="height:100%" ng-repeat="jugador in value" ng-style="{width: key1 === 'Porteria'  ?  '50%' : key1 === 'Delantera' ? '33.3%' : '20%'}">
+
+                                        <a ng-if="jugador.id !== ''" href="javascript:void(0);" ng-click="eliminarIntegrante(jugador)" class="w3-display-topleft w3-tag w3-theme-action" > X </a>
+                                        <img class="team-img" src="img/team/{{ jugador.id === '' ? 'default' : jugador.cl }}.png" style="width:40%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
+                                        <div class="w3-container w3-center w3-tag w3-theme-action" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:80%">
+                                          <p>{{ jugador.id === '' ? 'Agregar ' + key1 : jugador.nom }}</p>
+                                        </div>
+                                        <div ng-if="jugador.id !== ''" class="w3-container w3-center w3-tag w3-blue" >
+                                          <p>{{ jugador.id === '' ? null : key1 }}</p>
+                                        </div>
+
+                                  </div>
+                                </div>
+
+                              </div>
+
+
+
+                            </div>
+                            
+                        </div> 
+                        <script>
+                            function openView(botonSeleccion, idSeleccion) {
+                                w3.addClass('.seleccion', 'w3-hide');                // Oculta todos los .seccion
+                                w3.removeClass('.boton-seleccion', 'w3-theme-d1');        // Desmarca todos los .boton-seccion
+                                w3.removeClass(idSeleccion, 'w3-hide');              // Muestra el .seccion elegido
+                                botonSeleccion.currentTarget.className += " w3-theme-d1"; // Marca el .boton-seccion elegido
+                            }
+                        </script>
+
                         <!-- Confirmar Equipo -->
                         <div class="w3-container w3-margin-bottom w3-margin-top w3-center">
                             <input class="w3-button w3-padding w3-theme-action" type="button" value="Confirmar Equipo" id="acceso" ng-click="enviarEquipo()" />
@@ -254,7 +302,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                                <div ng-if="key1 == 'Delantera'">
+                                <div ng-if="key1 == 'Delantera'">   
                                     <!-- style="display: none;" -->
                                     <dir-pagination-controls id="ss"
                                             max-size="2"
