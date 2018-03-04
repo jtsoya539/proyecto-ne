@@ -1,10 +1,11 @@
         <!-- Jugador -->
-        <div id="jugador" class="w3-modal" onclick="w3.hide('#jugador')">
-            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3 w3-center" style="max-width:640px">
+       <div id="jugador" class="w3-modal" onclick="w3.hide('#jugador')">
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3 w3-center" style="max-width:640px" onclick="event.stopPropagation()">
                 <span onclick="w3.hide('#jugador')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">X</span>
                 <h2 class="w3-container w3-blue">{{player.nom}}</h2>
-                <div>{{player.club}}</div>
-                <div class="w3-tag w3-{{player.color}} w3-small">{{player.pos}}</div>
+                <!-- <div>{{player.club}}</div> -->
+                <div>{{clubes[player.cl]}}</div>
+                <div class="w3-tag w3-{{player.color}} w3-small">{{posiciones[player.pos]}}</div> 
                 <hr>
                 <div class="w3-row w3-small">
                     <div class="w3-col w3-border-white s3 m3 l3">Jornada {{player.jornada}}<br>{{player.ptsj}} pts</div>
@@ -13,9 +14,16 @@
                     <div class="w3-col w3-border-left w3-border-white s3 m3 l3">Elegido por<br>{{player.eleg}}%</div>
                 </div>
                 <hr>
-                <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                <div ng-if="profile == 'DEFAULT' || tab == 'DEF'" class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
                     <button onclick="w3.hide('#jugador')" class="w3-button w3-theme-action" ng-click="agregarIntegrante(player)" ng-show="player.mt===0">Agregar a mi equipo</button>
                     <button onclick="w3.hide('#jugador')" class="w3-button w3-theme-action" ng-click="eliminarIntegrante(player)" ng-show="player.mt===1">Quitar de mi equipo</button>
+                </div>
+                <div ng-if="profile == 'USUARIO' && tab == 'TEAM'" class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                    <button onclick="w3.hide('#jugador')" class="w3-button w3-theme-action" ng-click="makeSubstitution(player)" ng-show="substitution === '' || enabledSubstitution(player)">Hacer cambio</button>
+                    <button onclick="w3.hide('#jugador')" class="w3-button w3-theme-action" ng-click="cancelSubstitution(player)" ng-show="substitution.id === player.id">Cancelar cambio</button>
+
+                    <button onclick="w3.hide('#jugador')" class="w3-button w3-theme-action" ng-click="setCaptain(player.id)" ng-show="player.tit === 'S' && player.id !== miEquipo.captain">Hacer capitán</button>
+                    <button onclick="w3.hide('#jugador')" class="w3-button w3-theme-action" ng-click="setSubCaptain(player.id)" ng-show="player.tit === 'S' && player.id !== miEquipo.subcaptain">Hacer sub-capitán</button>
                 </div>
             </div>
         </div>

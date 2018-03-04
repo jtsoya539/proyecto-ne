@@ -1,5 +1,6 @@
 package ne;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,7 +38,7 @@ public class GetDatos extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
 
@@ -53,6 +54,18 @@ public class GetDatos extends HttpServlet {
         if (parametro == null)
             parametro = "";
 
+        System.out.println("obt engo el JSON del request");
+        StringBuilder jb = new StringBuilder();
+        String line = null;
+        try {
+          BufferedReader reader = request.getReader();
+          while ((line = reader.readLine()) != null)
+            jb.append(line);
+        } catch (Exception e) { /*report an error*/ }
+
+        String json = jb.toString();
+        System.out.println("JSON --> " + json);
+
         BaseDatos db = new BaseDatos();
         String resultado = null;
 
@@ -60,7 +73,10 @@ public class GetDatos extends HttpServlet {
             db.conectar("ne", "ruffus");
             // Agregar --> validar que usuario no sea null. Sesion iniciada
             db.ejecutarProcedimiento("k_sistema.p_set_usuario('" + usuario + "')");
-            resultado = db.ejecutarFuncionClob("f_" + origen + "('" + parametro + "')");
+            if(json != null)
+                resultado = db.ejecutarFuncionClob("f_" + origen + "('" + json + "')");
+            else
+                resultado = db.ejecutarFuncionClob("f_" + origen + "('" + parametro + "')");
             db.cerrar();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -92,7 +108,7 @@ public class GetDatos extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }

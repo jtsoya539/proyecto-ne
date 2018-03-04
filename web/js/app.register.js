@@ -23,11 +23,14 @@ angular.module('register', [])
     $scope.clubes = {};
 
     /* Obtenemos datos de los paises */
-    $http.get("GetDatos?ori=datos_paises")
+    $http.post("GetDatos?ori=datos_paises", {
+         data: {index: false,
+                spaces: false }
+      })
     .then(function(response) {
         $scope.paises = response.data.paises;
         // $scope.registro.integrantes = [];
-        console.log("imprimo respuesta..");
+        console.log("imprimo paises..");
         console.log(response);
     }, function(response) {
         //Second function handles error
@@ -36,11 +39,16 @@ angular.module('register', [])
     });
 
     /* Obtenemos datos de los clubes */
-    $http.get("GetDatos?ori=datos_clubes")
+    $http.post("GetDatos?ori=datos_clubes", {
+         data: {index: false,
+                spaces: false,
+                extraData: [{   
+                    partido: ''}]}
+      })
     .then(function(response) {
         $scope.clubes = response.data.clubes;
         // $scope.registro.integrantes = [];
-        console.log("imprimo respuesta..");
+        console.log("imprimo clubes..");
         console.log(response);
     }, function(response) {
         //Second function handles error

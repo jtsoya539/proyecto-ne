@@ -19,11 +19,14 @@ angular.module('incidencia', [])
 
     /* Funcion que obtiene datos de los partidos */
     $scope.getPartidos = function(datos) {
-        $http.get("GetDatos?ori=datos_partidos")
+        $http.post("GetDatos?ori=datos_partidos", {
+         data: {index: false,
+                spaces: false }
+      })
         .then(function(response) {
             $scope.partidos = response.data.partidos;
             // $scope.incidencia.integrantes = [];
-            console.log("imprimo respuesta..");
+            console.log("imprimo partidos..");
             console.log(response);
         }, function(response) {
             //Second function handles error
@@ -34,11 +37,16 @@ angular.module('incidencia', [])
 
     /* Funcion que obtiene datos de los clubes */
     $scope.getClubes = function(datos) {
-        $http.get("GetDatos?ori=datos_clubes"+datos)
+        $http.post("GetDatos?ori=datos_clubes", {
+         data: {index: false,
+                spaces: false,
+                extraData: [{   
+                    partido: datos}]}
+      })
         .then(function(response) {
             $scope.clubes = response.data.clubes;
             // $scope.incidencia.integrantes = [];
-            console.log("imprimo respuesta..");
+            console.log("imprimo clubes..");
             console.log(response);
         }, function(response) {
             //Second function handles error
@@ -49,11 +57,17 @@ angular.module('incidencia', [])
 
     /* Funcion que obtiene datos de los jugadores */
     $scope.getJugadores = function(datos) {
-        $http.get("GetDatos?ori=datos_jugadores"+datos)
+        $http.post("GetDatos?ori=datos_jugadores", {
+         data: {index: false,
+                spaces: false,
+                extraData: [{   
+                    miEquipo: 'N',
+                    club: datos}]}
+      })
         .then(function(response) {
             $scope.jugadores = response.data.jugadores;
             // $scope.incidencia.integrantes = [];
-            console.log("imprimo respuesta..");
+            console.log("imprimo jugadores..");
             console.log(response);
         }, function(response) {
             //Second function handles error
@@ -64,11 +78,14 @@ angular.module('incidencia', [])
 
     /* Funcion que obtiene datos de los tipos de incidencia */
     $scope.getIncidenciaTipos = function(datos) {
-        $http.get("GetDatos?ori=datos_incidencia_tipos")
+        $http.post("GetDatos?ori=datos_incidencia_tipos", {
+         data: {index: false,
+                spaces: false }
+      })
         .then(function(response) {
             $scope.incidenciaTipos = response.data.incidenciaTipos;
             // $scope.incidencia.integrantes = [];
-            console.log("imprimo respuesta..");
+            console.log("imprimo tipos de incidencia..");
             console.log(response);
         }, function(response) {
             //Second function handles error
@@ -120,12 +137,15 @@ angular.module('incidencia', [])
 
     $scope.changePartido = function() {
         console.log('change partido: '+$scope.incidencia.partido.id);
-        $scope.getClubes('&p='+$scope.incidencia.partido.id);
+        $scope.getClubes(/*'&p='+*/$scope.incidencia.partido.id);
     };
 
     $scope.changeClub = function() {
-        console.log('change club: '+$scope.incidencia.club.id);
-        $scope.getJugadores('&p='+$scope.incidencia.club.id);
+        if($scope.incidencia.club !== null)
+        {
+            console.log('change club: '+$scope.incidencia.club.id);
+            $scope.getJugadores(/*'&p='+*/$scope.incidencia.club.id);
+        }
     };
 
 });
