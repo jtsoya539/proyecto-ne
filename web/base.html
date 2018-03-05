@@ -206,12 +206,12 @@
                             <div id="DefListView" class="seleccion w3-border" ng-if="view == 'LIST'">
                                 <div ng-repeat="(key1, value) in misJugadores | groupBy: '[pos]'">
                                 <!-- <div ng-repeat="(key1, value) in items | groupBy: '[pos]'"> -->
-                                    <div ng-repeat="(key2, value) in value | groupBy: '[color]'">
+                                    <!-- <div ng-repeat="(key2, value) in value | groupBy: '[color]'"> -->
                                     <table class="w3-table w3-bordered" >
                                         <thead>
-                                            <tr class="w3-{{ key2 }}">
+                                            <tr class="w3-{{ posiciones[key1].color }}">
                                                 <th></th>
-                                                <th >{{ posiciones[key1] }}
+                                                <th >{{ posiciones[key1].desc }}
                                                 </th>
                                                 <th >
                                                 </th>
@@ -233,7 +233,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    </div>
+                                    <!-- </div> -->
                                 </div> 
                             </div> 
                             <!-- Fin Vista Default de Lista -->
@@ -254,10 +254,10 @@
                                                 </div>
                                                 <img ng-class="{'w3-opacity': jugador.id === '' && transfer !== ''}" class="team-img" src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
                                                 <div ng-class="{'w3-opacity': jugador.id === '' && transfer !== ''}"  class="w3-container w3-center w3-tag w3-theme-action" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
-                                                  <p>{{ jugador.id === '' ? transfer === '' ? 'Agregar ' + posiciones[key1] : transfer.nom : jugador.nom }}</p>
+                                                  <p>{{ jugador.id === '' ? transfer === '' ? 'Agregar ' + posiciones[key1].desc : transfer.nom : jugador.nom }}</p>
                                                 </div>
                                                 <div ng-if="jugador.id !== ''" class="w3-container w3-center w3-tag w3-theme" >
-                                                  <p>{{ jugador.id === '' ? null : posiciones[key1] }}</p>
+                                                  <p>{{ jugador.id === '' ? null : posiciones[key1].desc }}</p>
                                                 </div>
                                             </div>
 
@@ -320,7 +320,7 @@
                                                     <span ng-if="jugador.id === miEquipo.subcaptain" class="w3-badge w3-theme">S</span>
                                                 </td>
                                                 <td>{{ jugador.cl }}</td>
-                                                <td>{{ posiciones[jugador.pos] }}</td>
+                                                <td>{{ posiciones[jugador.pos].desc }}</td>
                                                 <td>{{ jugador.prec }}</td>
                                                 <td>{{ jugador.ptst }}</td>
                                             </tr>
@@ -351,10 +351,10 @@
 
                                                     <img class="team-img" src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
                                                     <div class="w3-container w3-center w3-tag w3-theme-action" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
-                                                      <p>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1] : jugador.nom }}</p>
+                                                      <p>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.nom }}</p>
                                                     </div>
                                                     <div ng-if="jugador.id !== ''" class="w3-container w3-center w3-tag w3-theme" >
-                                                      <p>{{ jugador.id === '' ? null : posiciones[key1] }}</p>
+                                                      <p>{{ jugador.id === '' ? null : posiciones[key1].desc }}</p>
                                                     </div>
                                                 </div>
 
@@ -385,10 +385,10 @@
 
                                                     <img class="team-img" src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
                                                     <div class="w3-container w3-center w3-tag w3-theme-action" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
-                                                      <p>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1] : jugador.nom }}</p>
+                                                      <p>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.nom }}</p>
                                                     </div>
                                                     <div ng-if="jugador.id !== ''" class="w3-container w3-center w3-tag w3-theme" >
-                                                      <p>{{ jugador.id === '' ? null : posiciones[jugador.pos] }}</p>
+                                                      <p>{{ jugador.id === '' ? null : posiciones[jugador.pos].desc }}</p>
                                                     </div>
                                                 </div>
 
@@ -432,11 +432,11 @@
                         <!-- Seleccion de jugadores -->
                         <div ng-repeat="(key1, value) in jugadores | groupBy: '[pos]'">
                         <!-- <div ng-repeat="(key1, value) in items | groupBy: '[pos]'"> -->
-                            <div ng-repeat="(key2, value) in value | groupBy: '[color]'">
+                            <!-- <div ng-repeat="(key2, value) in value | groupBy: '[color]'"> -->
                             <table class="w3-table w3-bordered w3-small" >
                                 <thead>
-                                    <tr class="w3-{{ key2 }}">
-                                        <th style="width: 64%" ng-click="sort('nom')">{{ posiciones[key1] }}
+                                    <tr class="w3-{{ posiciones[key1].color }}">
+                                        <th style="width: 64%" ng-click="sort('nom')">{{ posiciones[key1].desc }}
                                             <span class="glyphicon sort-icon" ng-show="sortKey=='nom'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                                         </th>
                                         <th style="width: 12%" ng-click="sort('cl')">
@@ -469,7 +469,7 @@
                                             boundary-links="true" >
                                     </dir-pagination-controls>
                                 </div>
-                            </div>
+                            <!-- </div> -->
                         </div> 
 
                         

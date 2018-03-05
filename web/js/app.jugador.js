@@ -14,8 +14,13 @@ function ControllerJugador($scope, $http, PagerService) {
     $scope.view = "PITCH"; // PITCH - LIST
     $scope.player = '';
     $scope.message = 'Para cambiar tu capitan, usa el menu que aparece al hacer clic en un jugador.';
+    $scope.modified = false;
     $scope.substitution = '';
     $scope.transfer = '';
+    $scope.jugadoresBackup = {};
+    $scope.jugadores = {};
+    $scope.misJugadoresBackup = {};
+    $scope.misJugadores = {};
     $scope.miEquipoBackup = {};
     $scope.miEquipo = {
         nombre: '',
@@ -26,14 +31,48 @@ function ControllerJugador($scope, $http, PagerService) {
         transferencias: []
     };
 
+    /* Funcion para restaurar equipo guardado */
+    $scope.clear = function() {
+        $scope.miEquipo.transferencias = [];
+        $scope.substitution = '';
+        $scope.transfer = '';
+    };
+
+    /* Funcion para restaurar equipo guardado */
+    $scope.reset = function() {
+        if($scope.modified) {
+            // Example with 1 argument
+            $scope.jugadores = angular.copy($scope.jugadoresBackup);
+            $scope.misJugadores = angular.copy($scope.misJugadoresBackup);
+            $scope.miEquipo = angular.copy($scope.miEquipoBackup);
+            $scope.miEquipo.integrantes = [];
+            $scope.clear();
+
+            $scope.getMiEquipo("S"); //S -> si es una restauracion, no hace backup
+            $scope.modified = false;
+            console.log('backup restaurado');
+        }
+    };
+
+    /* Funcion para guardar equipo */
+    $scope.update = function(equipo) {
+        // Example with 2 arguments
+        //angular.copy(equipo, $scope.miEquipoBackup);
+        $scope.jugadoresBackup = angular.copy($scope.jugadores);
+        $scope.misJugadoresBackup = angular.copy($scope.misJugadores);
+        $scope.miEquipoBackup = angular.copy($scope.miEquipo);
+
+        console.log('backup hecho');
+    };
+
     /* Funcion para agregar un integrante a mi equipo */
-    $scope.agregarIntegrante = function(integrante){
+    $scope.agregarIntegrante = function(integrante, isReset){
         console.log('entro a agregar a mi equipo ' + integrante.nom + '.');
         var agregado = false;
         var existe = false;
         var transferencia = ($scope.profile === "USUARIO") && ($scope.tab === "DEF");
 
-        if(transferencia) {
+        if(transferencia && isReset !== "S") {
             if($scope.transfer === '') {
                 $scope.alert("Atencion!", "Ud. no posee una transferencia pendiente."+"<br>"+"Debe seleccionar un jugador de su equipo.");
                 event.stopPropagation();
@@ -101,6 +140,8 @@ function ControllerJugador($scope, $http, PagerService) {
                 $scope.transfer = '';
             }
         }
+        //modificado
+        $scope.modified = true;
         console.log('agregado ' + agregado + ' ' + existe);
         console.log($scope.miEquipo);
         console.log($scope.transfer);
@@ -173,6 +214,8 @@ function ControllerJugador($scope, $http, PagerService) {
         else {
             $scope.transfer = '';
         }
+        //modificado
+        $scope.modified = true;
         console.log('eliminado');
         console.log($scope.miEquipo);
         console.log($scope.transfer);
@@ -200,6 +243,8 @@ function ControllerJugador($scope, $http, PagerService) {
         console.log("entro a sustitucion: "+integrante.nom);
         if( $scope.substitution === '') {
             $scope.substitution = integrante;
+            //modificado
+            $scope.modified = true;
         }
         else if ($scope.substitution.id === integrante.id){
             $scope.cancelSubstitution(integrante);
@@ -243,6 +288,8 @@ function ControllerJugador($scope, $http, PagerService) {
                 }        
                 $scope.substitution = '';
             }
+            //modificado
+            $scope.modified = true;
             console.log("sustitucion realizada.");
         }
     };
@@ -260,20 +307,23 @@ function ControllerJugador($scope, $http, PagerService) {
     /* Funcion para modificar capitan */
     $scope.setCaptain = function(captain){
         console.log("entro a setear capitan: "+captain);
-        if($scope.miEquipo.subcaptain == captain)
+        if($scope.miEquipo.subcaptain === captain)
             $scope.miEquipo.subcaptain = $scope.miEquipo.captain;
         $scope.miEquipo.captain = captain;
+        //modificado
+        $scope.modified = true;
     };
 
     /* Funcion para modificar sub-capitan */
     $scope.setSubCaptain = function(subcaptain){
         console.log("entro a setear sub-capitan: "+subcaptain);
-        if($scope.miEquipo.captain == subcaptain)
+        if($scope.miEquipo.captain === subcaptain)
             $scope.miEquipo.captain = $scope.miEquipo.subcaptain;
         $scope.miEquipo.subcaptain = subcaptain;
+        //modificado
+        $scope.modified = true;
     };
 
-    $scope.jugadores = {};
     /* Funcion que obtiene datos de los jugadores */
     $scope.getJugadores = function(datos) {
         $http.post("GetDatos?ori=datos_jugadores", {
@@ -288,7 +338,7 @@ function ControllerJugador($scope, $http, PagerService) {
             //console.log("imprimo respuesta..");
             //console.log(response);
 
-            $scope.dummyItems = $scope.jugadores; // dummy array of items to be paged
+            //$scope.dummyItems = $scope.jugadores; // dummy array of items to be paged
             //console.log('dummyItems');
             //console.log($scope.dummyItems);
             $scope.pager = {};
@@ -310,7 +360,6 @@ function ControllerJugador($scope, $http, PagerService) {
         });
     };
 
-    $scope.misJugadores = {};
     /* Funcion que carga mi equipo 2 */
     $scope.getMisJugadores = function(datos) {
         $http.post("GetDatos?ori=datos_jugadores", {
@@ -375,17 +424,19 @@ function ControllerJugador($scope, $http, PagerService) {
     };
 
     /* Funcion que carga mi equipo */
-    $scope.getMiEquipo = function(datos) {
+    $scope.getMiEquipo = function(isReset) {
         console.log('entro a cargar mi equipo.');
         angular.forEach($scope.jugadores, function(jugador, i) {
             if(jugador.mt === 1){
-                $scope.agregarIntegrante(jugador);
+                $scope.agregarIntegrante(jugador, isReset);
             }
         });
-        //$scope.miEquipoBackup = $scope.miEquipo;
-        //$scope.miEquipoBackup = JSON.parse(JSON.stringify($scope.miEquipo));
-        //$scope.miEquipoBackup = jQuery.extend({}, $scope.miEquipo);
-        //console.log('backup hecho');
+        if(isReset !== "S") {
+            $scope.update($scope.miEquipo);
+            //$scope.miEquipoBackup = $scope.miEquipo;
+            //$scope.miEquipoBackup = JSON.parse(JSON.stringify($scope.miEquipo));
+            //$scope.miEquipoBackup = jQuery.extend({}, $scope.miEquipo);
+        }
     };
     $scope.getJugadores();
     $scope.getMisJugadores();
@@ -409,6 +460,11 @@ function ControllerJugador($scope, $http, PagerService) {
         w3.hide('#confirmTeam');
         w3.hide('#confirmTransfer');
         $scope.alert("Atencion!", response.data);
+        //si la respuesta fue exitosa
+        $scope.update();
+        $scope.clear();
+        $scope.modified = false;
+        
     }, function(response) {
         //Second function handles error
          alert('Error al intentar enviar el registro.');
@@ -454,9 +510,9 @@ function ControllerJugador($scope, $http, PagerService) {
             $scope.setMessage('Para cambiar tu capitan, usa el menu que aparece al hacer clic en un jugador.');
         else
             $scope.setMessage('');
-        //$scope.miEquipo = $scope.miEquipoBackup;
-        //console.log('backup levantado');
         $scope.tab = tab; //Hace el cambio de pestaña
+        $scope.reset();
+        //$scope.miEquipo = $scope.miEquipoBackup;
     };
 
     /* Funcion para cambiar perfil */
@@ -485,10 +541,10 @@ function ControllerJugador($scope, $http, PagerService) {
             }
 
             // get pager object from service
-            $scope.pager = PagerService.GetPager($scope.dummyItems.length, page);
+            $scope.pager = PagerService.GetPager($scope.jugadores.length, page);
 
             // get current page of items
-            $scope.items = $scope.dummyItems.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+            $scope.items = $scope.jugadores.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
     };
 
 }
