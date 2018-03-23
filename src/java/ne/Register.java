@@ -4,14 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import javax.servlet.RequestDispatcher;
+//import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
+//import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
@@ -109,7 +109,7 @@ public class Register extends HttpServlet {
 
         if (resultado != null) {
 
-            System.out.println("Retorno el resultado");
+            System.out.println("Retorno el resultado"+resultado);
             try (PrintWriter out = response.getWriter()) {
                 //RequestDispatcher rd = request.getRequestDispatcher("index.html");
                 //rd.include(request, response);

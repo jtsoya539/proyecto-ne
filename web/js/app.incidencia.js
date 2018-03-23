@@ -99,7 +99,9 @@ angular.module('incidencia', [])
        console.log("entro a eviar..");
        /* Envio request al servidor */
        $http.post("AddIncidencia", {
-         data: {incidencia: $scope.incidencia}
+         data: {index: false,
+                spaces: false,
+                incidencia: $scope.incidencia}
       })
     .then(function(response) {
          $scope.incidencia.torneo = 'PRI-CLA17';
@@ -113,11 +115,8 @@ angular.module('incidencia', [])
        console.log("imprimo respuesta..");
          console.log(response);
         // Mensaje 
-        w3.hide('#incidencia');
-        $("#mensaje_titulo").html("Atencion!");
-        $("#mensaje_contenido").html(response.data);
-        w3.removeClass('.w3-modal', 'w3-show'); // Oculta todos los .w3-modal
-        w3.addClass('#mensaje', 'w3-show'); // Muestra el mensaje
+        //w3.hide('#incidencia');
+        $scope.alert(response.data.state, "Atencion!", response.data.message);
 
     }, function(response) {
         //Second function handles error
@@ -146,6 +145,16 @@ angular.module('incidencia', [])
             console.log('change club: '+$scope.incidencia.club.id);
             $scope.getJugadores(/*'&p='+*/$scope.incidencia.club.id);
         }
+    };
+
+    /* Funcion para mostrar mensaje en pantalla */
+    $scope.alert = function(tipo, titulo, contenido){
+        // tipo: OK --> informacion, ERROR --> error
+        console.log('entro a mostrar mensaje.');
+        $("#mensaje_titulo").html(titulo);
+        $("#mensaje_contenido").html(contenido);
+        w3.removeClass('.w3-modal', 'w3-show'); // Oculta todos los .w3-modal
+        w3.addClass('#mensaje', 'w3-show'); // Muestra el mensaje
     };
 
 });

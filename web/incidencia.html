@@ -34,24 +34,12 @@
 
 
     <body>
-            <!-- Mensaje -->
-            <div id="mensaje" class="w3-modal" onclick="w3.removeClass('#mensaje', 'w3-show')">
-                <div class="w3-modal-content w3-card-4 w3-animate-top w3-animate-opacity w3-theme-l3">
-                    <div class="w3-container">
-                        <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">&times;</span>
-                        <h3 id="mensaje_titulo">mensaje_titulo</h3>
-                        <p id="mensaje_contenido">mensaje_contenido</p>
-                    </div>
-                </div>
-            </div>
 
-
-            
         <!-- Incidencia -->
         <div id="incidencia" class="w3-modal" ng-app="incidencia" ng-controller="ControllerIncidencia">
             <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
                 <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
-                <span onclick="w3.hide('#incidencia')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">X</span>
+                <span onclick="w3.hide('#incidencia')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"><i class="fa fa-remove"></i></span>
                 <form class="w3-container" >
                     <div class="w3-section">
                         <!-- Torneo -->
@@ -100,6 +88,18 @@
                 </div>
             </div>
         </div>
+
+            <!-- Mensaje -->
+            <div id="mensaje" class="w3-modal" onclick="w3.removeClass('#mensaje', 'w3-show')">
+                <div class="w3-modal-content w3-card-4 w3-animate-top w3-animate-opacity w3-theme-l3">
+                    <div class="w3-container">
+                        <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar"><i class="fa fa-remove"></i></span>
+                        <h3 id="mensaje_titulo">mensaje_titulo</h3>
+                        <p id="mensaje_contenido">mensaje_contenido</p>
+                    </div>
+                </div>
+            </div>
+
         <script>
             w3.show('#incidencia');
         </script>

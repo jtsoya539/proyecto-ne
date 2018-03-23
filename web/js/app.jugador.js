@@ -12,11 +12,13 @@ function ControllerJugador($scope, $http, PagerService) {
     $scope.profile = "USUARIO"; //DEFAULT - USUARIO
     $scope.tab = "TEAM"; // TEAM - DEF - HELP
     $scope.view = "PITCH"; // PITCH - LIST
+    $scope.money = 1000.00;
     $scope.player = '';
     $scope.message = 'Para cambiar tu capitan, usa el menu que aparece al hacer clic en un jugador.';
     $scope.modified = false;
     $scope.substitution = '';
     $scope.transfer = '';
+    $scope.moneyBackup = '';
     $scope.jugadoresBackup = {};
     $scope.jugadores = {};
     $scope.misJugadoresBackup = {};
@@ -45,11 +47,12 @@ function ControllerJugador($scope, $http, PagerService) {
             $scope.jugadores = angular.copy($scope.jugadoresBackup);
             $scope.misJugadores = angular.copy($scope.misJugadoresBackup);
             $scope.miEquipo = angular.copy($scope.miEquipoBackup);
+            $scope.money = angular.copy($scope.moneyBackup);
             $scope.miEquipo.integrantes = [];
             $scope.clear();
 
             $scope.getMiEquipo("S"); //S -> si es una restauracion, no hace backup
-            $scope.modified = false;
+            $scope.setModified(false);
             console.log('backup restaurado');
         }
     };
@@ -61,20 +64,34 @@ function ControllerJugador($scope, $http, PagerService) {
         $scope.jugadoresBackup = angular.copy($scope.jugadores);
         $scope.misJugadoresBackup = angular.copy($scope.misJugadores);
         $scope.miEquipoBackup = angular.copy($scope.miEquipo);
+        $scope.moneyBackup = angular.copy($scope.money);
 
         console.log('backup hecho');
     };
 
+    /* Funcion para aumentar el saldo */
+    $scope.setMoney = function(diferencia){
+        $scope.money = $scope.money + diferencia;
+    }
+
     /* Funcion para agregar un integrante a mi equipo */
-    $scope.agregarIntegrante = function(integrante, isReset){
+    $scope.agregarIntegrante = function(integrante, isReset, updMoney){
         console.log('entro a agregar a mi equipo ' + integrante.nom + '.');
         var agregado = false;
         var existe = false;
         var transferencia = ($scope.profile === "USUARIO") && ($scope.tab === "DEF");
 
+        if (updMoney !== "N") {
+            if ($scope.money < integrante.pc) {
+                $scope.alert(null, "Atencion!", "Saldo insuficiente. No se puede agregar al equipo. "+"<br>"+"Jugador: "+integrante.nom);
+                    event.stopPropagation();
+                    return;
+            }
+        }
+
         if(transferencia && isReset !== "S") {
             if($scope.transfer === '') {
-                $scope.alert("Atencion!", "Ud. no posee una transferencia pendiente."+"<br>"+"Debe seleccionar un jugador de su equipo.");
+                $scope.alert(null, "Atencion!", "Ud. no posee una transferencia pendiente."+"<br>"+"Debe seleccionar un jugador de su equipo.");
                 event.stopPropagation();
                 return;
             }
@@ -106,10 +123,15 @@ function ControllerJugador($scope, $http, PagerService) {
             integrante.mt = 1; //jugador agregado
         }
         if (!existe && !agregado) {
-            $scope.alert("Atencion!", "No se puede agregar al equipo."+"<br>"+"Jugador: "+integrante.nom);
+            $scope.alert(null, "Atencion!", "No se puede agregar al equipo."+"<br>"+"Jugador: "+integrante.nom);
         }
-        if(transferencia) {
-            if(agregado) {
+        if(agregado) {
+            if (updMoney !== "N") {
+                // actualizo el saldo
+                $scope.setMoney(-integrante.pc);
+            }
+
+            if(transferencia) {
                 // intercambio de titular/suplente
                 var titular = integrante.tit;
                 integrante.tit = $scope.transfer.tit;
@@ -139,9 +161,14 @@ function ControllerJugador($scope, $http, PagerService) {
 
                 $scope.transfer = '';
             }
+
+            //modificado
+            if(transferencia && $scope.miEquipo.transferencias.length === 0)
+                $scope.setModified(false);
+            else
+                $scope.setModified(true);
+
         }
-        //modificado
-        $scope.modified = true;
         console.log('agregado ' + agregado + ' ' + existe);
         console.log($scope.miEquipo);
         console.log($scope.transfer);
@@ -149,7 +176,7 @@ function ControllerJugador($scope, $http, PagerService) {
    };
 
     /* Funcion para eliminar un integrante de mi equipo */
-    $scope.eliminarIntegrante = function(integrante){
+    $scope.eliminarIntegrante = function(integrante, updMoney){
         console.log('entro a eliminar de mi equipo: '+integrante.nom);
         var eliminado = false;
         var existe1 = false;
@@ -163,7 +190,7 @@ function ControllerJugador($scope, $http, PagerService) {
                 console.log("transferencia pendiente: "+$scope.transfer.nom);
             }
             else {
-                $scope.alert("Atencion!", "Ud. posee una transferencia pendiente."+"<br>"+"Jugador: "+$scope.transfer.nom);
+                $scope.alert(null, "Atencion!", "Ud. posee una transferencia pendiente."+"<br>"+"Jugador: "+$scope.transfer.nom);
                 event.stopPropagation();
                 return;
             }
@@ -186,7 +213,7 @@ function ControllerJugador($scope, $http, PagerService) {
                     //console.log('entro if TRUE '+jugador.nom+" "+integrante.nom);
                     var posicion = jugador.pos;
                     var color = jugador.color;
-                    var jugadorNulo = {"id":"","nom":"X","cl":"DEF","club":"","color":color,"pos":posicion,"jor":"15","ptsj":"10","ptst":"","prec":"","eleg":"21.5","mt":1};
+                    var jugadorNulo = {"id":"","nom":"X","cl":"DEF","club":"","color":color,"pos":posicion,"jor":"15","ptsj":"10","ptst":"","pv":"","pc":"","eleg":"21.5","mt":1};
                     $scope.misJugadores.splice(i, 1, jugadorNulo);
                     eliminado = true;
                     break;
@@ -210,12 +237,17 @@ function ControllerJugador($scope, $http, PagerService) {
                     console.log("transferencia pendiente: "+$scope.transfer.nom);
                 }
             }
+            if (updMoney !== "N") {
+                // actualizo el saldo
+                $scope.setMoney(integrante.pc);
+            }
+
         }
         else {
             $scope.transfer = '';
         }
         //modificado
-        $scope.modified = true;
+        $scope.setModified(true);
         console.log('eliminado');
         console.log($scope.miEquipo);
         console.log($scope.transfer);
@@ -244,7 +276,7 @@ function ControllerJugador($scope, $http, PagerService) {
         if( $scope.substitution === '') {
             $scope.substitution = integrante;
             //modificado
-            $scope.modified = true;
+            //$scope.setModified(true);
         }
         else if ($scope.substitution.id === integrante.id){
             $scope.cancelSubstitution(integrante);
@@ -289,7 +321,7 @@ function ControllerJugador($scope, $http, PagerService) {
                 $scope.substitution = '';
             }
             //modificado
-            $scope.modified = true;
+            $scope.setModified(true);
             console.log("sustitucion realizada.");
         }
     };
@@ -311,7 +343,7 @@ function ControllerJugador($scope, $http, PagerService) {
             $scope.miEquipo.subcaptain = $scope.miEquipo.captain;
         $scope.miEquipo.captain = captain;
         //modificado
-        $scope.modified = true;
+        $scope.setModified(true);
     };
 
     /* Funcion para modificar sub-capitan */
@@ -321,7 +353,70 @@ function ControllerJugador($scope, $http, PagerService) {
             $scope.miEquipo.captain = $scope.miEquipo.subcaptain;
         $scope.miEquipo.subcaptain = subcaptain;
         //modificado
-        $scope.modified = true;
+        $scope.setModified(true);
+    };
+
+    /* Funcion para actualizar modificado */
+    $scope.setModified = function(modified) {
+        $scope.modified = modified; //Actualizar modificado
+        
+        //Actulizar boton de confirmacion
+        $scope.setReadyDefaultTeam();
+        $scope.setReadyTeam();
+    };
+
+    /* Funcion para cambiar vista */
+    $scope.setView = function(view) {
+        $scope.view = view; //Hace el cambio de vista
+    };
+
+    /* Funcion para cambiar pestaña */
+    $scope.setTab = function(tab) {
+        console.log('entro a pestanha:' + tab);
+        console.log('modificado: ' + $scope.modified);
+        if(tab === 'DEF')
+            $scope.setMessage('Selecciona un maximo de 3 jugadores de un solo equipo.');
+        else if(tab === 'TEAM')
+            $scope.setMessage('Para cambiar tu capitan, usa el menu que aparece al hacer clic en un jugador.');
+        else
+            $scope.setMessage('');
+        $scope.tab = tab; //Hace el cambio de pestaña
+        $scope.reset();
+        $scope.setReadyDefaultTeam();
+        $scope.setReadyTeam();
+        //$scope.miEquipo = $scope.miEquipoBackup;
+    };
+
+    /* Funcion para cambiar perfil */
+    $scope.setProfile = function(profile) {
+        console.log('entro a perfil:' + profile);
+        if(profile === 'DEFAULT')
+            $scope.setTab('DEF');
+        else if(profile === 'USUARIO')
+            $scope.setTab('TEAM');
+        //Hace el cambio de perfil
+        $scope.profile = profile; 
+    };
+
+    $scope.sesion = {};
+    /* Funcion que obtiene datos de la sesion */
+    $scope.getSesion = function(datos) {
+        $http.post("GetDatos?ori=datos_sesion", {
+         data: {index: true,
+                spaces: false }
+      })
+        .then(function(response) {
+            $scope.sesion = response.data.sesion;
+            // $scope.incidencia.integrantes = [];
+            console.log("imprimo sesion..");
+            console.log($scope.sesion);
+
+            $scope.setProfile($scope.sesion.perfil);
+        }, function(response) {
+            //Second function handles error
+             alert('Error al intentar enviar el registro.');
+             alert(response);
+        });
     };
 
     /* Funcion que obtiene datos de los jugadores */
@@ -428,7 +523,7 @@ function ControllerJugador($scope, $http, PagerService) {
         console.log('entro a cargar mi equipo.');
         angular.forEach($scope.jugadores, function(jugador, i) {
             if(jugador.mt === 1){
-                $scope.agregarIntegrante(jugador, isReset);
+                $scope.agregarIntegrante(jugador, isReset, 'N');
             }
         });
         if(isReset !== "S") {
@@ -438,10 +533,6 @@ function ControllerJugador($scope, $http, PagerService) {
             //$scope.miEquipoBackup = jQuery.extend({}, $scope.miEquipo);
         }
     };
-    $scope.getJugadores();
-    $scope.getMisJugadores();
-    $scope.getClubes();
-    $scope.getPosiciones();
 
     /* Funcion que envia los datos del nuevo equipo al servidor */
     $scope.enviarEquipo = function(){
@@ -459,11 +550,11 @@ function ControllerJugador($scope, $http, PagerService) {
         //w3.hide('#register');
         w3.hide('#confirmTeam');
         w3.hide('#confirmTransfer');
-        $scope.alert("Atencion!", response.data);
+        $scope.alert(response.data.state, "Atencion!", response.data.message);
         //si la respuesta fue exitosa
         $scope.update();
         $scope.clear();
-        $scope.modified = false;
+        $scope.setModified(false);
         
     }, function(response) {
         //Second function handles error
@@ -473,17 +564,49 @@ function ControllerJugador($scope, $http, PagerService) {
        
    };
 
+    $scope.readyDefaultTeam = false;
+    /* Funcion que verifica que los datos del nuevo equipo esten listos para enviar al servidor */
+    $scope.setReadyDefaultTeam = function(){
+        //alert('llego0 '+$scope.miEquipo.integrantes.length+'/'+$scope.misJugadores.length);
+        //alert(!($scope.miEquipo.integrantes.length < $scope.misJugadores.length));
+        //console.log('integrantes '+$scope.miEquipo.integrantes.length+'/'+$scope.misJugadores.length);
+        //return !($scope.miEquipo.integrantes.length < $scope.misJugadores.length);
+        
+        //Verifica que tenga seleccionados todos los jugadores
+        $scope.readyDefaultTeam = !($scope.miEquipo.integrantes.length < $scope.misJugadores.length);
+    };
+
+    $scope.readyTeam = false;
+    /* Funcion que verifica que los datos del equipo esten listos para enviar al servidor */
+    $scope.setReadyTeam = function(){
+        //alert('llego1');
+        //console.log('integrantes '+$scope.miEquipo.integrantes.length);
+        //console.log('subcap '+$scope.miEquipo.subcaptain);
+        //console.log('cap '+$scope.miEquipo.captain);
+        //return !($scope.miEquipo.integrantes.length < $scope.misJugadores.length || $scope.miEquipo.subcaptain === null || $scope.miEquipo.captain === null);
+
+        //Verifica que tenga seleccionados todos los jugadores, capitan y sub-capitan y que haya sido modificado
+        $scope.readyTeam = !($scope.miEquipo.integrantes.length < $scope.misJugadores.length || $scope.miEquipo.subcaptain === null || $scope.miEquipo.captain === null) && $scope.modified;
+    };
+
     /* Funcion que envia los datos del nuevo equipo al servidor */
     $scope.enviarEquipoDefault = function(){
+        if($scope.readyDefaultTeam) {
+            $scope.alert(null, "Atencion!", "Debe seleccionar " + $scope.misJugadores.length + " jugadores.");
+            event.stopPropagation();
+            return false;
+        }
         if (!($("#teamName").val())) {
-            alert('Debe ingresar el nombre de su equipo');
+            $scope.alert(null, "Atencion!", "Debe ingresar el nombre de su equipo.");
+            event.stopPropagation();
             return false;
         }
         $scope.enviarEquipo();
-    }
+    };
 
     /* Funcion para mostrar mensaje en pantalla */
-    $scope.alert = function(titulo, contenido){
+    $scope.alert = function(tipo, titulo, contenido){
+        // tipo: OK --> informacion, ERROR --> error
         console.log('entro a mostrar mensaje.');
         $("#mensaje_titulo").html(titulo);
         $("#mensaje_contenido").html(contenido);
@@ -494,36 +617,6 @@ function ControllerJugador($scope, $http, PagerService) {
     /* Funcion para cambiar el mensaje */
     $scope.setMessage = function(message) {
         $scope.message = message; //Hace el cambio de vista
-    };
-
-    /* Funcion para cambiar vista */
-    $scope.setView = function(view) {
-        $scope.view = view; //Hace el cambio de vista
-    };
-
-    /* Funcion para cambiar pestaña */
-    $scope.setTab = function(tab) {
-        console.log('entro a pestanha:' + tab);
-        if(tab === 'DEF')
-            $scope.setMessage('Selecciona un maximo de 3 jugadores de un solo equipo.');
-        else if(tab === 'TEAM')
-            $scope.setMessage('Para cambiar tu capitan, usa el menu que aparece al hacer clic en un jugador.');
-        else
-            $scope.setMessage('');
-        $scope.tab = tab; //Hace el cambio de pestaña
-        $scope.reset();
-        //$scope.miEquipo = $scope.miEquipoBackup;
-    };
-
-    /* Funcion para cambiar perfil */
-    $scope.setProfile = function(profile) {
-        console.log('entro a perfil:' + profile);
-        if(profile === 'DEFAULT')
-            $scope.setTab('DEF');
-        else if(profile === 'USUARIO')
-            $scope.setTab('TEAM');
-        //Hace el cambio de perfil
-        $scope.profile = profile; 
     };
 
     /* Funcion para ordenar tabla */
@@ -547,6 +640,12 @@ function ControllerJugador($scope, $http, PagerService) {
             $scope.items = $scope.jugadores.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
     };
 
+    console.log("inicializo aplicacion..");
+    $scope.getSesion();
+    $scope.getJugadores();
+    $scope.getMisJugadores();
+    $scope.getClubes();
+    $scope.getPosiciones();
 }
 
     /* Funcion para servicio de paginacion */

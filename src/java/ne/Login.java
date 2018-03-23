@@ -74,7 +74,7 @@ public class Login extends HttpServlet {
 
         String mensaje = null;
         String menu = null;
-        String seleccionJugadores = null;
+        //String seleccionJugadores = null;
 
         try {
             db.conectar("ne", "ruffus");
@@ -102,7 +102,7 @@ public class Login extends HttpServlet {
                 db.conectar("ne", "ruffus");
                 db.ejecutarProcedimiento("k_sistema.p_set_usuario('" + usuario + "')");
                 menu = db.ejecutarFuncionClob("k_aplicacion_web.f_menu('WEB')");
-                seleccionJugadores = db.ejecutarFuncionClob("k_aplicacion_web.f_seleccion_jugadores('WEB')");
+                //seleccionJugadores = db.ejecutarFuncionClob("k_aplicacion_web.f_seleccion_jugadores('WEB')");
                 db.cerrar();
             } catch (SQLException ex) {
                 errorCode = ex.getErrorCode();
@@ -151,9 +151,9 @@ public class Login extends HttpServlet {
             if (menu != null) {
                 out.println(menu);
             }
-            if (seleccionJugadores != null) {
+            /*if (seleccionJugadores != null) {
                 out.println(seleccionJugadores);
-            }
+            }*/
             out.close();
         }
 

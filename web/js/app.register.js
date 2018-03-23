@@ -73,7 +73,9 @@ angular.module('register', [])
        console.log("entro a eviar..");
        /* Envio request al servidor */
        $http.post("Register", {
-         data: {registro: $scope.registro}
+         data: {index: false,
+                spaces: false,
+                registro: $scope.registro}
       })
     .then(function(response) {
          $scope.registro.nombre = '';
@@ -91,10 +93,7 @@ angular.module('register', [])
          console.log(response);
         // Mensaje 
         w3.hide('#register');
-        $("#mensaje_titulo").html("Atencion!");
-        $("#mensaje_contenido").html(response.data);
-        w3.removeClass('.w3-modal', 'w3-show'); // Oculta todos los .w3-modal
-        w3.addClass('#mensaje', 'w3-show'); // Muestra el mensaje
+        $scope.alert(response.data.state, "Atencion!", response.data.message);
 
     }, function(response) {
         //Second function handles error
@@ -103,4 +102,15 @@ angular.module('register', [])
     });       
        
    };
+
+    /* Funcion para mostrar mensaje en pantalla */
+    $scope.alert = function(tipo, titulo, contenido){
+        // tipo: OK --> informacion, ERROR --> error
+        console.log('entro a mostrar mensaje.');
+        $("#mensaje_titulo").html(titulo);
+        $("#mensaje_contenido").html(contenido);
+        w3.removeClass('.w3-modal', 'w3-show'); // Oculta todos los .w3-modal
+        w3.addClass('#mensaje', 'w3-show'); // Muestra el mensaje
+    };
+
 });

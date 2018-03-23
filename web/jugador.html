@@ -1,17 +1,41 @@
         <!-- Jugador -->
        <div id="jugador" class="w3-modal" onclick="w3.hide('#jugador')">
-            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3 w3-center" style="max-width:640px" onclick="event.stopPropagation()">
-                <span onclick="w3.hide('#jugador')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">X</span>
-                <h2 class="w3-container w3-blue">{{player.nom}}</h2>
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l5 w3-center" style="max-width:640px" onclick="event.stopPropagation()">
+                <span onclick="w3.hide('#jugador')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"><i class="fa fa-remove"></i></span>
+                <h2 class="w3-container w3-theme">{{player.nom}}</h2>
                 <!-- <div>{{player.club}}</div> -->
                 <div>{{clubes[player.cl]}}</div>
                 <div class="w3-tag w3-{{posiciones[player.pos].color}} w3-small">{{posiciones[player.pos].desc}}</div> 
                 <hr>
-                <div class="w3-row w3-small">
-                    <div class="w3-col w3-border-white s3 m3 l3">Jornada {{player.jornada}}<br>{{player.ptsj}} pts</div>
-                    <div class="w3-col w3-border-left w3-border-white s3 m3 l3">Total<br>{{player.ptst}} pts</div>
-                    <div class="w3-col w3-border-left w3-border-white s3 m3 l3">Precio<br>{{player.prec}}</div>
-                    <div class="w3-col w3-border-left w3-border-white s3 m3 l3">Elegido por<br>{{player.eleg}}%</div>
+                <div class="w3-row ">
+                    <div class="w3-col m3 l3">
+                        <div class="w3-card-2 w3-round w3-center w3-container" style="margin:0.5em">
+                            <div class="w3-panel">
+                                Jornada {{player.jornada}}<br><strong>{{player.ptsj}} pts</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-col m3 l3">
+                        <div class="w3-card-2 w3-round w3-center w3-container" style="margin:0.5em">
+                            <div class="w3-panel">
+                                Total<br><strong>{{player.ptst}} pts</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-col m3 l3">
+                        <div class="w3-card-2 w3-round w3-center w3-container" style="margin:0.5em">
+                            <div class="w3-panel">
+                                 Precio<br><strong>$ {{player.pc}}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-col m3 l3">
+                        <div class="w3-card-2 w3-round w3-center w3-container" style="margin:0.5em">
+                            <div class="w3-panel">
+                                Elegido por<br><strong>{{player.eleg}}%</strong>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <hr>
                 <div ng-if="profile == 'DEFAULT' || tab == 'DEF'" class="w3-container w3-border-top w3-padding-16 w3-theme-l1">

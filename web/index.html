@@ -59,20 +59,24 @@
         </div>
 
         <!-- Mensaje -->
-        <div id="mensaje" class="w3-modal">
+        <div id="mensaje" class="w3-modal" onclick="w3.removeClass('#mensaje', 'w3-show')">
             <div class="w3-modal-content w3-card-4 w3-animate-top w3-animate-opacity w3-theme-l3">
-                <div class="w3-container">
-                    <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">&times;</span>
-                    <h3 id="mensaje_titulo">mensaje_titulo</h3>
-                    <p id="mensaje_contenido">mensaje_contenido</p>
+                <span onclick="w3.removeClass('#mensaje', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar"> <i class="fa fa-remove"></i></span>
+                <header class="w3-container">
+                    <h4 id="mensaje_titulo">mensaje_titulo</h4>
+                </header>
+                <div class="w3-container w3-theme-l5 w3-padding-24">
+                    <h4 id="mensaje_contenido">mensaje_contenido</h4>
                 </div>
+                <footer class="w3-container">
+                </footer>
             </div>
         </div>
 
         <!-- Visualizador -->
         <div id="visualizador" class="w3-modal">
             <div class="w3-modal-content w3-border-red w3-card-4 w3-animate-top">
-                <span onclick="w3.removeClass('#visualizador', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar">&times;</span>
+                <span onclick="w3.removeClass('#visualizador', 'w3-show')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cerrar"> <i class="fa fa-remove"></i></span>
                 <img id="visualizador_imagen" src="#" alt="visualizador_imagen" style="align-content: center">
             </div>
         </div>
@@ -81,7 +85,7 @@
         <div id="login" class="w3-modal">
             <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
                 <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
-                <span onclick="w3.hide('#login')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar">&times;</span>
+                <span onclick="w3.hide('#login')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"> <i class="fa fa-remove"></i></span>
                 <form class="w3-container" action="Login" method="POST">
                     <div class="w3-section">
                         <label>Correo Electrónico o Usuario</label>
