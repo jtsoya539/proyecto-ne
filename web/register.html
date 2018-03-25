@@ -6,11 +6,15 @@
                 <form class="w3-container" >
                     <div class="w3-section">
                         <!-- Nombres -->
-                        <label>Nombres</label>
-                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tus Nombres" name="nombre" id="nombre" required ng-model="registro.nombre" ng-change="registro.nombre = registro.nombre.toUpperCase()">
+                        <label>Primer Nombre</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Primer Nombre" name="pri_nombre" id="pri_nombre" required ng-model="registro.pri_nombre" ng-change="registro.pri_nombre = registro.pri_nombre.toUpperCase()">
+                        <label>Segundo Nombre</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Segundo Nombre" name="seg_nombre" id="seg_nombre" ng-model="registro.seg_nombre" ng-change="registro.seg_nombre = registro.seg_nombre.toUpperCase()">
                         <!-- Apellidos -->
-                        <label>Apellidos</label>
-                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tus Apellidos" name="apellido" id="apellido" required ng-model="registro.apellido" ng-change="registro.apellido = registro.apellido.toUpperCase()">
+                        <label>Primer Apellido</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Primer Apellido" name="pri_apellido" id="pri_apellido" required ng-model="registro.pri_apellido" ng-change="registro.pri_apellido = registro.pri_apellido.toUpperCase()">
+                        <label>Segundo Apellido</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Segundo Apellido" name="seg_apellido" id="seg_apellido" ng-model="registro.seg_apellido" ng-change="registro.seg_apellido = registro.seg_apellido.toUpperCase()">
                         <!-- Correo electronico -->
                         <label>Correo Electronico</label>
                         <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu correo electronico" name="correo" id="correo" required ng-model="registro.correo">

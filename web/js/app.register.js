@@ -7,8 +7,10 @@ angular.module('register', [])
 .controller('ControllerRegistro', function($scope, $http){
     /* Definimos registro con los datos del usuario */
     $scope.registro = {
-        nombre: '',
-        apellido: '',
+        pri_nombre: '',
+        seg_nombre: '',
+        pri_apellido: '',
+        seg_apellido: '',
         correo: '',
         usuario: '',
         clave: '',
@@ -78,8 +80,10 @@ angular.module('register', [])
                 registro: $scope.registro}
       })
     .then(function(response) {
-         $scope.registro.nombre = '';
-         $scope.registro.apellido = '';
+         $scope.registro.pri_nombre = '';
+         $scope.registro.seg_nombre = '';
+         $scope.registro.pri_apellido = '';
+         $scope.registro.seg_apellido = '';
          $scope.registro.correo = '';
          $scope.registro.usuario = '';
          $scope.registro.clave = '';

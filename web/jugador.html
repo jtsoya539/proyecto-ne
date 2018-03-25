@@ -2,23 +2,23 @@
        <div id="jugador" class="w3-modal" onclick="w3.hide('#jugador')">
             <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l5 w3-center" style="max-width:640px" onclick="event.stopPropagation()">
                 <span onclick="w3.hide('#jugador')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"><i class="fa fa-remove"></i></span>
-                <h2 class="w3-container w3-theme">{{player.nom}}</h2>
+                <h2 class="w3-container w3-theme">{{player.nm}}</h2>
                 <!-- <div>{{player.club}}</div> -->
-                <div>{{clubes[player.cl]}}</div>
+                <div>{{clubes[player.cl].desc}}</div>
                 <div class="w3-tag w3-{{posiciones[player.pos].color}} w3-small">{{posiciones[player.pos].desc}}</div> 
                 <hr>
                 <div class="w3-row ">
                     <div class="w3-col m3 l3">
                         <div class="w3-card-2 w3-round w3-center w3-container" style="margin:0.5em">
                             <div class="w3-panel">
-                                Jornada {{player.jornada}}<br><strong>{{player.ptsj}} pts</strong>
+                                Jornada {{player.jr}}<br><strong>{{player.pj}} pts</strong>
                             </div>
                         </div>
                     </div>
                     <div class="w3-col m3 l3">
                         <div class="w3-card-2 w3-round w3-center w3-container" style="margin:0.5em">
                             <div class="w3-panel">
-                                Total<br><strong>{{player.ptst}} pts</strong>
+                                Total<br><strong>{{player.pt}} pts</strong>
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                     <div class="w3-col m3 l3">
                         <div class="w3-card-2 w3-round w3-center w3-container" style="margin:0.5em">
                             <div class="w3-panel">
-                                Elegido por<br><strong>{{player.eleg}}%</strong>
+                                Elegido por<br><strong>{{player.eg}}%</strong>
                             </div>
                         </div>
                     </div>

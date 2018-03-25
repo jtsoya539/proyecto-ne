@@ -76,14 +76,14 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion para agregar un integrante a mi equipo */
     $scope.agregarIntegrante = function(integrante, isReset, updMoney){
-        console.log('entro a agregar a mi equipo ' + integrante.nom + '.');
+        console.log('entro a agregar a mi equipo ' + integrante.nm + '.');
         var agregado = false;
         var existe = false;
         var transferencia = ($scope.profile === "USUARIO") && ($scope.tab === "DEF");
 
         if (updMoney !== "N") {
             if ($scope.money < integrante.pc) {
-                $scope.alert(null, "Atencion!", "Saldo insuficiente. No se puede agregar al equipo. "+"<br>"+"Jugador: "+integrante.nom);
+                $scope.alert(null, "Atencion!", "Saldo insuficiente. No se puede agregar al equipo. "+"<br>"+"Jugador: "+integrante.nm);
                     event.stopPropagation();
                     return;
             }
@@ -106,7 +106,7 @@ function ControllerJugador($scope, $http, PagerService) {
                 break;
             }
             if(jugador.id === '' && !existe && !agregado && jugador.pos === integrante.pos){
-                //console.log('entro if TRUE '+jugador.nom+" "+integrante.nom);
+                //console.log('entro if TRUE '+jugador.nm+" "+integrante.nm);
                 jugador = integrante;
                 $scope.misJugadores.splice(i, 1, integrante);
                 agregado = true;
@@ -116,14 +116,14 @@ function ControllerJugador($scope, $http, PagerService) {
         //});
         
         if (agregado || existe) {
-            //console.log('entro a agregar' + integrante.nom);
+            //console.log('entro a agregar' + integrante.nm);
             $scope.miEquipo.integrantes.push(
                 integrante
             );
             integrante.mt = 1; //jugador agregado
         }
         if (!existe && !agregado) {
-            $scope.alert(null, "Atencion!", "No se puede agregar al equipo."+"<br>"+"Jugador: "+integrante.nom);
+            $scope.alert(null, "Atencion!", "No se puede agregar al equipo."+"<br>"+"Jugador: "+integrante.nm);
         }
         if(agregado) {
             if (updMoney !== "N") {
@@ -146,7 +146,7 @@ function ControllerJugador($scope, $http, PagerService) {
                         registrado = true;
                         //$scope.transfer = $scope.miEquipo.transferencias[i].out;
                         //$scope.miEquipo.transferencias.splice(i, 1);
-                        //console.log("transferencia pendiente: "+$scope.transfer.nom);
+                        //console.log("transferencia pendiente: "+$scope.transfer.nm);
                     }
                 }
                 if(!registrado) { //si no esta registrada la transferencia, se agrega la misma
@@ -177,7 +177,7 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion para eliminar un integrante de mi equipo */
     $scope.eliminarIntegrante = function(integrante, updMoney){
-        console.log('entro a eliminar de mi equipo: '+integrante.nom);
+        console.log('entro a eliminar de mi equipo: '+integrante.nm);
         var eliminado = false;
         var existe1 = false;
         var transferencia = ($scope.profile === "USUARIO") && ($scope.tab === "DEF");
@@ -187,10 +187,10 @@ function ControllerJugador($scope, $http, PagerService) {
         if(transferencia) {
             if($scope.transfer === '') {
                 $scope.transfer = integrante;
-                console.log("transferencia pendiente: "+$scope.transfer.nom);
+                console.log("transferencia pendiente: "+$scope.transfer.nm);
             }
             else {
-                $scope.alert(null, "Atencion!", "Ud. posee una transferencia pendiente."+"<br>"+"Jugador: "+$scope.transfer.nom);
+                $scope.alert(null, "Atencion!", "Ud. posee una transferencia pendiente."+"<br>"+"Jugador: "+$scope.transfer.nm);
                 event.stopPropagation();
                 return;
             }
@@ -210,10 +210,10 @@ function ControllerJugador($scope, $http, PagerService) {
                     //salir del loop
                 }
                 if(existe1){
-                    //console.log('entro if TRUE '+jugador.nom+" "+integrante.nom);
+                    //console.log('entro if TRUE '+jugador.nm+" "+integrante.nm);
                     var posicion = jugador.pos;
                     var color = jugador.color;
-                    var jugadorNulo = {"id":"","nom":"X","cl":"DEF","club":"","color":color,"pos":posicion,"jor":"15","ptsj":"10","ptst":"","pv":"","pc":"","eleg":"21.5","mt":1};
+                    var jugadorNulo = {"id":"","nm":"X","ap":"X","cl":"DEF","club":"","color":color,"pos":posicion,"jr":"","pj":"","pt":"","pv":"","pc":"","eg":"","mt":1};
                     $scope.misJugadores.splice(i, 1, jugadorNulo);
                     eliminado = true;
                     break;
@@ -234,7 +234,7 @@ function ControllerJugador($scope, $http, PagerService) {
                     $scope.transfer.tit = titular;
 
                     $scope.miEquipo.transferencias.splice(i, 1);
-                    console.log("transferencia pendiente: "+$scope.transfer.nom);
+                    console.log("transferencia pendiente: "+$scope.transfer.nm);
                 }
             }
             if (updMoney !== "N") {
@@ -256,7 +256,7 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion para visualizar datos de un jugador */
     $scope.verIntegrante = function(integrante){
-        console.log("entro a datos de: "+integrante.nom);
+        console.log("entro a datos de: "+integrante.nm);
         //console.log(integrante);
         $scope.player = integrante;
         w3.show('#jugador');
@@ -264,7 +264,7 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion para cancelar una sustitucion */
     $scope.cancelSubstitution = function(integrante){
-        console.log("entro a cancelar una sustitucion: "+integrante.nom);
+        console.log("entro a cancelar una sustitucion: "+integrante.nm);
         //validar que no haya una modificacion pendiente
         if($scope.substitution.id === integrante.id)
             $scope.substitution = '';
@@ -272,7 +272,7 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion para iniciar una sustitucion */
     $scope.makeSubstitution = function(integrante){
-        console.log("entro a sustitucion: "+integrante.nom);
+        console.log("entro a sustitucion: "+integrante.nm);
         if( $scope.substitution === '') {
             $scope.substitution = integrante;
             //modificado
@@ -328,7 +328,7 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion para verificar que una sustitucion sea factible */
     $scope.enabledSubstitution = function(integrante){
-        //console.log("entro a verificar sustitucion: "+integrante.nom);
+        //console.log("entro a verificar sustitucion: "+integrante.nm);
         //validar que sea factible la sustitucion
         return $scope.substitution !== '' &&
                     ($scope.substitution.tit !== integrante.tit &&
