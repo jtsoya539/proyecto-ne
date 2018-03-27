@@ -17,6 +17,7 @@
     <script type="text/javascript" src="js/md5.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/angular-filter.min.js"></script>
+    <script type="text/javascript" src="js/angular-route.min.js"></script>
     <script type="text/javascript" src="js/underscore-min.js"></script>
     <script type="text/javascript" src="js/dirPagination.js"></script>
     <script type="text/javascript" src="js/app.jugador.js"></script>
@@ -58,542 +59,52 @@
                 </div>
             </div>
 
-            <!-- Login -->
-            <div id="login" class="w3-modal">
-                <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
-                    <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
-                    <span onclick="w3.hide('#login')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"> <i class="fa fa-remove"></i></span>
-                    <form class="w3-container" action="Login" method="POST">
-                        <div class="w3-section">
-                            <label>Correo Electrónico o Usuario</label>
-                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Correo Electrónico o Usuario" name="usuario" id="user" required>
-                            <label>Clave</label>
-                            <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Ingresá tu Clave" name="clave" id="pwd" required>
-                            <input name="clavemd5" type="hidden" id="pwdmd5" />
-                            <button class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="submit" id="acceso">Iniciar sesión</button>
-                            <input class="w3-check" type="checkbox" checked="checked"> Recordarme
-                        </div>
-                    </form>
-                    <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
-                        <button onclick="w3.hide('#login')" class="w3-button w3-theme-action">Cancelar</button>
-                        <span class="w3-right w3-padding w3-hide-small"><a href="#">¿Olvidaste tu clave?</a></span>
-                    </div>
-                </div>
-            </div>
-
             <!-- Page Container -->
             <div class="w3-container w3-content" style="margin-top:70px;margin-bottom:30px;max-width:1400px;">
-                <!-- The Grid -->
-                <div class="w3-row-padding">
-                    <!-- Left Column -->
-                    <div id="main" class="w3-col m8 l9 w3-animate-left">
-                        <div class="w3-bar w3-theme-action w3-margin-bottom">
-                            <button class="boton-profile w3-bar-item w3-button" ng-class="{'w3-theme-d1': profile == 'DEFAULT'}" ng-click="setProfile('DEFAULT')">DEFAULT</button>
-                            <button class="boton-profile w3-bar-item w3-button" ng-class="{'w3-theme-d1': profile == 'USUARIO'}" ng-click="setProfile('USUARIO')">USUARIO</button>
-                        </div>
 
-                        <div ng-if="profile == 'DEFAULT'">
-                            <div class="w3-bar w3-theme-action">
-                                <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'DEF'}" ng-click="setTab('DEF')">EQUIPO</button>
-                                <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'HELP'}" ng-click="setTab('HELP')">AYUDA</button>
-                            </div>
-                        </div>
+                <div style="display: none;">
+                    <a id="tabDef"  href="#!def" >DEF</a>
+                    <a id="tabTeam" href="#!team" >TEAM</a>
+                    <a href="#!help" >HELP</a>
+                    <!-- 
+                    Profile {{profile}}
+                    Tab {{tab}}
+                    -->
+                </div>
 
-                        <div ng-if="profile == 'USUARIO'">
-                            <div class="w3-bar w3-theme-action">
-                                <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'TEAM'}" ng-click="setTab('TEAM')">MI EQUIPO</button>
-                                <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'DEF'}" ng-click="setTab('DEF')">TRANSFERENCIAS</button>
-                                <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'HELP'}" ng-click="setTab('HELP')">AYUDA</button>
-                            </div>
-                        </div>
+                <div class="w3-bar w3-theme-action w3-margin-bottom">
+                    <button class="boton-profile w3-bar-item w3-button" ng-class="{'w3-theme-d1': profile == 'DEFAULT'}" ng-click="setProfile('DEFAULT')">DEFAULT</button>
+                    <button class="boton-profile w3-bar-item w3-button" ng-class="{'w3-theme-d1': profile == 'USUARIO'}" ng-click="setProfile('USUARIO')">USUARIO</button>
+                </div>
 
-                        <!-- Mi Equipo -->
+                <div ng-if="profile == 'DEFAULT'">
+                    <div class="w3-bar w3-theme-action">
+                        <a class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'DEF'}" href="#!def" style="text-decoration:none">EQUIPO</a>
+                        <a class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'HELP'}" href="#!help" style="text-decoration:none">AYUDA</a>
                         <!--
-                        <table class="w3-table w3-bordered w3-margin-top">
-                            <thead>
-                              <tr class="w3-theme">
-                                <th></th>
-                                <th>Mi Equipo</th>
-                                <th></th>
-                                <th>$</th>
-                                <th>Pts</th>
-                              </tr>
-                            </thead>
-                            <tbody style="cursor:pointer">
-                                <tr class="w3-hover-light-grey" ng-repeat="jugador in miEquipo.integrantes" ng-click="verIntegrante(jugador)">
-                                        <td><a href="javascript:void(0);" ng-click="eliminarIntegrante(jugador)"> X </a></td>
-                                        <td>{{ jugador.nm }}</td>
-                                        <td>{{ jugador.cl }}</td>
-                                        <td>{{ jugador.pc }}</td>
-                                        <td>{{ jugador.pt }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'DEF'}" ng-click="setTab('DEF')">EQUIPO</button>
+                        <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'HELP'}" ng-click="setTab('HELP')">AYUDA</button>
                         -->
-
-                        <div class="w3-bar w3-margin-bottom w3-margin-top w3-center w3-hide-medium w3-hide-large">
-                            <button class="w3-button w3-padding w3-theme-action w3-right" id="playerListMenu" onclick="w3.toggleClass('#main', 'w3-hide-small'); w3.toggleClass('#main', 'w3-animate-left'); w3.toggleClass('#playerList', 'w3-hide-small'); w3.toggleClass('#playerList', 'w3-animate-right');">
-                                <span ng-if="profile == 'USUARIO' && tab == 'TEAM'">Mi Perfil</span>
-                                <span ng-if="tab == 'DEF'">Lista de jugadores</span>
-                                <i class="fa fa-arrow-right"></i>
-                            </button>
-                        </div>
-
-                        <!-- Mi Equipo2 -->
-                        <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
-                            <h4 ng-if="tab == 'TEAM'" class="w3-margin">Mi Equipo</h4>
-                            <h4 ng-if="tab == 'HELP'" class="w3-margin">Ayuda</h4>
-                            <h4 ng-if="profile == 'DEFAULT' && tab == 'DEF'" class="w3-margin">Equipo</h4>
-                            <h4 ng-if="profile == 'USUARIO' && tab == 'DEF'" class="w3-margin">Transferencias</h4>
-                        </div>
-
-                        <!-- Vista Help -->
-                        <div ng-if="tab == 'HELP'">
-                             <div class="w3-bar w3-theme-action">
-                                <button class="boton-seccion w3-bar-item w3-button w3-theme-d1" onclick="abrirSeccion(event, '#faq')">PREGUNTAS FRECUENTES</button>
-                                <button class="boton-seccion w3-bar-item w3-button" onclick="abrirSeccion(event, '#reg')">REGLAS</button>
-                                <button class="boton-seccion w3-bar-item w3-button" onclick="abrirSeccion(event, '#tyc')">TERMINOS Y CONDICIONES</button>
-                            </div>
-                            <div id="faq" class="seccion w3-border">
-                                <button onclick="w3.toggleClass('#faq1', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">FAQCan I have more than one team?</button>
-                                <div id="faq1" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>In the interest of fair play each person may only enter one team. You may enter this team in multiple leagues and compete against different groups of friends.</p></div>
-                                <button onclick="w3.toggleClass('#faq2', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">FAQCan I make changes to my squad after entering the game?</button>
-                                <div id="faq2" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>Yes, unlimited free transfers can be made before the next deadline.</p></div>
-                                <button onclick="w3.toggleClass('#faq3', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">FAQIs thera a print-friendly list of players I can view?</button>
-                                <div id="faq3" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>We have a full player list you can view and print.</p></div>
-                            </div>
-                            <div id="reg" class="seccion w3-border w3-hide">
-                                <button onclick="w3.toggleClass('#reg1', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">REGCan I have more than one team?</button>
-                                <div id="reg1" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>In the interest of fair play each person may only enter one team. You may enter this team in multiple leagues and compete against different groups of friends.</p></div>
-                                <button onclick="w3.toggleClass('#reg2', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">REGCan I make changes to my squad after entering the game?</button>
-                                <div id="reg2" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>Yes, unlimited free transfers can be made before the next deadline.</p></div>
-                                <button onclick="w3.toggleClass('#reg3', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">REGIs thera a print-friendly list of players I can view?</button>
-                                <div id="reg3" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>We have a full player list you can view and print.</p></div>
-                            </div>
-                            <div id="tyc" class="seccion w3-border w3-hide">
-                                <button onclick="w3.toggleClass('#tyc1', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">TYCCan I have more than one team?</button>
-                                <div id="tyc1" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>In the interest of fair play each person may only enter one team. You may enter this team in multiple leagues and compete against different groups of friends.</p></div>
-                                <button onclick="w3.toggleClass('#tyc2', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">TYCCan I make changes to my squad after entering the game?</button>
-                                <div id="tyc2" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>Yes, unlimited free transfers can be made before the next deadline.</p></div>
-                                <button onclick="w3.toggleClass('#tyc3', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">TYCIs thera a print-friendly list of players I can view?</button>
-                                <div id="tyc3" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>We have a full player list you can view and print.</p></div>
-                            </div>
-                            <script>
-                                function abrirSeccion(botonSeccion, idSeccion) {
-                                    w3.addClass('.seccion', 'w3-hide');                // Oculta todos los .seccion
-                                    w3.removeClass('.boton-seccion', 'w3-theme-d1');        // Desmarca todos los .boton-seccion
-                                    w3.removeClass(idSeccion, 'w3-hide');              // Muestra el .seccion elegido
-                                    botonSeccion.currentTarget.className += " w3-theme-d1"; // Marca el .boton-seccion elegido
-                                }
-                            </script>
-                        </div>
-
-                        <!-- Vista Default -->
-                        <div ng-if="tab == 'DEF'">
-
-                            <!-- Encabezado -->
-                            <div class="w3-row w3-margin-bottom">
-                                <div class="w3-col s12 m6 l6">
-                                    <div class="w3-card-2 w3-round w3-white w3-center w3-container w3-row" style="margin:0.5em; height:5em">
-                                        <div class="w3-col s6 m6 l6 w3-panel">
-                                            <button class=" w3-button w3-theme-action" style="width:90%">Auto Pick</button>
-                                        </div>
-                                        <div class="w3-col s6 m6 l6 w3-panel">
-                                            <button class=" w3-button w3-theme-action" style="width:90%" ng-click="reset()">Reset</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="w3-col s6 m3 l3">
-                                    <div class="w3-card-2 w3-round w3-white w3-center w3-container" style="margin:0.5em; height:5em">
-                                        <div class="w3-panel">
-                                             Jugadores<br><strong>{{ miEquipo.integrantes.length }} / {{ misJugadores.length }}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="w3-col s6 m3 l3">
-                                    <div class="w3-card-2 w3-round w3-white w3-center w3-container" style="margin:0.5em; height:5em">
-                                        <div class="w3-panel">
-                                            Saldo disponible<br><strong>$ {{ money }}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="w3-bar w3-theme-action w3-row">
-                                <button class="boton-seleccion w3-button w3-col s6 w3-half" ng-class="{'w3-theme-d1': view == 'LIST'}" ng-click="setView('LIST')">LISTA</button>
-                                <button class="boton-seleccion w3-button w3-col s6 w3-half" ng-class="{'w3-theme-d1': view == 'PITCH'}" ng-click="setView('PITCH')">CAMPO</button>
-                            </div>
-
-                            <!-- Vista Default de Lista -->
-                            <div id="DefListView" class="seleccion w3-border" ng-if="view == 'LIST'">
-                                <div ng-repeat="(key1, value) in misJugadores | groupBy: '[pos]'">
-                                <!-- <div ng-repeat="(key1, value) in items | groupBy: '[pos]'"> -->
-                                    <!-- <div ng-repeat="(key2, value) in value | groupBy: '[color]'"> -->
-                                    <table class="w3-table w3-bordered" >
-                                        <thead>
-                                            <tr class="w3-{{ posiciones[key1].color }}">
-                                                <th></th>
-                                                <th >{{ posiciones[key1].desc }}
-                                                </th>
-                                                <th >
-                                                </th>
-                                                <th >$
-                                                </th>
-                                                <th >Pts
-                                                </th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody style="cursor:pointer">
-                                            <!--<tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)"> -->
-                                            <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.id === '' && transfer !== ''}" ng-repeat="jugador in value" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}">
-                                                <td><a ng-if="jugador.id !== ''" href="javascript:void(0);" ng-click="eliminarIntegrante(jugador)"> X </a></td>
-                                            <td>{{ jugador.id === '' ? transfer === '' ? '.' : transfer.nm : jugador.nm }}</td>
-                                                <td>{{ jugador.id === '' ? '' : jugador.cl }}</td>
-                                                <td>{{ jugador.pc }}</td>
-                                                <td>{{ jugador.pt }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <!-- </div> -->
-                                </div> 
-                            </div> 
-                            <!-- Fin Vista Default de Lista -->
-
-                            <!-- Vista Default de Campo -->
-                            <div id="DefPitchView" class="seleccion w3-border w3-display-container" ng-if="view == 'PITCH'">
-                                <!-- Mi Equipo -->
-                                <img src="img/background.png" style="width:100%"> 
-                                <div class="w3-display-topleft w3-center" style="height:100%; width:100%">
-
-                                  <div style="display:flex; justify-content:center; height:25%; width:100%" ng-repeat="(key1, value) in misJugadores | groupBy: '[pos]'">
-
-                                      <div class="w3-display-container" style="width:20%;display:flex; justify-content:center;" ng-repeat="jugador in value" >
-
-                                            <div class="w3-display-container" style="width:80%;">
-                                                <div class="w3-display-topleft w3-hide-small">
-                                                    <button ng-if="jugador.id !== ''" href="javascript:void(0);" ng-click="eliminarIntegrante(jugador)" class="boton-seleccion w3-button w3-theme-action glyphicon glyphicon-remove" style="padding: 0.5em"></button>
-                                                </div>
-                                                <img ng-class="{'w3-opacity': jugador.id === '' && transfer !== ''}" class="team-img" src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
-                                                <!-- Pantallas grandes -->
-                                                <div ng-class="{'w3-opacity': jugador.id === '' && transfer !== ''}"  class="w3-container w3-center w3-tag w3-theme-action w3-hide-small" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
-                                                  <p>{{ jugador.id === '' ? transfer === '' ? 'Agregar ' + posiciones[key1].desc : transfer.nm : jugador.nm }}</p>
-                                                </div>
-                                                <div ng-if="jugador.id !== ''" class="w3-container w3-center w3-tag w3-theme w3-hide-small" >
-                                                  <p>{{ jugador.id === '' ? null : posiciones[key1].desc }}</p>
-                                                </div>
-                                                <!-- Pantallas pequenas -->
-                                                <div ng-class="{'w3-opacity': jugador.id === '' && transfer !== ''}"  class="w3-center w3-theme-action w3-small w3-hide-medium w3-hide-large" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
-                                                  <div>{{ jugador.id === '' ? transfer === '' ? 'Agregar ' + posiciones[key1].desc : transfer.ap : jugador.ap }}</div>
-                                                </div>
-                                                <div ng-if="jugador.id !== ''" class="w3-center w3-theme w3-tiny w3-hide-medium w3-hide-large" style="width:100%">
-                                                  <div>{{ jugador.id === '' ? null : key1 }}</div>
-                                                </div>
-                                            </div>
-
-                                      </div>
-
-                                  </div>
-
-                                </div>
-
-                            </div> 
-                            <!-- Fin Vista Default de Campo -->
-
-                            <!-- Confirmar Equipo -->
-                            <div class="w3-container w3-margin-bottom w3-margin-top w3-center">
-                                <input ng-if="profile == 'DEFAULT'" class="w3-button w3-padding w3-theme-action" type="button" value="Confirmar Equipo" id="confirm" onclick="w3.show('#confirmTeam')" ng-disabled="!readyDefaultTeam"/>
-                                <input ng-if="profile == 'USUARIO'" class="w3-button w3-padding w3-theme-action" type="button" value="Confirmar Equipo" id="confirma" onclick="w3.show('#confirmTransfer')" ng-disabled="!readyTeam"/>
-                            </div>
-                        </div>
-                        <!-- Fin Vista Default -->
-                        
-
-
-                        <!-- Vista Equipo -->
-                        <div ng-if="profile == 'USUARIO' && tab == 'TEAM'">
-                            <div class="w3-bar w3-theme-action w3-row">
-                                <button class="boton-seleccion w3-button w3-col s6 w3-half" ng-class="{'w3-theme-d1': view == 'LIST'}" ng-click="setView('LIST')">LISTA</button>
-                                <button class="boton-seleccion w3-button w3-col s6 w3-half" ng-class="{'w3-theme-d1': view == 'PITCH'}" ng-click="setView('PITCH')">CAMPO</button>
-                            </div>
-
-                            <!-- Vista Equipo de Lista -->
-                            <div id="DefListView" class="seleccion w3-border" ng-if="view == 'LIST'">
-                                <div ng-repeat="(key1, value) in misJugadores | orderBy:'-tit' | groupBy: '[tit]'">
-                                <!-- <div ng-repeat="(key1, value) in items | groupBy: '[pos]'"> -->
-                                    <table class="w3-table w3-bordered" >
-                                        <thead>
-                                            <tr class="w3-theme-d3">
-                                                <th></th>
-                                                <th ng-switch on="key1">
-                                                    <div ng-switch-when="S">Titulares</div>
-                                                    <div ng-switch-when="N">Suplentes</div>
-                                                    <div ng-switch-default></div>
-                                                </th>
-                                                <th >
-                                                </th>
-                                                <th >Posicion
-                                                </th>
-                                                <th >$
-                                                </th>
-                                                <th >Pts
-                                                </th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody style="cursor:pointer">
-                                            <!--<tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)"> -->
-                                            <tr class="w3-hover-light-grey" ng-class="{'w3-khaki': substitution.id === jugador.id, 'w3-amber': enabledSubstitution(jugador)}"  ng-repeat="jugador in value" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}">
-                                                <td></td>
-                                                <td>{{ jugador.id === '' ? '.' : jugador.nm }}
-                                                    <span ng-if="jugador.id === miEquipo.captain" class="w3-badge w3-theme">C</span>
-                                                    <span ng-if="jugador.id === miEquipo.subcaptain" class="w3-badge w3-theme">S</span>
-                                                </td>
-                                                <td>{{ jugador.cl }}</td>
-                                                <td class="w3-hide-small">{{ posiciones[jugador.pos].desc }}</td>
-                                                <td class="w3-hide-medium w3-hide-large">{{ jugador.pos }}</td>
-                                                <td>{{ jugador.pc }}</td>
-                                                <td>{{ jugador.pt }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div> 
-                            </div> 
-                            <!-- Fin Vista Equipo de Lista -->
-
-
-                            <!-- Vista Equipo de Campo -->
-                            <div id="DefPitchView" class="seleccion w3-border w3-display-container" ng-if="view == 'PITCH'">
-                                <!-- Mi Equipo Titular-->
-                                <div class="w3-display-container">
-                                    <img src="img/background.png" style="width:100%"> 
-                                    <div class="w3-display-topleft w3-center" style="height:100%; width:100%">
-
-                                      <div style="display:flex; justify-content:center; height:25%; width:100%" ng-repeat="(key1, value) in misJugadores | groupBy: '[pos]'">
-
-                                          <div class="w3-display-container" style="width:20%; display:flex; justify-content:center;" ng-repeat="jugador in value" ng-if="jugador.tit == 'S'">
-
-                                                <div class="w3-display-container" ng-class="{'w3-khaki w3-border': substitution.id === jugador.id, 'w3-amber w3-border': enabledSubstitution(jugador)}" style="width:80%;">
-                                                    <div class="w3-display-topleft w3-hide-small">
-                                                        <button ng-if="jugador.id !== '' && (substitution  === '' || enabledSubstitution(jugador)) || substitution.id === jugador.id" href="javascript:void(0);" ng-click="makeSubstitution(jugador)" class="boton-seleccion w3-button w3-theme-action glyphicon glyphicon-sort" style="padding: 0.5em"></button>
-                                                    </div>
-                                                    <span ng-if="jugador.id === miEquipo.captain" class="w3-display-topright w3-border w3-badge w3-theme w3-hide-small">C</span>
-                                                    <span ng-if="jugador.id === miEquipo.captain" class="w3-display-topright w3-border w3-badge w3-theme w3-tiny w3-hide-medium w3-hide-large">C</span>
-                                                    <span ng-if="jugador.id === miEquipo.subcaptain" class="w3-display-topright w3-border w3-badge w3-theme w3-hide-small">S</span>
-                                                    <span ng-if="jugador.id === miEquipo.subcaptain" class="w3-display-topright w3-border w3-badge w3-theme w3-tiny w3-hide-medium w3-hide-large">S</span>
-
-                                                    <img class="team-img" src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
-                                                    <!-- Pantallas grandes -->
-                                                    <div class="w3-container w3-center w3-tag w3-theme-action w3-hide-small" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
-                                                      <p>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.nm }}</p>
-                                                    </div>
-                                                    <div ng-if="jugador.id !== ''" class="w3-container w3-center w3-tag w3-theme w3-hide-small" >
-                                                      <p>{{ jugador.id === '' ? null : posiciones[key1].desc }}</p>
-                                                    </div>
-                                                    <!-- Pantallas pequeñas -->
-                                                    <div class="w3-center w3-theme-action w3-small w3-hide-medium w3-hide-large" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
-                                                      <div>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.ap }}</div>
-                                                    </div>
-                                                    <div ng-if="jugador.id !== ''" class="w3-center w3-theme w3-tiny w3-hide-medium w3-hide-large" style="width:100%">
-                                                      <div>{{ jugador.id === '' ? null : key1 }}</div>
-                                                    </div>
-                                                </div>
-
-                                          </div>
-
-                                      </div>
-
-                                    </div>
-                                </div>
-                                <!-- Fin Mi Equipo Titular-->
-
-                                
-                                <!-- Mi Equipo Suplente-->
-                                <div class="w3-display-container">
-                                    <img src="img/background_sup.png" style="width:100%"> 
-                                    <div class="w3-display-topleft w3-center" style="height:100%; width:100%">
-
-                                      <div style="display:flex; justify-content:center; height:100%; width:100%">
-
-                                          <div class="w3-display-container" style="width:20%; display:flex; justify-content:center;" ng-repeat="jugador in misJugadores" ng-if="jugador.tit == 'N'">
-
-                                                <div class="w3-display-container" ng-class="{'w3-khaki w3-border': substitution.id === jugador.id, 'w3-amber w3-border': enabledSubstitution(jugador)}" style="width:80%;">
-                                                    <div class="w3-display-topleft w3-hide-small">
-                                                        <button ng-if="jugador.id !== '' && (substitution  === '' || enabledSubstitution(jugador) || substitution.id === jugador.id)" href="javascript:void(0);" ng-click="makeSubstitution(jugador)" class="boton-seleccion w3-button w3-theme-action glyphicon glyphicon-sort" style="padding: 0.5em"></button>
-                                                    </div>
-                                                    <span ng-if="jugador.id === miEquipo.captain" class="w3-display-topright w3-border w3-badge w3-theme">C</span>
-                                                    <span ng-if="jugador.id === miEquipo.subcaptain" class="w3-display-topright w3-border w3-badge w3-theme">S</span>
-
-                                                    <img class="team-img" src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
-                                                    <!-- Pantallas grandes -->
-                                                    <div class="w3-container w3-center w3-tag w3-theme-action w3-hide-small" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
-                                                      <p>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.nm }}</p>
-                                                    </div>
-                                                    <div ng-if="jugador.id !== ''" class="w3-container w3-center w3-tag w3-theme w3-hide-small" >
-                                                      <p>{{ jugador.id === '' ? null : posiciones[jugador.pos].desc }}</p>
-                                                    </div>
-                                                    <!-- Pantallas pequeñas -->
-                                                    <div class="w3-center w3-theme-action w3-small w3-hide-medium w3-hide-large" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
-                                                      <div>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.ap }}</div>
-                                                    </div>
-                                                    <div ng-if="jugador.id !== ''" class="w3-center w3-theme w3-tiny w3-hide-medium w3-hide-large" style="width:100%">
-                                                      <div>{{ jugador.id === '' ? null : jugador.pos }}</div>
-                                                    </div>
-                                                </div>
-
-                                          </div>
-
-                                      </div>
-
-                                    </div>
-                                </div>
-                                <!-- Fin Mi Equipo Titular-->
-                                
-                            </div> 
-                            <!-- Fin Vista Equipo de Campo -->
-
-                            <!-- Confirmar Equipo -->
-                            <div class="w3-container w3-margin-bottom w3-margin-top w3-center">
-                                <input class="w3-button w3-padding w3-theme-action" type="button" value="Confirmar Equipo" id="confirma" ng-click="enviarEquipo()" ng-disabled="!readyTeam"/>
-                            </div>
-                        </div>
-                        <!-- Fin Vista Equipo -->
-                    </div>
-
-                    <!-- Right Column -->
-                    <div id="playerList" class="w3-col m4 l3 w3-hide-small">
-                        <div class="w3-bar w3-margin-bottom w3-margin-top w3-center w3-hide-medium w3-hide-large">
-                            <button class="w3-button w3-padding w3-theme-action w3-right" id="BackMenu" onclick="w3.toggleClass('#main', 'w3-hide-small'); w3.toggleClass('#main', 'w3-animate-left'); w3.toggleClass('#playerList', 'w3-hide-small'); w3.toggleClass('#playerList', 'w3-animate-right');">
-                                <i class="fa fa-arrow-left"></i> Atr&aacutes
-                            </button>
-                        </div>
-
-                        <!-- Alert Box -->
-                        <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom " ng-if="message != ''">
-                            <span ng-click="setMessage('')" class="w3-button w3-theme-l3 w3-display-topright">
-                                <i class="fa fa-remove"></i>
-                            </span>
-                            <p class="w3-padding-small"><strong>Hey!</strong></p>
-                            <p class="w3-padding-small">{{message}}</p>
-                        </div>
-
-                        <!-- Vista Default -->
-                        <div ng-if="tab == 'DEF'">
-                            <!-- Búsqueda de jugadores -->
-                            <form class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom ">
-                                <div class="w3-section">
-                                    <label >Buscar jugador</label>
-                                    <input type="text" ng-model="search" class="w3-input w3-border w3-margin-bottom" placeholder="Nombre o club">
-                                </div>
-                            </form>
-
-                            <!-- Seleccion de jugadores -->
-                            <div ng-repeat="(key1, value) in jugadores | groupBy: '[pos]'">
-                            <!-- <div ng-repeat="(key1, value) in items | groupBy: '[pos]'"> -->
-                                <!-- <div ng-repeat="(key2, value) in value | groupBy: '[color]'"> -->
-                                <table class="w3-table w3-bordered w3-small" >
-                                    <thead>
-                                        <tr class="w3-{{ posiciones[key1].color }}">
-                                            <th style="width: 64%" ng-click="sort('nm')">{{ posiciones[key1].desc }}
-                                                <span class="glyphicon sort-icon" ng-show="sortKey=='nm'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                                            </th>
-                                            <th style="width: 12%" ng-click="sort('cl')">
-                                                <span class="glyphicon sort-icon" ng-show="sortKey=='cl'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                                            </th>
-                                            <th style="width: 12%" ng-click="sort('pc')">$
-                                                <span class="glyphicon sort-icon" ng-show="sortKey=='pc'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                                            </th>
-                                            <th style="width: 12%" ng-click="sort('pt')">Pts
-                                                <span class="glyphicon sort-icon" ng-show="sortKey=='pt'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                                            </th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody style="cursor:pointer">
-                                        <!--<tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)"> -->
-                                        <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" dir-paginate="jugador in value|filter:search|orderBy:sortKey:reverse|itemsPerPage:6" ng-click="verIntegrante(jugador)">
-                                            <td>{{ jugador.nm }}</td>
-                                            <td>{{ jugador.cl }}</td>
-                                            <td>{{ jugador.pc }}</td>
-                                            <td>{{ jugador.pt }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                    <div ng-if="key1 == 'DEL'">   
-                                        <!-- style="display: none;" -->
-                                        <dir-pagination-controls id="ss"
-                                                max-size="2"
-                                                direction-links="true"
-                                                boundary-links="true" >
-                                        </dir-pagination-controls>
-                                    </div>
-                                <!-- </div> -->
-                            </div> 
-                        </div> 
-                        <!-- Fin Vista Default -->
-
-                        <!-- Vista Equipo -->
-                        <div ng-if="profile == 'USUARIO' && tab == 'TEAM'">
-                            <!-- Profile -->
-                            <div class="w3-card-2 w3-round w3-white w3-margin-bottom">
-                                <div class="w3-container">
-                                    <h4 class="w3-center">{{sesion.usuario}}</h4>
-                                    <p ng-if="sesion.sex == 'M'" class="w3-center"><img src="Imagen?tb=T_USUARIOS&cp=IMAGEN&pk=ID_USUARIO&id={{ sesion.usuario }}" class="w3-circle" style="height:106px;width:106px" alt="Avatar" onerror="this.onerror=null;this.src='img/avatar/man2.png'"></p>
-                                    <p ng-if="sesion.sex == 'F'" class="w3-center"><img src="Imagen?tb=T_USUARIOS&cp=IMAGEN&pk=ID_USUARIO&id={{ sesion.usuario }}" class="w3-circle" style="height:106px;width:106px" alt="Avatar" onerror="this.onerror=null;this.src='img/avatar/woman2.png'"></p>
-                                    <!-- <a href="http://www.freepik.com">Designed by Freepik</a> -->
-                                    <hr>
-                                    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> {{sesion.nombre}}</p>
-                                    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> {{sesion.pais}}</p>
-                                    <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> {{sesion.nac}}</p>
-                                </div>
-                            </div>
-
-                            <!-- My Team -->
-                            <div class="w3-card-2 w3-round w3-white w3-margin-bottom">
-                                <div class="w3-container">
-                                    <h4 class="w3-center">{{sesion.equipo}}</h4>
-                                    <hr>
-                                    <!-- Mis estadisticas -->
-                                    <table class="w3-table w3-bordered w3-margin-bottom" >
-                                        <tbody >
-                                            <tr class="w3-hover-light-grey" >
-                                                <td>Puntaje General:</td>
-                                                <td class="w3-right"><strong>115</strong></td>
-                                            </tr>
-                                            <tr class="w3-hover-light-grey" >
-                                                <td>Ranking General:</td>
-                                                <td class="w3-right"><strong>3.254</strong></td>
-                                            </tr>
-                                            <tr class="w3-hover-light-grey" >
-                                                <td>Total de jugadores:</td>
-                                                <td class="w3-right"><strong>5.500</strong></td>
-                                            </tr>
-                                            <tr class="w3-hover-light-grey" >
-                                                <td>Puntos de la jornada:</td>
-                                                <td class="w3-right"><strong>32</strong></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-
-                            <!-- My Club -->
-                            <div class="w3-card-2 w3-round w3-white w3-margin-bottom">
-                                <div class="w3-container">
-                                    <h4 class="w3-center">{{clubes[sesion.club].desc}}</h4>
-                                    <p class="w3-center"><img src="Imagen?tb=T_CLUBES&cp=IMAGEN&pk=ID_CLUB&id={{sesion.club}}" style="height:106px" alt="Avatar"></p>
-                                    <hr>
-                                    <p><i class="fa fa-twitter fa-fw w3-margin-right w3-text-theme"></i> {{clubes[sesion.club].twi}}</p>
-                                    <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> {{clubes[sesion.club].fun}}</p>
-                                </div>
-                            </div>
-                        </div> 
-                        <!-- Fin Vista Equipo -->
-                        
                     </div>
                 </div>
+
+                <div ng-if="profile == 'USUARIO'">
+                    <div class="w3-bar w3-theme-action">
+                        <a class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'TEAM'}" href="#!team" style="text-decoration:none">MI EQUIPO</a>
+                        <a class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'DEF'}" href="#!def" style="text-decoration:none">TRANSFERENCIAS</a>
+                        <a class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'HELP'}" href="#!help" style="text-decoration:none">AYUDA</a>
+                        <!--
+                        <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'TEAM'}" ng-click="setTab('TEAM')">MI EQUIPO</button>
+                        <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'DEF'}" ng-click="setTab('DEF')">TRANSFERENCIAS</button>
+                        <button class="boton-tab w3-bar-item w3-button" ng-class="{'w3-theme-d1': tab == 'HELP'}" ng-click="setTab('HELP')">AYUDA</button>
+                        -->
+                    </div>
+                </div>
+
+                <div ng-view></div>
+
             </div>
+            <!-- Fin Page Container -->
 
             <!-- Jugador -->
             <div>

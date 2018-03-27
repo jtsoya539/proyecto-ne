@@ -1,0 +1,59 @@
+
+                <!-- The Grid -->
+                <div class="w3-row-padding">
+                    <script>
+                        //alert('help');
+                        angular.element(document.getElementById('appJugador')).scope().setTab('HELP');
+                    </script>
+                    <!-- Left Column -->
+                    <div id="main" class="w3-col m8 l9">
+
+                        <!-- Mi Equipo2 -->
+                        <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
+                            <h4 ng-if="tab == 'HELP'" class="w3-margin">Ayuda</h4>
+                        </div>
+
+                        <!-- Vista Help -->
+                        <div ng-if="tab == 'HELP'">
+                             <div class="w3-bar w3-theme-action">
+                                <button class="boton-seccion w3-bar-item w3-button w3-theme-d1" onclick="abrirSeccion(event, '#faq')">PREGUNTAS FRECUENTES</button>
+                                <button class="boton-seccion w3-bar-item w3-button" onclick="abrirSeccion(event, '#reg')">REGLAS</button>
+                                <button class="boton-seccion w3-bar-item w3-button" onclick="abrirSeccion(event, '#tyc')">TERMINOS Y CONDICIONES</button>
+                            </div>
+                            <div id="faq" class="seccion w3-border">
+                                <button onclick="w3.toggleClass('#faq1', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">FAQCan I have more than one team?</button>
+                                <div id="faq1" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>In the interest of fair play each person may only enter one team. You may enter this team in multiple leagues and compete against different groups of friends.</p></div>
+                                <button onclick="w3.toggleClass('#faq2', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">FAQCan I make changes to my squad after entering the game?</button>
+                                <div id="faq2" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>Yes, unlimited free transfers can be made before the next deadline.</p></div>
+                                <button onclick="w3.toggleClass('#faq3', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">FAQIs thera a print-friendly list of players I can view?</button>
+                                <div id="faq3" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>We have a full player list you can view and print.</p></div>
+                            </div>
+                            <div id="reg" class="seccion w3-border w3-hide">
+                                <button onclick="w3.toggleClass('#reg1', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">REGCan I have more than one team?</button>
+                                <div id="reg1" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>In the interest of fair play each person may only enter one team. You may enter this team in multiple leagues and compete against different groups of friends.</p></div>
+                                <button onclick="w3.toggleClass('#reg2', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">REGCan I make changes to my squad after entering the game?</button>
+                                <div id="reg2" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>Yes, unlimited free transfers can be made before the next deadline.</p></div>
+                                <button onclick="w3.toggleClass('#reg3', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">REGIs thera a print-friendly list of players I can view?</button>
+                                <div id="reg3" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>We have a full player list you can view and print.</p></div>
+                            </div>
+                            <div id="tyc" class="seccion w3-border w3-hide">
+                                <button onclick="w3.toggleClass('#tyc1', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">TYCCan I have more than one team?</button>
+                                <div id="tyc1" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>In the interest of fair play each person may only enter one team. You may enter this team in multiple leagues and compete against different groups of friends.</p></div>
+                                <button onclick="w3.toggleClass('#tyc2', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">TYCCan I make changes to my squad after entering the game?</button>
+                                <div id="tyc2" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>Yes, unlimited free transfers can be made before the next deadline.</p></div>
+                                <button onclick="w3.toggleClass('#tyc3', 'w3-hide')" class="w3-btn w3-block w3-left-align w3-theme-l1 w3-hover-opacity">TYCIs thera a print-friendly list of players I can view?</button>
+                                <div id="tyc3" class="w3-hide w3-container w3-theme-l3 w3-animate-input"><p>We have a full player list you can view and print.</p></div>
+                            </div>
+                            <script>
+                                function abrirSeccion(botonSeccion, idSeccion) {
+                                    w3.addClass('.seccion', 'w3-hide');                // Oculta todos los .seccion
+                                    w3.removeClass('.boton-seccion', 'w3-theme-d1');        // Desmarca todos los .boton-seccion
+                                    w3.removeClass(idSeccion, 'w3-hide');              // Muestra el .seccion elegido
+                                    botonSeccion.currentTarget.className += " w3-theme-d1"; // Marca el .boton-seccion elegido
+                                }
+                            </script>
+                        </div>
+                        
+                    </div>
+
+                </div>

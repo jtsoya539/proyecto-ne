@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var appJugador = angular.module('jugador', ['angular.filter','angularUtils.directives.dirPagination']);
+var appJugador = angular.module('jugador', ['angular.filter','ngRoute','angularUtils.directives.dirPagination']);
 appJugador.factory('PagerService', PagerService);
 appJugador.controller('ControllerJugador', ControllerJugador);
+appJugador.config(['$routeProvider', RouteProvider]);
 
 function ControllerJugador($scope, $http, PagerService) {    
     console.log("inicializo jugador..");
@@ -389,13 +390,17 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion para cambiar perfil */
     $scope.setProfile = function(profile) {
-        console.log('entro a perfil:' + profile);
-        if(profile === 'DEFAULT')
-            $scope.setTab('DEF');
-        else if(profile === 'USUARIO')
-            $scope.setTab('TEAM');
+        console.log('entro a perfil: ' + profile);
         //Hace el cambio de perfil
         $scope.profile = profile; 
+        if(profile === 'DEFAULT') {
+            //$scope.setTab('DEF');
+            $('#tabDef').click();
+        }
+        else if(profile === 'USUARIO') {
+            //$scope.setTab('TEAM');
+            $('#tabTeam').click();
+        }
     };
 
     $scope.sesion = {};
@@ -567,25 +572,16 @@ function ControllerJugador($scope, $http, PagerService) {
     $scope.readyDefaultTeam = false;
     /* Funcion que verifica que los datos del nuevo equipo esten listos para enviar al servidor */
     $scope.setReadyDefaultTeam = function(){
-        //alert('llego0 '+$scope.miEquipo.integrantes.length+'/'+$scope.misJugadores.length);
-        //alert(!($scope.miEquipo.integrantes.length < $scope.misJugadores.length));
-        //console.log('integrantes '+$scope.miEquipo.integrantes.length+'/'+$scope.misJugadores.length);
-        //return !($scope.miEquipo.integrantes.length < $scope.misJugadores.length);
-        
         //Verifica que tenga seleccionados todos los jugadores
+        //console.log('integrantes '+$scope.miEquipo.integrantes.length+'/'+$scope.misJugadores.length);
         $scope.readyDefaultTeam = !($scope.miEquipo.integrantes.length < $scope.misJugadores.length);
     };
 
     $scope.readyTeam = false;
     /* Funcion que verifica que los datos del equipo esten listos para enviar al servidor */
     $scope.setReadyTeam = function(){
-        //alert('llego1');
-        //console.log('integrantes '+$scope.miEquipo.integrantes.length);
-        //console.log('subcap '+$scope.miEquipo.subcaptain);
-        //console.log('cap '+$scope.miEquipo.captain);
-        //return !($scope.miEquipo.integrantes.length < $scope.misJugadores.length || $scope.miEquipo.subcaptain === null || $scope.miEquipo.captain === null);
-
         //Verifica que tenga seleccionados todos los jugadores, capitan y sub-capitan y que haya sido modificado
+        //console.log('integrantes '+$scope.miEquipo.integrantes.length);
         $scope.readyTeam = !($scope.miEquipo.integrantes.length < $scope.misJugadores.length || $scope.miEquipo.subcaptain === null || $scope.miEquipo.captain === null) && $scope.modified;
     };
 
@@ -646,6 +642,23 @@ function ControllerJugador($scope, $http, PagerService) {
     $scope.getMisJugadores();
     $scope.getClubes();
     $scope.getPosiciones();
+}
+
+function RouteProvider($routeProvider) {
+    $routeProvider
+    .when("/def", {
+        templateUrl : "main_def.html"/*,
+        controller: 'ControllerJugador'*/
+    })
+    .when("/team", {
+        templateUrl : "main_team.html"/*,
+        controller: 'ControllerJugador'*/
+    })
+    .when("/help", {
+        templateUrl : "main_help.html"/*,
+        controller: 'ControllerJugador'*/
+    })
+    ;
 }
 
     /* Funcion para servicio de paginacion */
