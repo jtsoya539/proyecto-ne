@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 //import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 //import javax.servlet.http.HttpSession;
+
+import mail.Email;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
@@ -109,10 +116,58 @@ public class Register extends HttpServlet {
 
         if (resultado != null) {
 
-            System.out.println("Retorno el resultado"+resultado);
+            //System.out.println("Retorno el resultado" + resultado);
+            JSONObject json1, json2;
+            String state = "", message = "", nombre = "", token = "", email = "";
+            
+            try {
+                //Parsear la respuesta
+                json1 = new JSONObject(resultado);
+                state = json1.getString("state");
+                message = json1.getString("message");
+                if(state.equals("OK")) {
+                    nombre = json1.getString("nombre");
+                    token = json1.getString("token");
+                    email = json1.getString("email");
+
+                    //Generar una nueva respuesta
+                    json2 = new JSONObject();
+                    json2.put("state", state);
+                    json2.put("message", message);
+                    resultado = json2.toString();
+                }
+
+            } catch (JSONException ex) {
+                Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if(state.equals("OK")) {
+                Properties prop=new Properties();
+                prop.load(getServletContext().getResourceAsStream("/WEB-INF/classes/ne.properties"));
+                
+                String remitente = prop.getProperty("REMITENTE_EMAIL");
+                String clave = prop.getProperty("CLAVE_EMAIL");
+                String asunto = prop.getProperty("ASUNTO_CONFIRMACION");
+                String cuerpo = prop.getProperty("EMAIL_CONFIRMACION");
+                cuerpo = cuerpo.replaceFirst("&NOMBRE_USUARIO", nombre);
+                cuerpo = cuerpo.replaceFirst("&TOKEN_VALIDACION", token);
+
+                //Envio de email de confirmacion
+                Email ema = new Email();
+                ema.setRemitente(remitente);
+                ema.setClave(clave);
+
+                ema.setDestinatario(email); //A quien le quieres escribir. Si es mas de un correo debe ir separado por ',' (coma).
+                ema.setAsunto(asunto);
+                ema.setCuerpo(cuerpo);
+                
+                (new Thread(ema)).start();
+            }
+
             try (PrintWriter out = response.getWriter()) {
                 //RequestDispatcher rd = request.getRequestDispatcher("index.html");
                 //rd.include(request, response);
+                System.out.println("Retorno el resultado: " + resultado);
                 out.println(resultado);
                 //out.println(menu);
                 out.close();
