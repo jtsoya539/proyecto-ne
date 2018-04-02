@@ -1,0 +1,42 @@
+        <!-- Ranking -->
+       <div id="ranking" class="w3-modal" ng-click="ocultarRanking()">
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l5 w3-center" style="max-width:640px" onclick="event.stopPropagation()">
+                <span ng-click="ocultarRanking()" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"><i class="fa fa-remove"></i></span>
+                <h2 class="w3-container w3-theme">{{currentLeague.id}}</h2>
+                    <div class="w3-container">
+                            <!-- Vista Ranking de Lista -->
+                            <div id="RankingListView" class="seleccion">
+                                    <table class="w3-table w3-bordered w3-margin-top w3-margin-bottom" >
+                                        <thead>
+                                            <tr class="w3-theme-d3">
+                                                <th>Rank</th>
+                                                <th >Equipo
+                                                </th>
+                                                <th >Puntos de la jornada
+                                                </th>
+                                                <th >Puntos totales
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody >
+                                            <tr class="w3-hover-light-grey" ng-repeat="ligaEquipo in leagueTeams" ng-class="{'w3-theme-l2': ligaEquipo.usu === sesion.usuario}">
+                                                <td>{{ ligaEquipo.rank }}</td>
+                                                <td>{{ ligaEquipo.equi }}
+                                                </td>
+                                                <td>{{ ligaEquipo.pj }}</td>
+                                                <td>{{ ligaEquipo.pt }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div> 
+                            <!-- Vista Ranking de Lista -->
+                            <!-- Paginacion desde la base -->
+                            <div class="w3-container w3-margin-bottom w3-margin-top w3-center">
+                                <button ng-if="rankMin > 1"                                 class="w3-button w3-padding w3-theme-action" id="prev" ng-click="currentLeague.id === '' ? null : verRanking(currentLeague, -teamsPerPage)" style="float: left;"><i class="fa fa-arrow-left"></i> Anterior</button>
+                                <button ng-if="rankMin + teamsPerPage < currentLeague.cant" class="w3-button w3-padding w3-theme-action" id="next" ng-click="currentLeague.id === '' ? null : verRanking(currentLeague, teamsPerPage)" style="float: right;">Siguiente <i class="fa fa-arrow-right"></i></button>
+                            </div>
+                    </div> 
+
+            </div>
+        </div>

@@ -225,14 +225,12 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                    <div ng-if="key1 == 'DEL'">   
-                                        <!-- style="display: none;" -->
-                                        <dir-pagination-controls id="ss"
-                                                max-size="2"
-                                                direction-links="true"
-                                                boundary-links="true" >
-                                        </dir-pagination-controls>
-                                    </div>
+                                    <!-- style="display: none;" -->
+                                    <dir-pagination-controls id="ss" ng-if="key1 == 'DEL'"
+                                            max-size="2"
+                                            direction-links="true"
+                                            boundary-links="true" >
+                                    </dir-pagination-controls>
                                 <!-- </div> -->
                             </div> 
                         </div> 
@@ -240,3 +238,42 @@
 
                     </div>
                 </div>
+
+            <!-- Confirmar Transferencia -->
+            <div id="confirmTransfer" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l5" style="max-width:500px" onclick="event.stopPropagation()">
+                    <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
+                    <span onclick="w3.hide('#confirmTransfer')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"> <i class="fa fa-remove"></i></span>
+                    <form class="w3-container" action="confirmTransfer" method="POST">
+                        <div class="w3-section">
+                            <label>Confirmar transferencia</label>
+                            <table class="w3-table w3-bordered w3-small w3-margin-bottom" >
+                                <thead>
+                                    <tr class="w3-theme-d2">
+                                        <th style="width: 40%">Sale
+                                        </th>
+                                        <th style="width: 40%">Entra
+                                        </th>
+                                        <th style="width: 20%">Costo
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody >
+                                    <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="tra in miEquipo.transferencias">
+                                        <td>{{ tra.out.nm }}</td>
+                                        <td>{{ tra.in.nm }}</td>
+                                        <td>0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <input class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="button" value="Confirmar Transferencia" id="confirmaTransferencia" ng-click="enviarEquipo()" />
+                        </div>
+                    </form>
+                    <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                        <button onclick="w3.hide('#confirmTransfer')" class="w3-button w3-theme-action">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+

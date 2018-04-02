@@ -7,11 +7,12 @@ var appJugador = angular.module('jugador', ['angular.filter','ngRoute','angularU
 appJugador.factory('PagerService', PagerService);
 appJugador.controller('ControllerJugador', ControllerJugador);
 appJugador.config(['$routeProvider', RouteProvider]);
+appJugador.directive("ngIsolateApp", ngIsolateApp);
 
 function ControllerJugador($scope, $http, PagerService) {    
     console.log("inicializo jugador..");
     $scope.profile = "USUARIO"; //DEFAULT - USUARIO
-    $scope.tab = "TEAM"; // TEAM - DEF - HELP
+    $scope.tab = "TEAM"; // TEAM - DEF - HELP - LEAGUE
     $scope.view = "PITCH"; // PITCH - LIST
     $scope.money = 1000.00;
     $scope.player = '';
@@ -72,8 +73,8 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion para aumentar el saldo */
     $scope.setMoney = function(diferencia){
-        $scope.money = $scope.money + diferencia;
-    }
+        $scope.money += diferencia;
+    };
 
     /* Funcion para agregar un integrante a mi equipo */
     $scope.agregarIntegrante = function(integrante, isReset, updMoney){
@@ -644,6 +645,7 @@ function ControllerJugador($scope, $http, PagerService) {
     $scope.getPosiciones();
 }
 
+/* Funcion para navegacion */
 function RouteProvider($routeProvider) {
     $routeProvider
     .when("/def", {
@@ -654,11 +656,42 @@ function RouteProvider($routeProvider) {
         templateUrl : "main_team.html"/*,
         controller: 'ControllerJugador'*/
     })
+    .when("/league", {
+        templateUrl : "main_league.html"/*,
+        controller: 'ControllerJugador'*/
+    })
     .when("/help", {
         templateUrl : "main_help.html"/*,
         controller: 'ControllerJugador'*/
     })
     ;
+}
+
+/* Funcion para aplicaciones anidadas */
+function ngIsolateApp() {
+    return {
+        "scope" : {},
+        "restrict" : "AEC",
+        "compile" : function(element, attrs) {
+            // removing body
+            var html = element.html();
+            element.html('');
+            return function(scope, element) {
+                // destroy scope
+                scope.$destroy();
+                // async
+                setTimeout(function() {
+                    // prepare root element for new app
+                    var newRoot = document.createElement("div");
+                    newRoot.innerHTML = html;
+                    // bootstrap module
+                    angular.bootstrap(newRoot, [attrs["ngIsolateApp"]]);
+                    // add it to page
+                    element.append(newRoot);
+                });
+            };
+        }
+    };
 }
 
     /* Funcion para servicio de paginacion */
