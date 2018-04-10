@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('register', [])
-.controller('ControllerRegistro', function($scope, $http){
+var appRegister = angular.module('register', []);
+appRegister.controller('ControllerRegistro', ControllerRegistro);
+
+function ControllerRegistro($scope, $http, contriesFactory, clubsFactory) {
     /* Definimos registro con los datos del usuario */
     $scope.registro = {
         pri_nombre: '',
@@ -24,11 +26,8 @@ angular.module('register', [])
     $scope.paises = {};
     $scope.clubes = {};
 
-    /* Obtenemos datos de los paises */
-    $http.post("GetDatos?ori=datos_paises", {
-         data: {index: false,
-                spaces: false }
-      })
+    /* Obtenemos los paises */
+    contriesFactory.fetchCountries()
     .then(function(response) {
         $scope.paises = response.data.paises;
         // $scope.registro.integrantes = [];
@@ -40,13 +39,8 @@ angular.module('register', [])
          alert(response);
     });
 
-    /* Obtenemos datos de los clubes */
-    $http.post("GetDatos?ori=datos_clubes", {
-         data: {index: false,
-                spaces: false,
-                extraData: [{   
-                    partido: ''}]}
-      })
+    /* Obtenemos los clubes */
+    clubsFactory.fetchClubs()
     .then(function(response) {
         $scope.clubes = response.data.clubes;
         // $scope.registro.integrantes = [];
@@ -79,42 +73,58 @@ angular.module('register', [])
                 spaces: false,
                 registro: $scope.registro}
       })
-    .then(function(response) {
-         $scope.registro.pri_nombre = '';
-         $scope.registro.seg_nombre = '';
-         $scope.registro.pri_apellido = '';
-         $scope.registro.seg_apellido = '';
-         $scope.registro.correo = '';
-         $scope.registro.usuario = '';
-         $scope.registro.clave = '';
-         $scope.registro.sexo = '';
-         $scope.registro.nacimiento = '';
-         $scope.registro.pais = '';
-         $scope.registro.club = '';
-         $scope.clave = '';
-        // $scope.registro.integrantes = [];
-       console.log("imprimo respuesta..");
-         console.log(response);
-        // Mensaje 
-        w3.hide('#register');
-        $scope.alert(response.data.state, "Atencion!", response.data.message);
+        .then(function(response) {
+             $scope.registro.pri_nombre = '';
+             $scope.registro.seg_nombre = '';
+             $scope.registro.pri_apellido = '';
+             $scope.registro.seg_apellido = '';
+             $scope.registro.correo = '';
+             $scope.registro.usuario = '';
+             $scope.registro.clave = '';
+             $scope.registro.sexo = '';
+             $scope.registro.nacimiento = '';
+             $scope.registro.pais = '';
+             $scope.registro.club = '';
+             $scope.clave = '';
+            // $scope.registro.integrantes = [];
+           console.log("imprimo respuesta..");
+             console.log(response);
+            // Mensaje 
+            w3.hide('#register');
+            NeAlert(response.data.state, "Atencion!", response.data.message);
 
-    }, function(response) {
-        //Second function handles error
-         alert('Error al intentar enviar el registro.');
-         alert(response);
-    });       
+        }, function(response) {
+            //Second function handles error
+             alert('Error al intentar enviar el registro.');
+             alert(response);
+        });       
        
    };
 
-    /* Funcion para mostrar mensaje en pantalla */
-    $scope.alert = function(tipo, titulo, contenido){
-        // tipo: OK --> informacion, ERROR --> error
-        console.log('entro a mostrar mensaje.');
-        $("#mensaje_titulo").html(titulo);
-        $("#mensaje_contenido").html(contenido);
-        w3.removeClass('.w3-modal', 'w3-show'); // Oculta todos los .w3-modal
-        w3.addClass('#mensaje', 'w3-show'); // Muestra el mensaje
-    };
+}
 
-});
+/* Fabrica de datos de los paises */
+appRegister.factory("contriesFactory", ['$http',function($http){  
+    var obj = {};
+    obj.fetchCountries = function(){ 
+        return $http.post("GetDatos?ori=datos_paises", {
+         data: {index: false,
+                spaces: false }
+      });
+    };
+    return obj;
+}]);
+
+/* Fabrica de datos de los clubes */
+appRegister.factory("clubsFactory", ['$http',function($http){  
+    var obj = {};
+    obj.fetchClubs = function(){ 
+        return $http.post("GetDatos?ori=datos_clubes", {
+         data: {index: false,
+                spaces: false,
+                extraData: [{   
+                    partido: ''}]}
+      });
+    };
+    return obj;
+}]);

@@ -1,9 +1,10 @@
 
                 <!-- The Grid -->
-                <div class="w3-row-padding">
+                <div id="def-grid" class="w3-row-padding">
                     <script>
                         //alert('def');
                         angular.element(document.getElementById('appJugador')).scope().setTab('DEF');
+                        NeToggleClass();
                     </script>
                     <!-- Left Column -->
                     <div id="main" class="w3-col m8 l9 w3-animate-left">
@@ -139,7 +140,7 @@
                                                   <p>{{ jugador.id === '' ? null : posiciones[key1].desc }}</p>
                                                 </div>
                                                 <!-- Pantallas pequenas -->
-                                                <div ng-class="{'w3-opacity': jugador.id === '' && transfer !== ''}"  class="w3-center w3-theme-action w3-small w3-hide-medium w3-hide-large" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
+                                                <div ng-class="{'w3-opacity': jugador.id === '' && transfer !== ''}"  class="w3-center w3-theme-action w3-tiny w3-hide-medium w3-hide-large" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
                                                   <div>{{ jugador.id === '' ? transfer === '' ? 'Agregar ' + posiciones[key1].desc : transfer.ap : jugador.ap }}</div>
                                                 </div>
                                                 <div ng-if="jugador.id !== ''" class="w3-center w3-theme w3-tiny w3-hide-medium w3-hide-large" style="width:100%">

@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('incidencia', [])
-.controller('ControllerIncidencia', function($scope, $http){
+var appRegister = angular.module('incidencia', []);
+appRegister.controller('ControllerIncidencia', ControllerIncidencia);
+
+function ControllerIncidencia($scope, $http) {
     /* Definimos registro con los datos de la incidencia */
     $scope.incidencia = {
         torneo: 'PRI-CLA17',
@@ -18,7 +20,7 @@ angular.module('incidencia', [])
     };
 
     /* Funcion que obtiene datos de los partidos */
-    $scope.getPartidos = function(datos) {
+    $scope.getPartidos = function() {
         $http.post("GetDatos?ori=datos_partidos", {
          data: {index: false,
                 spaces: false }
@@ -116,7 +118,7 @@ angular.module('incidencia', [])
          console.log(response);
         // Mensaje 
         //w3.hide('#incidencia');
-        $scope.alert(response.data.state, "Atencion!", response.data.message);
+        NeAlert(response.data.state, "Atencion!", response.data.message);
 
     }, function(response) {
         //Second function handles error
@@ -147,14 +149,4 @@ angular.module('incidencia', [])
         }
     };
 
-    /* Funcion para mostrar mensaje en pantalla */
-    $scope.alert = function(tipo, titulo, contenido){
-        // tipo: OK --> informacion, ERROR --> error
-        console.log('entro a mostrar mensaje.');
-        $("#mensaje_titulo").html(titulo);
-        $("#mensaje_contenido").html(contenido);
-        w3.removeClass('.w3-modal', 'w3-show'); // Oculta todos los .w3-modal
-        w3.addClass('#mensaje', 'w3-show'); // Muestra el mensaje
-    };
-
-});
+};

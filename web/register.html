@@ -23,8 +23,8 @@
                         <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Usuario" name="usuario" id="usuario" required ng-model="registro.usuario">
                         <!-- Clave -->
                         <label>Clave</label>
-                        <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Ingresá tu Clave" name="clave" id="pwd" required ng-model="clave">
-			<input name="clavemd5" type="hidden" id="pwdmd5" ng-model="registro.clave"/>
+                        <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Ingresá tu Clave" name="clave" id="pwdReg" required ng-model="clave">
+			<input name="clavemd5" type="hidden" id="pwdmd5Reg" ng-model="registro.clave"/>
                         <!-- Sexo -->
                         <label>Sexo</label>
                         <div class="w3-input w3-border w3-margin-bottom w3-row">
@@ -54,7 +54,7 @@
                         </select>
 
                         <!-- Registrarme -->
-                        <input class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="button" value="Registrarme" id="acceso" ng-click="enviar()" />
+                        <input class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="button" value="Registrarme" id="registro" ng-click="enviar()" />
                         
                     </div>
                 </form>

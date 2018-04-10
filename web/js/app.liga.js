@@ -6,7 +6,7 @@
 var appLiga = angular.module('liga', ['angular.filter']);
 appLiga.controller('ControllerLiga', ControllerLiga);
 
-function ControllerLiga($scope, $http) {
+function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory) {
     $scope.profile = ""; //DEFAULT - USUARIO
     $scope.tab = ""; // TEAM - DEF - HELP - LEAGUE
     /* Definimos registro con los datos del usuario */
@@ -44,14 +44,8 @@ function ControllerLiga($scope, $http) {
             $scope.rankMin = 1;
     };
 
-    /* Obtenemos datos de las ligas */
-    $http.post("GetDatos?ori=datos_ligas", {
-         data: {index: false,
-                spaces: false,
-                extraData: [{   
-                    misLigas: 'S'
-                            }]}
-      })
+    /* Obtenemos las ligas */
+    leaguesFactory.fetchLeagues()
     .then(function(response) {
         $scope.leagues = response.data.ligas;
         // $scope.registro.integrantes = [];
@@ -64,19 +58,12 @@ function ControllerLiga($scope, $http) {
     });
 
     $scope.leagueTeams = {};
-    /* Funcion que obtiene datos de los equipos de una liga */
+    /* Funcion que obtiene los equipos de una liga */
     $scope.getLeagueTeams = function() {
         document.getElementById("appJugador").style.cursor = "wait";
         $scope.leagueTeams = {};
-        $http.post("GetDatos?ori=datos_liga_equipos", {
-         data: {index: false,
-                spaces: false,
-                extraData: [{
-                    idLiga: $scope.currentLeague.id,
-                    rankMin: $scope.rankMin,
-                    equiPorPag: $scope.teamsPerPage} ]
-               }
-      })
+
+        leagueTeamsFactory.fetchLeagueTeams($scope.currentLeague.id, $scope.rankMin, $scope.teamsPerPage)
         .then(function(response) {
             $scope.leagueTeams = response.data.ligaEquipos;
             // $scope.incidencia.integrantes = [];
@@ -161,15 +148,36 @@ function ControllerLiga($scope, $http) {
    };
    */
 
-    /* Funcion para mostrar mensaje en pantalla */
-    $scope.alert = function(tipo, titulo, contenido){
-        // tipo: OK --> informacion, ERROR --> error
-        console.log('entro a mostrar mensaje.');
-        $("#mensaje_titulo").html(titulo);
-        $("#mensaje_contenido").html(contenido);
-        w3.removeClass('.w3-modal', 'w3-show'); // Oculta todos los .w3-modal
-        w3.addClass('#mensaje', 'w3-show'); // Muestra el mensaje
-    };
-
 }
 
+/* Fabrica de datos de las ligas */
+appLiga.factory("leaguesFactory", ['$http',function($http){  
+    var obj = {};
+    obj.fetchLeagues = function(){ 
+        return $http.post("GetDatos?ori=datos_ligas", {
+         data: {index: false,
+                spaces: false,
+                extraData: [{   
+                    misLigas: 'S'
+                            }]}
+      });
+    };
+    return obj;
+}]);
+
+/* Fabrica de datos de los equipos de una liga */
+appLiga.factory("leagueTeamsFactory", ['$http',function($http){  
+    var obj = {};
+    obj.fetchLeagueTeams = function(id, rankMin, teamsPerPage){ 
+        return $http.post("GetDatos?ori=datos_liga_equipos", {
+         data: {index: false,
+                spaces: false,
+                extraData: [{
+                    idLiga: id,
+                    rankMin: rankMin,
+                    equiPorPag: teamsPerPage} ]
+               }
+      });
+    };
+    return obj;
+}]);

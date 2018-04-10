@@ -1,9 +1,10 @@
 
                 <!-- The Grid -->
-                <div class="w3-row-padding">
+                <div id="team-grid" class="w3-row-padding">
                     <script>
                         //alert('team');
                         angular.element(document.getElementById('appJugador')).scope().setTab('TEAM');
+                        NeToggleClass();
                     </script>
                     <!-- Left Column -->
                     <div id="main" class="w3-col m8 l9 w3-animate-left">
@@ -102,7 +103,7 @@
                                                       <p>{{ jugador.id === '' ? null : posiciones[key1].desc }}</p>
                                                     </div>
                                                     <!-- Pantallas pequeñas -->
-                                                    <div class="w3-center w3-theme-action w3-small w3-hide-medium w3-hide-large" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
+                                                    <div class="w3-center w3-theme-action w3-tiny w3-hide-medium w3-hide-large" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
                                                       <div>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.ap }}</div>
                                                     </div>
                                                     <div ng-if="jugador.id !== ''" class="w3-center w3-theme w3-tiny w3-hide-medium w3-hide-large" style="width:100%">
@@ -144,7 +145,7 @@
                                                       <p>{{ jugador.id === '' ? null : posiciones[jugador.pos].desc }}</p>
                                                     </div>
                                                     <!-- Pantallas pequeñas -->
-                                                    <div class="w3-center w3-theme-action w3-small w3-hide-medium w3-hide-large" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
+                                                    <div class="w3-center w3-theme-action  w3-tiny w3-hide-medium w3-hide-large" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
                                                       <div>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.ap }}</div>
                                                     </div>
                                                     <div ng-if="jugador.id !== ''" class="w3-center w3-theme w3-tiny w3-hide-medium w3-hide-large" style="width:100%">
@@ -180,7 +181,7 @@
                         </div>
 
                         <!-- Alert Box -->
-                        <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-margin-top" ng-if="message != ''">
+                        <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-margin-top w3-padding" ng-if="message != ''">
                             <span ng-click="setMessage('')" class="w3-button w3-theme-l3 w3-display-topright">
                                 <i class="fa fa-remove"></i>
                             </span>

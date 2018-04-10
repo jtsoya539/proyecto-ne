@@ -3,10 +3,11 @@
         <div ng-isolate-app="liga" >
             <div id="appLiga" ng-controller="ControllerLiga">
                 <!-- The Grid -->
-                <div class="w3-row-padding">
+                <div id="league-grid" class="w3-row-padding">
                     <script>
                         //alert('league');
                         angular.element(document.getElementById('appJugador')).scope().setTab('LEAGUE');
+                        NeToggleClass();
 
                         var profile = angular.element(document.getElementById('appJugador')).scope().profile;
                         var sesion = angular.element(document.getElementById('appJugador')).scope().sesion;

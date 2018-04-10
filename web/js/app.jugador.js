@@ -85,16 +85,14 @@ function ControllerJugador($scope, $http, PagerService) {
 
         if (updMoney !== "N") {
             if ($scope.money < integrante.pc) {
-                $scope.alert(null, "Atencion!", "Saldo insuficiente. No se puede agregar al equipo. "+"<br>"+"Jugador: "+integrante.nm);
-                    event.stopPropagation();
+                NeAlert("ERROR", "Atencion!", "Saldo insuficiente. No se puede agregar al equipo. "+"<br>"+"Jugador: "+integrante.nm);
                     return;
             }
         }
 
         if(transferencia && isReset !== "S") {
             if($scope.transfer === '') {
-                $scope.alert(null, "Atencion!", "Ud. no posee una transferencia pendiente."+"<br>"+"Debe seleccionar un jugador de su equipo.");
-                event.stopPropagation();
+                NeAlert("ERROR", "Atencion!", "Ud. no posee una transferencia pendiente."+"<br>"+"Debe seleccionar un jugador de su equipo.");
                 return;
             }
         }
@@ -125,7 +123,7 @@ function ControllerJugador($scope, $http, PagerService) {
             integrante.mt = 1; //jugador agregado
         }
         if (!existe && !agregado) {
-            $scope.alert(null, "Atencion!", "No se puede agregar al equipo."+"<br>"+"Jugador: "+integrante.nm);
+            NeAlert(null, "Atencion!", "No se puede agregar al equipo."+"<br>"+"Jugador: "+integrante.nm);
         }
         if(agregado) {
             if (updMoney !== "N") {
@@ -192,8 +190,7 @@ function ControllerJugador($scope, $http, PagerService) {
                 console.log("transferencia pendiente: "+$scope.transfer.nm);
             }
             else {
-                $scope.alert(null, "Atencion!", "Ud. posee una transferencia pendiente."+"<br>"+"Jugador: "+$scope.transfer.nm);
-                event.stopPropagation();
+                NeAlert("ERROR", "Atencion!", "Ud. posee una transferencia pendiente."+"<br>"+"Jugador: "+$scope.transfer.nm);
                 return;
             }
         }
@@ -556,7 +553,7 @@ function ControllerJugador($scope, $http, PagerService) {
         //w3.hide('#register');
         w3.hide('#confirmTeam');
         w3.hide('#confirmTransfer');
-        $scope.alert(response.data.state, "Atencion!", response.data.message);
+        NeAlert(response.data.state, "Atencion!", response.data.message);
         //si la respuesta fue exitosa
         $scope.update();
         $scope.clear();
@@ -588,27 +585,15 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion que envia los datos del nuevo equipo al servidor */
     $scope.enviarEquipoDefault = function(){
-        if($scope.readyDefaultTeam) {
-            $scope.alert(null, "Atencion!", "Debe seleccionar " + $scope.misJugadores.length + " jugadores.");
-            event.stopPropagation();
+        if(!($scope.readyDefaultTeam)) {
+            NeAlert("ERROR", "Atencion!", "Debe seleccionar " + $scope.misJugadores.length + " jugadores.");
             return false;
         }
         if (!($("#teamName").val())) {
-            $scope.alert(null, "Atencion!", "Debe ingresar el nombre de su equipo.");
-            event.stopPropagation();
+            NeAlert("ERROR", "Atencion!", "Debe ingresar el nombre de su equipo.");
             return false;
         }
         $scope.enviarEquipo();
-    };
-
-    /* Funcion para mostrar mensaje en pantalla */
-    $scope.alert = function(tipo, titulo, contenido){
-        // tipo: OK --> informacion, ERROR --> error
-        console.log('entro a mostrar mensaje.');
-        $("#mensaje_titulo").html(titulo);
-        $("#mensaje_contenido").html(contenido);
-        w3.removeClass('.w3-modal', 'w3-show'); // Oculta todos los .w3-modal
-        w3.addClass('#mensaje', 'w3-show'); // Muestra el mensaje
     };
 
     /* Funcion para cambiar el mensaje */
@@ -666,91 +651,3 @@ function RouteProvider($routeProvider) {
     })
     ;
 }
-
-/* Funcion para aplicaciones anidadas */
-function ngIsolateApp() {
-    return {
-        "scope" : {},
-        "restrict" : "AEC",
-        "compile" : function(element, attrs) {
-            // removing body
-            var html = element.html();
-            element.html('');
-            return function(scope, element) {
-                // destroy scope
-                scope.$destroy();
-                // async
-                setTimeout(function() {
-                    // prepare root element for new app
-                    var newRoot = document.createElement("div");
-                    newRoot.innerHTML = html;
-                    // bootstrap module
-                    angular.bootstrap(newRoot, [attrs["ngIsolateApp"]]);
-                    // add it to page
-                    element.append(newRoot);
-                });
-            };
-        }
-    };
-}
-
-    /* Funcion para servicio de paginacion */
-    function PagerService() {
-        // service definition
-        var service = {};
-
-        service.GetPager = GetPager;
-
-        return service;
-
-        // service implementation
-        function GetPager(totalItems, currentPage, pageSize) {
-            // default to first page
-            currentPage = currentPage || 1;
-
-            // default page size is 10
-            pageSize = pageSize || 10;
-
-            // calculate total pages
-            var totalPages = Math.ceil(totalItems / pageSize);
-
-            var startPage, endPage;
-            if (totalPages <= 3) {
-                // less than 10 total pages so show all
-                startPage = 1;
-                endPage = totalPages;
-            } else {
-                // more than 10 total pages so calculate start and end pages
-                if (currentPage <= 2) { //primeras paginas
-                    startPage = 1;
-                    endPage = 3;
-                } else if (currentPage + 1 >= totalPages) { //ultimas paginas
-                    startPage = totalPages - 2;
-                    endPage = totalPages;
-                } else { //demas paginas
-                    startPage = currentPage - 1;
-                    endPage = currentPage + 1;
-                }
-            }
-
-            // calculate start and end item indexes
-            var startIndex = (currentPage - 1) * pageSize;
-            var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
-
-            // create an array of pages to ng-repeat in the pager control
-            var pages = _.range(startPage, endPage + 1);
-
-            // return object with all pager properties required by the view
-            return {
-                totalItems: totalItems,
-                currentPage: currentPage,
-                pageSize: pageSize,
-                totalPages: totalPages,
-                startPage: startPage,
-                endPage: endPage,
-                startIndex: startIndex,
-                endIndex: endIndex,
-                pages: pages
-            };
-        }
-    }

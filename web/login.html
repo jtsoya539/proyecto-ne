@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+        <!-- Login -->
+        <div id="login" class="w3-modal">
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px">
+                <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
+                <span onclick="w3.hide('#login')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"> <i class="fa fa-remove"></i></span>
+                <form class="w3-container" action="Login" method="POST">
+                    <div class="w3-section">
+                        <label>Correo Electrónico o Usuario</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresá tu Correo Electrónico o Usuario" name="usuario" id="user" required>
+                        <label>Clave</label>
+                        <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Ingresá tu Clave" name="clave" id="pwd" required>
+                        <input name="clavemd5" type="hidden" id="pwdmd5" />
+                        <button class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="submit" id="acceso" onclick="login1()">Iniciar sesión</button>
+                        <input class="w3-check" type="checkbox" checked="checked"> Recordarme
+                    </div>
+                </form>
+                <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                    <button onclick="w3.hide('#login')" class="w3-button w3-theme-action">Cancelar</button>
+                    <span class="w3-right w3-padding w3-hide-small"><a href="#">¿Olvidaste tu clave?</a></span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function login1() {
+                if (!($("#user").val())) {
+                    alert('Debe ingresar el usuario o correo electronico');
+                    return false;
+                }
+                if ($("#pwd").val()) {
+                    $("#pwdmd5").val(CryptoJS.MD5($("#pwd").val()).toString());
+                    $("#form-id").submit();
+                } else {
+                    alert('Debe ingresar una contraseña');
+                    return false;
+                }
+            };
+        </script>  
+
