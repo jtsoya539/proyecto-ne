@@ -1,0 +1,87 @@
+    <script type="text/javascript" src="js/angular-filter.min.js"></script>
+    <script type="text/javascript" src="js/app.resultado.js"></script>
+        <div ng-isolate-app="resultado" >
+            <div id="appResultado" ng-controller="ControllerResultado">
+                <!-- The Grid -->
+                <div id="score-grid" class="w3-row-padding">
+                    <script>
+                        //alert('score');
+                        angular.element(document.getElementById('appJugador')).scope().setTab('SCORE');
+                        NeToggleClass();
+
+                        var profile = angular.element(document.getElementById('appJugador')).scope().profile;
+                        var sesion = angular.element(document.getElementById('appJugador')).scope().sesion;
+                        angular.element(document.getElementById('appResultado')).scope().profile = profile;
+                        angular.element(document.getElementById('appResultado')).scope().sesion = sesion;
+                        angular.element(document.getElementById('appResultado')).scope().setCurrentJornada(sesion.jornada);
+                        angular.element(document.getElementById('appResultado')).scope().tab = 'SCORE';
+
+                        var clubes = angular.element(document.getElementById('appJugador')).scope().clubes;
+                        angular.element(document.getElementById('appResultado')).scope().clubes = clubes;
+                    </script>
+                    <!-- Left Column -->
+                    <div id="main" class="w3-col m8 l9">
+
+                        <!-- Mi Equipo2 -->
+                         <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
+                            <h4 ng-if="tab == 'SCORE'" class="w3-margin">Resultados</h4>
+                        </div>
+
+                        <!-- Vista Score -->
+                        <div ng-if="tab == 'SCORE'">
+
+                            <div ng-repeat="(key1, value) in scores | groupBy: '[jor]'">
+
+                                <div class="w3-container w3-padding-8 w3-margin-top w3-center w3-theme">
+                                    <h4 class="w3-margin">Jornada {{ key1 }}</h4>
+                                </div>
+
+                                <div class="w3-bar w3-theme-action">
+                                    <a class="boton-tab w3-bar-item w3-button" href="#!score" style="text-decoration:none" ng-click=" verJornada(-1)">Anterior</a>
+                                    <a class="boton-tab w3-bar-item w3-button" href="#!score" style="text-decoration:none" ng-click=" verJornada(1)">Siguiente</a>
+                                </div>
+
+                                <div  ng-repeat="score in value" class="w3-card-2 w3-round w3-row w3-panel"
+                                    ng-click="verPartido(score)" style="margin:0.5em;">
+                                        <div class="w3-borde w3-display-container  w3-col s5 w3-padding-32" >
+                                          <div class="w3-borde w3-display-right">
+                                              {{ clubes[score.ho].desc }}
+                                              <img src="http://localhost:8080/proyecto-ne/Imagen?tb=T_CLUBES&cp=IMAGEN&pk=ID_CLUB&id={{ score.ho }}" style="height:2em" >
+                                          </div>
+                                        </div>
+                                        <div class="w3-borde  w3-col s2 w3-row  w3-padding-16 w3-center w3-large">
+                                            <div ng-if="score.scoHo !== null" class="w3-borde w3-col s5 " ><strong>{{ score.scoHo }}</strong></div>
+                                            <div ng-if="score.scoHo !== null" class="w3-borde w3-col s2 " ><strong>-</strong></div>
+                                            <div ng-if="score.scoHo !== null" class="w3-borde w3-col s5 " ><strong>{{ score.scoAw }}</strong></div>
+
+                                            <div ng-if="score.scoHo === null" class="w3-borde w3-col s12 " ><strong>vs</strong></div>
+                                        </div>
+                                        <div class="w3-borde w3-display-container  w3-col s5 w3-padding-32" >
+                                          <div class="w3-borde w3-display-left">
+                                              <img src="http://localhost:8080/proyecto-ne/Imagen?tb=T_CLUBES&cp=IMAGEN&pk=ID_CLUB&id={{ score.aw }}" style="height:2em" >
+                                              {{ clubes[score.aw].desc }}
+                                          </div>
+                                        </div>
+                                        <div class="w3-display-container  w3-center w3-col s12 w3-padding-4 w3-small w3-margin-bottom" >
+                                              Estadio: Defensores del Chaco. {{ score.fec }} {{ score.hor }} hs.
+                                        </div>
+
+                                       <div id="match{{score.id}}" class="match w3-hide w3-animate-input w3-display-container w3-col s12 w3-padding-4 w3-margin-bottom">
+                                           <div class="w3-center w3-large w3-theme-l3 w3-container w3-padding">Formacion</div>
+                                           <div ng-include="'matchPlayers.html'"></div>
+                                           <div class="w3-center w3-large w3-theme-l3 w3-container w3-padding">Resumen</div>
+                                           <div ng-include="'timeline.html'"></div>
+                                       </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>

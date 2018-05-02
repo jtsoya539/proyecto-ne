@@ -1,0 +1,44 @@
+<!--   <link rel="stylesheet" href="css/flaticon.css">-->
+<link rel="stylesheet" href="css/timeline.css">
+
+                            <!-- Vista Jugadores del Partido -->
+                            <div id="MatchPlayersListView" class="seleccion w3-row" >
+                                <div class="w3-half" ng-repeat="(key1, value1) in players | groupBy: '[cl]'">
+                                    <div ng-repeat="(key2, value2) in value1 | groupBy: '[club]'">
+                                        <div class="w3-large w3-theme w3-container w3-padding w3-hide-small" ng-class="{'w3-left-align': 'ho' === key1, 'w3-right-align': 'aw' === key1}">{{ clubes[key2].desc }}</div>
+                                        <div class="w3-large w3-theme w3-container w3-padding w3-hide-medium w3-hide-large w3-center">{{ clubes[key2].desc }}</div>
+                                        <div ng-repeat="(key3, value3) in value2 | orderBy:'-tit' | groupBy: '[tit]'">
+                                            <table class="w3-table w3-bordered w3-border" >
+                                                <thead>
+                                                    <tr class="w3-theme-d3">
+                                                        <th>Nro.</th>
+                                                        <th ng-switch on="key3">
+                                                            <div ng-switch-when="S">Titulares</div>
+                                                            <div ng-switch-when="N">Suplentes</div>
+                                                            <div ng-switch-default></div>
+                                                        </th>
+
+                                                        <th >Calif.
+                                                        </th>
+                                                        <th >Pts
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody style="cursor:pointer">
+                                                    <tr class="w3-hover-light-grey" ng-repeat="jugador in value3" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}">
+                                                        <td class="w3-right-align">{{ jugador.dr }}</td>
+                                                        <td>{{ jugador.jg }}
+                                                            <span ng-if="jugador.cp === 'S'" class="w3-badge w3-theme">C</span>
+                                                        </td>
+
+                                                        <td>{{ jugador.cal }}</td>
+                                                        <td>{{ jugador.pt }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div> 
+                                    </div> 
+                                </div> 
+                            </div> 
+                            <!-- Fin Vista Jugadores del Partido -->

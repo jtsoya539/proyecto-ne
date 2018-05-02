@@ -1,0 +1,72 @@
+<!--   <link rel="stylesheet" href="css/flaticon.css">-->
+<link rel="stylesheet" href="css/timeline.css">
+
+<div class="timeline w3-theme" onclick="event.stopPropagation()">
+  <div class="container1 {{ incidenceTypes[incidencia.tip + incidencia.st].im }}"
+       ng-class="{'left1': 'ho' === incidencia.cl, 'right1': 'aw' === incidencia.cl}" ng-repeat="incidencia in incidences">
+    <div class="content1" ng-class="{'w3-theme-d5': 'ho' === incidencia.cl, 'w3-theme-d2': 'aw' === incidencia.cl}">
+      <div class="w3-xlarge" ng-if="incidencia.rs !== null">{{ incidencia.rs }}</div>
+      <p><!--<i class="{{ incidenceTypes[incidencia.tip + incidencia.st].ic }}" ng-style="{ 'font-size': incidencia.tip == 'CAM' ? '1.7em' : '1em' }"></i>-->
+          <span class="w3-large">{{ incidencia.pd }}T {{ incidencia.tie }}'</span> {{ incidencia.tip }} {{ incidencia.st }} {{ incidencia.jug }}
+      </p>
+      <p class="w3-text-light-grey w3-small">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{ incidencia.st2 }} {{ incidencia.jug2 }}</p>
+    </div>
+  </div>
+</div>
+    
+<!--   
+<div class="timeline w3-theme" onclick="event.stopPropagation()">
+  <div class="container1 goal left1">
+    <div class="content1 w3-theme-d5">
+      <div class="w3-xlarge">2 - 2</div>
+      <p><i class="flaticon-football-ball"></i> <span class="w3-large">89'</span> Gol de Juan Fernandez.</p>
+      <p class="w3-text-light-grey w3-small">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Mariano Cabral Rojas.</p>
+    </div>
+  </div>
+  <div class="container1 red-card left1">
+    <div class="content1 w3-theme-d5">
+      <p><i class="flaticon-football-card-with-cross-mark" ></i> <span class="w3-large">85'</span> Tarjeta roja a Juan Roa.</p>
+    </div>
+  </div>
+  <div class="container1 goal right1">
+    <div class="content1 w3-theme-d2">
+      <div class="w3-xlarge">1 - 2</div>
+      <p><i class="flaticon-flaming-football"></i> <span class="w3-large">77'</span> Gol en contra de Federico Fernandez</p>
+    </div>
+  </div>
+  <div class="container1 player-change left1">
+    <div class="content1 w3-theme-d5">
+      <p><i class="glyphicon glyphicon-sort" style="font-size: 1.7em"></i> <span class="w3-large">73'</span> Entra Alberto Marmol..</p>
+      <p class="w3-text-light-grey w3-small">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Sale Walter Rios.</p>
+    </div>
+  </div>
+  <div class="container1 yellow-card left1">
+    <div class="content1 w3-theme-d5">
+      <p><i class="flaticon-football-yellow-warning-card" ></i> <span class="w3-large">65'</span> Tarjeta amarilla a Juan Roa.</p>
+    </div>
+  </div>
+  <div class="container1 yellow-card right1">
+    <div class="content1 w3-theme-d2">
+      <p><i class="flaticon-football-yellow-warning-card" ></i> <span class="w3-large">61'</span> Tarjeta amarilla a Ronaldo Luis.</p>
+    </div>
+  </div>
+  <div class="container1 goal right1">
+    <div class="content1 w3-theme-d2">
+      <div class="w3-xlarge">1 - 1</div>
+      <p><i class="flaticon-football-ball"></i> <span class="w3-large">40'</span> Gol de Marcelo Benitez.</p>
+      <p class="w3-text-light-grey w3-small">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Asistencia: Robert Ortiz.</p>
+    </div>
+  </div>
+  <div class="container1 goal left1">
+    <div class="content1 w3-theme-d5">
+      <div class="w3-xlarge">1 - 0</div>
+      <p><i class="flaticon-football-ball"></i> <span class="w3-large">33'</span> Gol de Ruben Moran.</p>
+    </div>
+  </div>
+  <div class="container1 right1">
+    <div class="content1 w3-theme-d2">
+      <p><i class="flaticon-football-card-with-cross-mark"></i> <span class="w3-large">24'</span> Tarjeta roja a Felipe Caicedo.</p>
+    </div>
+  </div>
+</div>
+   -->

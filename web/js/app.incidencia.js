@@ -9,7 +9,7 @@ appRegister.controller('ControllerIncidencia', ControllerIncidencia);
 function ControllerIncidencia($scope, $http) {
     /* Definimos registro con los datos de la incidencia */
     $scope.incidencia = {
-        torneo: 'PRI-CLA17',
+        torneo: 'PRI-APE18',
         partido: '',
         club: '',
         jugador: '',
@@ -23,7 +23,9 @@ function ControllerIncidencia($scope, $http) {
     $scope.getPartidos = function() {
         $http.post("GetDatos?ori=datos_partidos", {
          data: {index: false,
-                spaces: false }
+                spaces: false,
+                extraData: [{   
+                    torneo: $scope.incidencia.torneo}] }
       })
         .then(function(response) {
             $scope.partidos = response.data.partidos;
@@ -106,7 +108,7 @@ function ControllerIncidencia($scope, $http) {
                 incidencia: $scope.incidencia}
       })
     .then(function(response) {
-         $scope.incidencia.torneo = 'PRI-CLA17';
+         $scope.incidencia.torneo = 'PRI-APE18';
          $scope.incidencia.partido = '';
          $scope.incidencia.club = '';
          $scope.incidencia.jugador = '';

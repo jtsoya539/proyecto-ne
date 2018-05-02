@@ -53,7 +53,9 @@ function ControllerJugador($scope, $http, PagerService) {
             $scope.miEquipo.integrantes = [];
             $scope.clear();
 
-            $scope.getMiEquipo("S"); //S -> si es una restauracion, no hace backup
+            //isReset = S -> si es una restauracion, no hace backup
+            //isBatch = S -> si es un proceso por lote, no hace verificciones al agregar integrante
+            $scope.getMiEquipo("S", "S"); 
             $scope.setModified(false);
             console.log('backup restaurado');
         }
@@ -77,7 +79,7 @@ function ControllerJugador($scope, $http, PagerService) {
     };
 
     /* Funcion para agregar un integrante a mi equipo */
-    $scope.agregarIntegrante = function(integrante, isReset, updMoney){
+    $scope.agregarIntegrante = function(integrante, isBatch, updMoney){
         console.log('entro a agregar a mi equipo ' + integrante.nm + '.');
         var agregado = false;
         var existe = false;
@@ -90,7 +92,7 @@ function ControllerJugador($scope, $http, PagerService) {
             }
         }
 
-        if(transferencia && isReset !== "S") {
+        if(transferencia && isBatch !== "S") {
             if($scope.transfer === '') {
                 NeAlert("ERROR", "Atencion!", "Ud. no posee una transferencia pendiente."+"<br>"+"Debe seleccionar un jugador de su equipo.");
                 return;
@@ -403,7 +405,7 @@ function ControllerJugador($scope, $http, PagerService) {
 
     $scope.sesion = {};
     /* Funcion que obtiene datos de la sesion */
-    $scope.getSesion = function(datos) {
+    $scope.getSesion = function() {
         $http.post("GetDatos?ori=datos_sesion", {
          data: {index: true,
                 spaces: false }
@@ -450,7 +452,7 @@ function ControllerJugador($scope, $http, PagerService) {
             }
 
             // cargo mi equipo
-            $scope.getMiEquipo();
+            $scope.getMiEquipo(null, "S");
         }, function(response) {
             //Second function handles error
              alert('Error al intentar enviar el registro.');
@@ -473,7 +475,7 @@ function ControllerJugador($scope, $http, PagerService) {
             //console.log(response);
 
             // cargo mi equipo
-            $scope.getMiEquipo();
+            $scope.getMiEquipo(null, "S");
         }, function(response) {
             //Second function handles error
              alert('Error al intentar enviar el registro.');
@@ -522,11 +524,11 @@ function ControllerJugador($scope, $http, PagerService) {
     };
 
     /* Funcion que carga mi equipo */
-    $scope.getMiEquipo = function(isReset) {
+    $scope.getMiEquipo = function(isReset, isBatch) {
         console.log('entro a cargar mi equipo.');
         angular.forEach($scope.jugadores, function(jugador, i) {
             if(jugador.mt === 1){
-                $scope.agregarIntegrante(jugador, isReset, 'N');
+                $scope.agregarIntegrante(jugador, isBatch, 'N');
             }
         });
         if(isReset !== "S") {
@@ -538,7 +540,7 @@ function ControllerJugador($scope, $http, PagerService) {
     };
 
     /* Funcion que envia los datos del nuevo equipo al servidor */
-    $scope.enviarEquipo = function(){
+    $scope.enviarEquipo = function(tipo){
        console.log("entro a eviar..");
        /* Envio request al servidor */
        $http.post("UpdTeamUser", {
@@ -558,6 +560,16 @@ function ControllerJugador($scope, $http, PagerService) {
         $scope.update();
         $scope.clear();
         $scope.setModified(false);
+        if (tipo === 'DEF') {
+            $scope.jugadoresBackup = {};
+            $scope.jugadores = {};
+            $scope.misJugadoresBackup = {};
+            $scope.misJugadores = {};
+
+            $scope.getSesion();
+            $scope.getJugadores();
+            $scope.getMisJugadores();
+        }
         
     }, function(response) {
         //Second function handles error
@@ -593,7 +605,7 @@ function ControllerJugador($scope, $http, PagerService) {
             NeAlert("ERROR", "Atencion!", "Debe ingresar el nombre de su equipo.");
             return false;
         }
-        $scope.enviarEquipo();
+        $scope.enviarEquipo('DEF');
     };
 
     /* Funcion para cambiar el mensaje */
@@ -643,6 +655,10 @@ function RouteProvider($routeProvider) {
     })
     .when("/league", {
         templateUrl : "main_league.html"/*,
+        controller: 'ControllerJugador'*/
+    })
+    .when("/score", {
+        templateUrl : "main_score.html"/*,
         controller: 'ControllerJugador'*/
     })
     .when("/help", {

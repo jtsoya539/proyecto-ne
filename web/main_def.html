@@ -39,7 +39,13 @@
                             </button>
                         </div>
 
-                        <!-- Mi Equipo2 -->
+                        <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
+                            <div  class="w3-large">
+                                Fecha Tope de Jornada {{ sesion.jornada }}: <strong class="w3-xlarge"> {{ sesion.fecTope }} {{ sesion.horTope }}</strong>
+                            </div>
+                        </div>
+
+                       <!-- Mi Equipo2 -->
                         <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
                             <h4 ng-if="profile == 'DEFAULT' && tab == 'DEF'" class="w3-margin">Equipo</h4>
                             <h4 ng-if="profile == 'USUARIO' && tab == 'DEF'" class="w3-margin">Transferencias</h4>

@@ -16,6 +16,12 @@
                             </button>
                         </div>
 
+                        <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
+                            <div  class="w3-large">
+                                Fecha Tope de Jornada {{ sesion.jornada }}: <strong class="w3-xlarge"> {{ sesion.fecTope }} {{ sesion.horTope }}</strong>
+                            </div>
+                        </div>
+
                         <!-- Mi Equipo2 -->
                         <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
                             <h4 ng-if="tab == 'TEAM'" class="w3-margin">Mi Equipo</h4>
@@ -181,7 +187,7 @@
                         </div>
 
                         <!-- Alert Box -->
-                        <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-margin-top w3-padding" ng-if="message != ''">
+                        <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-margin-top" ng-if="message != ''">
                             <span ng-click="setMessage('')" class="w3-button w3-theme-l3 w3-display-topright">
                                 <i class="fa fa-remove"></i>
                             </span>
@@ -242,8 +248,10 @@
                                     <h4 class="w3-center">{{clubes[sesion.club].desc}}</h4>
                                     <p class="w3-center"><img src="Imagen?tb=T_CLUBES&cp=IMAGEN&pk=ID_CLUB&id={{sesion.club}}" style="height:106px" alt="Avatar"></p>
                                     <hr>
-                                    <p><i class="fa fa-twitter fa-fw w3-margin-right w3-text-theme"></i> {{clubes[sesion.club].twi}}</p>
-                                    <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> {{clubes[sesion.club].fun}}</p>
+                                    
+                                    <p ng-if="clubes[sesion.club].web != ''"><i class="fa fa-globe fa-fw w3-margin-right w3-text-theme"></i> {{clubes[sesion.club].web}}</p>
+                                    <p ng-if="clubes[sesion.club].twi != ''"><i class="fa fa-twitter fa-fw w3-margin-right w3-text-theme"></i> {{clubes[sesion.club].twi}}</p>
+                                    <p ng-if="clubes[sesion.club].fun != ''"><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> {{clubes[sesion.club].fun}}</p>
                                 </div>
                             </div>
                         </div> 
