@@ -195,8 +195,22 @@
                             <!-- Búsqueda de jugadores -->
                             <form class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom ">
                                 <div class="w3-section">
-                                    <label >Buscar jugador</label>
-                                    <input type="text" ng-model="search" class="w3-input w3-border w3-margin-bottom" placeholder="Nombre o club">
+                                    <label>Seleccion de jugadores</label>
+                                    <div class="w3-padding-small">Jugador</div>
+                                    <input type="text" ng-model="search"
+                                           ng-model-options="{'updateOn': 'default blur',
+                                                              'debounce': {
+                                                                  'default': 350,
+                                                                  'blur': 0 }
+                                                             }"
+                                           class="w3-input w3-border w3-margin-bottom" placeholder="Ingrese Nombre del jugador">
+                                    <div class="w3-padding-small">Club</div>
+                                    <select ng-model="searchCl" ng-options="key as value.desc for (key , value) in clubes"
+                                            ng-model-options="{'debounce': 150
+                                                              }"
+                                            class="w3-select w3-border w3-margin-bottom" >
+                                        <option value="" selected="selected"></option>
+                                    </select>
                                 </div>
                             </form>
 
@@ -224,7 +238,7 @@
 
                                     <tbody style="cursor:pointer">
                                         <!--<tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" ng-repeat="jugador in value|filter:search|orderBy:sortKey:reverse" ng-click="verIntegrante(jugador)"> -->
-                                        <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" dir-paginate="jugador in value|filter:search|orderBy:sortKey:reverse|itemsPerPage:6" ng-click="verIntegrante(jugador)">
+                                        <tr class="w3-hover-light-grey" ng-class="{'w3-text-blue-grey': jugador.mt === 1}" dir-paginate="jugador in value|filter:{nm:search, cl:searchCl}|orderBy:sortKey:reverse|itemsPerPage:6" ng-click="verIntegrante(jugador)">
                                             <td>{{ jugador.nm }}</td>
                                             <td>{{ jugador.cl }}</td>
                                             <td>{{ jugador.pc }}</td>

@@ -415,6 +415,7 @@ function ControllerJugador($scope, $http, PagerService) {
             // $scope.incidencia.integrantes = [];
             console.log("imprimo sesion..");
             console.log($scope.sesion);
+            $scope.getClubes($scope.sesion.torneo);
 
             $scope.setProfile($scope.sesion.perfil);
         }, function(response) {
@@ -485,10 +486,12 @@ function ControllerJugador($scope, $http, PagerService) {
 
     $scope.clubes = {};
     /* Funcion que obtiene datos de los clubes */
-    $scope.getClubes = function(datos) {
+    $scope.getClubes = function(torneo) {
         $http.post("GetDatos?ori=datos_clubes", {
          data: {index: true,
-                spaces: false }
+                spaces: false,
+                extraData: [{
+                    torneo: torneo }] }
       })
         .then(function(response) {
             $scope.clubes = response.data.clubes;
@@ -638,7 +641,6 @@ function ControllerJugador($scope, $http, PagerService) {
     $scope.getSesion();
     $scope.getJugadores();
     $scope.getMisJugadores();
-    $scope.getClubes();
     $scope.getPosiciones();
 }
 
