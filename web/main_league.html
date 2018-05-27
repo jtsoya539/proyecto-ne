@@ -18,13 +18,26 @@
                     <!-- Left Column -->
                     <div id="main" class="w3-col m8 l9">
 
-                        <!-- Mi Equipo2 -->
-                         <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
-                            <h4 ng-if="tab == 'LEAGUE'" class="w3-margin">Ligas</h4>
-                        </div>
-
                         <!-- Vista League -->
                         <div ng-if="tab == 'LEAGUE'">
+                            <!-- Mi Equipo2 -->
+                             <div class="w3-container w3-padding w3-margin-bottom w3-margin-top w3-center w3-theme">
+                                <h4 ng-if="tab == 'LEAGUE'" class="w3-margin">Ligas</h4>
+                            </div>
+
+                            <div class="w3-row w3-margin-bottom">
+                                    <div class="w3-card-2 w3-round w3-white w3-center w3-container" style="margin:0.5em; height:5em">
+                                        <div class="w3-col s4 m4 l4 w3-panel">
+                                            <button class=" w3-button w3-theme-action" onclick="w3.show('#newLeague')" style="width:90%">Crear nueva liga</button>
+                                        </div>
+                                        <div class="w3-col s4 m4 l4 w3-panel">
+                                            <button class=" w3-button w3-theme-action" onclick="w3.show('#joinLeague')" style="width:90%">Unirte a liga</button>
+                                        </div>
+                                        <div class="w3-col s4 m4 l4 w3-panel">
+                                            <button class=" w3-button w3-theme-action" style="width:90%">Renovar tus ligas</button>
+                                        </div>
+                                    </div>
+                            </div>
                             <!-- Vista Liga de Lista -->
                             <div id="LeagueListView" class="seleccion">
                                 <div ng-repeat="(key1, value) in leagues | groupBy: '[tipo]'">
@@ -74,5 +87,63 @@
                     </div>
 
                 </div>
+
+                <!-- Nueva Liga -->
+                <div id="newLeague" class="w3-modal" onclick="w3.hide('#newLeague')">
+                    <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px" onclick="event.stopPropagation()">
+                        <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
+                        <span onclick="w3.hide('#newLeague')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"> <i class="fa fa-remove"></i></span>
+                        <form class="w3-container" action="newLeague" method="POST">
+                            <div class="w3-section">
+                                <label>Nombre de la liga</label>
+                                <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresa el nombre de la liga" name="leagueName" id="leagueName" ng-required="true" ng-model="newLeague.nombre">
+
+                                <input class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="button" value="Crear Liga" id="confirmaLiga" ng-click="enviarLiga('new-league')" />
+                            </div>
+                        </form>
+                        <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                            <button onclick="w3.hide('#newLeague')" class="w3-button w3-theme-action">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unirse a Liga -->
+                <div id="joinLeague" class="w3-modal" onclick="w3.hide('#joinLeague')">
+                    <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px" onclick="event.stopPropagation()">
+                        <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
+                        <span onclick="w3.hide('#joinLeague')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"> <i class="fa fa-remove"></i></span>
+                        <form class="w3-container" action="joinLeague" method="POST">
+                            <div class="w3-section">
+                                <label>Código de la liga privada</label>
+                                <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresa el código de la liga" name="leagueCode" id="leagueCode" ng-required="true" ng-model="joinLeague.codigo">
+
+                                <input class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="button" value="Unirte a Liga" id="unirseLiga" ng-click="enviarLiga('join-league')" />
+                            </div>
+                        </form>
+                        <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                            <button onclick="w3.hide('#joinLeague')" class="w3-button w3-theme-action">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invitar a Liga -->
+                <div id="inviteLeague" class="w3-modal" onclick="w3.hide('#inviteLeague')">
+                    <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l3" style="max-width:500px" onclick="event.stopPropagation()">
+                        <img class="w3-hover-opacity" src="img/cesped.jpg" style="width:100%"> 
+                        <span onclick="w3.hide('#inviteLeague')" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"> <i class="fa fa-remove"></i></span>
+                        <form class="w3-container" action="inviteLeague" method="POST">
+                            <div class="w3-section">
+                                <label>Usuario a invitar a {{currentLeague.id}}</label>
+                                <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingresa el usuario" name="leagueUser" id="leagueUser" ng-required="true" ng-model="inviteLeague.usuario">
+
+                                <input class="w3-button w3-block w3-margin-bottom w3-padding w3-theme-action" type="button" value="Invitar" id="unirseLiga" ng-click="enviarLiga('invite-league')" />
+                            </div>
+                        </form>
+                        <div class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                            <button onclick="w3.hide('#inviteLeague')" class="w3-button w3-theme-action">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>

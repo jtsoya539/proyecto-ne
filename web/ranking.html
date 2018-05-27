@@ -3,6 +3,7 @@
             <div class="w3-modal-content w3-card-4 w3-animate-opacity w3-theme-l5 w3-center" style="max-width:640px" onclick="event.stopPropagation()">
                 <span ng-click="ocultarRanking()" class="w3-button w3-small w3-display-topright w3-theme-action" title="Cancelar"><i class="fa fa-remove"></i></span>
                 <h2 class="w3-container w3-theme">{{currentLeague.id}}</h2>
+                    <label>Codigo: {{currentLeague.cod}}</label>
                     <div class="w3-container">
                             <!-- Vista Ranking de Lista -->
                             <div id="RankingListView" class="seleccion">
@@ -37,6 +38,9 @@
                                 <button ng-if="rankMin + teamsPerPage < currentLeague.cant" class="w3-button w3-padding w3-theme-action" id="next" ng-click="currentLeague.id === '' ? null : verRanking(currentLeague, teamsPerPage)" style="float: right;">Siguiente <i class="fa fa-arrow-right"></i></button>
                             </div>
                     </div> 
+                <div ng-if="sesion.usuario === currentLeague.adm" class="w3-container w3-border-top w3-padding-16 w3-theme-l1">
+                    <button onclick="w3.hide('#ranking'); w3.show('#inviteLeague')" class="w3-button w3-theme-action">Invitar jugadores</button>
+                </div>
 
             </div>
         </div>

@@ -6,30 +6,18 @@
 var appLiga = angular.module('liga', ['angular.filter']);
 appLiga.controller('ControllerLiga', ControllerLiga);
 
-function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory) {
+function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory, leagueSend) {
     $scope.profile = ""; //DEFAULT - USUARIO
     $scope.tab = ""; // TEAM - DEF - HELP - LEAGUE
-    /* Definimos registro con los datos del usuario */
-    /*$scope.registro = {
-        pri_nombre: '',
-        seg_nombre: '',
-        pri_apellido: '',
-        seg_apellido: '',
-        correo: '',
-        usuario: '',
-        clave: '',
-        sexo: '',
-        nacimiento: '',
-        pais: '',
-        club: ''
-        //integrantes: []
-    };
-    */
     $scope.sesion = {};
     $scope.leagues = {};
     $scope.currentLeague = "";
     $scope.rankMin = 1;
     $scope.teamsPerPage = 2;
+
+    $scope.newLeague = {};
+    $scope.joinLeague = {};
+    $scope.inviteLeague = {};
 
     /* Funcion para modificar la liga actual */
     $scope.setCurrentLeague = function(currentLeague){
@@ -44,18 +32,24 @@ function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory) {
             $scope.rankMin = 1;
     };
 
-    /* Obtenemos las ligas */
-    leaguesFactory.fetchLeagues()
-    .then(function(response) {
-        $scope.leagues = response.data.ligas;
-        // $scope.registro.integrantes = [];
-        console.log("imprimo ligas..");
-        console.log(response);
-    }, function(response) {
-        //Second function handles error
-         alert('Error al intentar obtener ligas.');
-         alert(response);
-    });
+    /* Funcion que obtiene las ligas */
+    $scope.getLeagues = function() {
+        document.getElementById("appJugador").style.cursor = "wait";
+        $scope.leagues = {};
+
+        leaguesFactory.fetchLeagues()
+        .then(function(response) {
+            $scope.leagues = response.data.ligas;
+            // $scope.registro.integrantes = [];
+            console.log("imprimo ligas..");
+            console.log(response);
+            document.getElementById("appJugador").style.cursor = "default";
+        }, function(response) {
+            //Second function handles error
+             alert('Error al intentar obtener ligas.');
+             alert(response);
+        });
+    };
 
     $scope.leagueTeams = {};
     /* Funcion que obtiene los equipos de una liga */
@@ -97,56 +91,58 @@ function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory) {
         w3.hide('#ranking');
     };
 
-    /* Funcion que envia los datos del nuevo usuario al servidor */
-    /*
-    $scope.enviar = function(){
-       console.log("valido los datos..");
-        if  ($scope.registro.usuario == '') {
-           alert('Debe ingresar el usuario');
-           return false;
+    /* Funcion que envia los datos de la nueva liga al servidor */
+    $scope.enviarLiga = function(action){
+        league = {};
+        if(action === "new-league") { //crear nueva liga
+            if (!($("#leagueName").val())) {
+                NeAlert("ERROR", "Atencion!", "Debe ingresar el nombre de la nueva liga.");
+                return false;
+            }
+            league = $scope.newLeague;
         }
-        if ($scope.clave == ''){
-           alert('Debe ingresar una contraseña');
-           return false;
-        } else {
-          $scope.registro.clave = CryptoJS.MD5($scope.clave).toString();
+        else if(action === "join-league") {
+            if (!($("#leagueCode").val())) {
+                NeAlert("ERROR", "Atencion!", "Debe ingresar el codigo de la liga.");
+                return false;
+            }
+            league = $scope.joinLeague;
+        }
+        else if(action === "invite-league") {
+            if (!($("#leagueUser").val())) {
+                NeAlert("ERROR", "Atencion!", "Debe ingresar el usuario a invitar.");
+                return false;
+            }
+            $scope.inviteLeague.nombre = $scope.currentLeague.id;
+            league = $scope.inviteLeague;
         }
 
-       console.log("entro a eviar..");
-       /* Envio request al servidor *
-       $http.post("Register", {
-         data: {index: false,
-                spaces: false,
-                registro: $scope.registro}
-      })
-    .then(function(response) {
-         $scope.registro.pri_nombre = '';
-         $scope.registro.seg_nombre = '';
-         $scope.registro.pri_apellido = '';
-         $scope.registro.seg_apellido = '';
-         $scope.registro.correo = '';
-         $scope.registro.usuario = '';
-         $scope.registro.clave = '';
-         $scope.registro.sexo = '';
-         $scope.registro.nacimiento = '';
-         $scope.registro.pais = '';
-         $scope.registro.club = '';
-         $scope.clave = '';
-        // $scope.registro.integrantes = [];
-       console.log("imprimo respuesta..");
-         console.log(response);
-        // Mensaje 
-        w3.hide('#register');
-        $scope.alert(response.data.state, "Atencion!", response.data.message);
+        console.log("entro a enviar liga..");
+        /* Envio request al servidor */
+        leagueSend.sendLeague(action, league)
+        .then(function(response) {
+            // $scope.registro.integrantes = [];
+           console.log("imprimo respuesta..");
+             console.log(response);
+            // Mensaje 
+            w3.hide('#newLeague');
+            w3.hide('#joinLeague');
+            w3.hide('#inviteLeague');
+            $scope.newLeague = {};
+            $scope.joinLeague = {};
+            $scope.inviteLeague = {};
+            NeAlert(response.data.state, "Atencion!", response.data.message);
+            if(response.data.state === "OK")
+                $scope.getLeagues();
 
-    }, function(response) {
-        //Second function handles error
-         alert('Error al intentar enviar el registro.');
-         alert(response);
-    });       
-       
-   };
-   */
+        }, function(response) {
+            //Second function handles error
+             alert('Error al intentar enviar el registro de liga.');
+             alert(response);
+        });       
+    };
+    
+    $scope.getLeagues();
 
 }
 
@@ -176,6 +172,26 @@ appLiga.factory("leagueTeamsFactory", ['$http',function($http){
                     idLiga: id,
                     rankMin: rankMin,
                     equiPorPag: teamsPerPage} ]
+               }
+      });
+    };
+    return obj;
+}]);
+
+/* Envío de confirmación de crear/unirse a liga */
+appLiga.factory("leagueSend", ['$http',function($http){  
+    var obj = {};
+    obj.sendLeague = function(action, league){
+        return $http.post("UpdLeague", {
+         data: {index: false,
+                spaces: false,
+                action: action,
+                liga: {
+                    torneo: "PRI-APE18",
+                    nombre: league.nombre,
+                    jornadaInicio: 1,
+                    codigo: league.codigo,
+                    usuario: league.usuario}
                }
       });
     };
