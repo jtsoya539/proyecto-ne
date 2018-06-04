@@ -67,6 +67,7 @@ function ControllerRegistro($scope, $http, contriesFactory, clubsFactory) {
         }
 
        console.log("entro a eviar..");
+        $.LoadingOverlay("show");
        /* Envio request al servidor */
        $http.post("Register", {
          data: {index: false,
@@ -92,11 +93,12 @@ function ControllerRegistro($scope, $http, contriesFactory, clubsFactory) {
             // Mensaje 
             w3.hide('#register');
             NeAlert(response.data.state, "Atencion!", response.data.message);
-
+            $.LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
              alert('Error al intentar enviar el registro.');
              alert(response);
+            $.LoadingOverlay("hide");
         });       
        
    };

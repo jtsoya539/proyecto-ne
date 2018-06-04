@@ -42,7 +42,8 @@ function ControllerResultado($scope, scoresFactory, incidencesFactory, incidence
     $scope.scores = {};
     /* Funcion que obtiene los resultados de una jornada */
     $scope.getScores = function() {
-            console.log("entro a los resultados de la jornada " + $scope.jornada);
+        $.LoadingOverlay("show");
+        console.log("entro a los resultados de la jornada " + $scope.jornada);
         document.getElementById("appJugador").style.cursor = "wait";
 
         scoresFactory.fetchScores($scope.jornada)
@@ -52,10 +53,12 @@ function ControllerResultado($scope, scoresFactory, incidencesFactory, incidence
             document.getElementById("appJugador").style.cursor = "default";
             console.log("imprimo resultados..");
             console.log(response);
+            $.LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
-             alert('Error al intentar obtener resultados.');
-             alert(response);
+            alert('Error al intentar obtener resultados.');
+            alert(response);
+            $.LoadingOverlay("hide");
         });
     };
     //$scope.getScores();
@@ -70,7 +73,8 @@ function ControllerResultado($scope, scoresFactory, incidencesFactory, incidence
     $scope.players = {};
     /* Funcion que obtiene los jugadores de un partido */
     $scope.getPlayers = function() {
-            console.log("entro a jugadores del partido " + $scope.currentMatch.id);
+        //$("#MatchPlayersListView").LoadingOverlay("show", {fontawesomeResizeFactor : 1.2, fontawesomeColor : "#202020"});
+        console.log("entro a jugadores del partido " + $scope.currentMatch.id);
         document.getElementById("appJugador").style.cursor = "wait";
         $scope.players = {};
 
@@ -80,18 +84,20 @@ function ControllerResultado($scope, scoresFactory, incidencesFactory, incidence
             document.getElementById("appJugador").style.cursor = "default";
             console.log("imprimo los jugadores del partido " + $scope.currentMatch.id);
             console.log($scope.players);
-
+            $("#MatchPlayersListView").LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
-             alert('Error al intentar obtener jugadores.');
-             alert(response);
+            alert('Error al intentar obtener jugadores.');
+            alert(response);
+            $("#MatchPlayersListView").LoadingOverlay("hide");
         });
     };
 
     $scope.incidences = {};
     /* Funcion que obtiene las incidencias de un partido */
     $scope.getIncidences = function() {
-            console.log("entro a incidencias del partido " + $scope.currentMatch.id);
+        //$(".timeline").LoadingOverlay("show", {fontawesomeResizeFactor : 1.2, fontawesomeColor : "#202020"});
+        console.log("entro a incidencias del partido " + $scope.currentMatch.id);
         document.getElementById("appJugador").style.cursor = "wait";
         $scope.incidences = {};
 
@@ -101,17 +107,19 @@ function ControllerResultado($scope, scoresFactory, incidencesFactory, incidence
             document.getElementById("appJugador").style.cursor = "default";
             console.log("imprimo las incidencias del partido " + $scope.currentMatch.id);
             console.log($scope.incidences);
-
+            $("#MatchPlayersListView").LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
              alert('Error al intentar obtener incidencias.');
              alert(response);
+            $("#MatchPlayersListView").LoadingOverlay("hide");
         });
     };
 
     $scope.incidenceTypes = {};
     /* Funcion que obtiene los tipos de incidencias */
     $scope.getIncidenceTypes = function() {
+        $.LoadingOverlay("show");
         console.log("entro a tipos de incidencias ");
         $scope.incidenceTypes = {};
 
@@ -121,11 +129,12 @@ function ControllerResultado($scope, scoresFactory, incidencesFactory, incidence
             // $scope.incidencia.integrantes = [];
             console.log("imprimo tipos de incidencia ");
             console.log($scope.incidenceTypes);
-
+            $.LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
              alert('Error al intentar obtener incidencias.');
              alert(response);
+        $.LoadingOverlay("hide");
         });
     };
     $scope.getIncidenceTypes();

@@ -406,6 +406,7 @@ function ControllerJugador($scope, $http, PagerService) {
     $scope.sesion = {};
     /* Funcion que obtiene datos de la sesion */
     $scope.getSesion = function() {
+        $.LoadingOverlay("show");
         $http.post("GetDatos?ori=datos_sesion", {
          data: {index: true,
                 spaces: false }
@@ -415,18 +416,20 @@ function ControllerJugador($scope, $http, PagerService) {
             // $scope.incidencia.integrantes = [];
             console.log("imprimo sesion..");
             console.log($scope.sesion);
+            $.LoadingOverlay("hide");
             $scope.getClubes($scope.sesion.torneo);
-
             $scope.setProfile($scope.sesion.perfil);
         }, function(response) {
             //Second function handles error
-             alert('Error al intentar enviar el registro.');
+             alert('Error al intentar obtener sesion.');
              alert(response);
+            $.LoadingOverlay("hide");
         });
     };
 
     /* Funcion que obtiene datos de los jugadores */
     $scope.getJugadores = function(datos) {
+        $.LoadingOverlay("show");
         $http.post("GetDatos?ori=datos_jugadores", {
          data: {index: false,
                 spaces: false,
@@ -454,15 +457,18 @@ function ControllerJugador($scope, $http, PagerService) {
 
             // cargo mi equipo
             $scope.getMiEquipo(null, "S");
+            $.LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
-             alert('Error al intentar enviar el registro.');
-             alert(response);
+            alert('Error al intentar obtener datos de los jugadores.');
+            alert(response);
+            $.LoadingOverlay("hide");
         });
     };
 
     /* Funcion que carga mi equipo 2 */
     $scope.getMisJugadores = function(datos) {
+        $.LoadingOverlay("show");
         $http.post("GetDatos?ori=datos_jugadores", {
          data: {index: false,
                 spaces: false,
@@ -477,16 +483,19 @@ function ControllerJugador($scope, $http, PagerService) {
 
             // cargo mi equipo
             $scope.getMiEquipo(null, "S");
+            $.LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
-             alert('Error al intentar enviar el registro.');
-             alert(response);
+            alert('Error al intentar cargar mi equipo.');
+            alert(response);
+            $.LoadingOverlay("hide");
         });
     };
 
     $scope.clubes = {};
     /* Funcion que obtiene datos de los clubes */
     $scope.getClubes = function(torneo) {
+        $.LoadingOverlay("show");
         $http.post("GetDatos?ori=datos_clubes", {
          data: {index: true,
                 spaces: false,
@@ -498,17 +507,19 @@ function ControllerJugador($scope, $http, PagerService) {
             // $scope.incidencia.integrantes = [];
             console.log("imprimo clubes..");
             console.log($scope.clubes);
-
+            $.LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
-             alert('Error al intentar enviar el registro.');
-             alert(response);
+            alert('Error al intentar obtener datos de los clubes.');
+            alert(response);
+            $.LoadingOverlay("hide");
         });
     };
 
     $scope.posiciones = {};
     /* Funcion que obtiene datos de las posiciones */
     $scope.getPosiciones = function(datos) {
+        $.LoadingOverlay("show");
         $http.post("GetDatos?ori=datos_posiciones", {
          data: {index: true,
                 spaces: false }
@@ -518,11 +529,12 @@ function ControllerJugador($scope, $http, PagerService) {
             // $scope.incidencia.integrantes = [];
             console.log("imprimo posiciones..");
             console.log($scope.posiciones);
-
+            $.LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
-             alert('Error al intentar enviar el registro.');
-             alert(response);
+            alert('Error al intentar obtener datos de las posiciones.');
+            alert(response);
+            $.LoadingOverlay("hide");
         });
     };
 
@@ -544,6 +556,7 @@ function ControllerJugador($scope, $http, PagerService) {
 
     /* Funcion que envia los datos del nuevo equipo al servidor */
     $scope.enviarEquipo = function(tipo){
+        $.LoadingOverlay("show");
        console.log("entro a eviar..");
        /* Envio request al servidor */
        $http.post("UpdTeamUser", {
@@ -573,11 +586,12 @@ function ControllerJugador($scope, $http, PagerService) {
             $scope.getJugadores();
             $scope.getMisJugadores();
         }
-        
+        $.LoadingOverlay("hide");
     }, function(response) {
         //Second function handles error
-         alert('Error al intentar enviar el registro.');
-         alert(response);
+        alert('Error al intentar enviar datos del nuevo equipo.');
+        alert(response);
+        $.LoadingOverlay("hide");
     });       
        
    };

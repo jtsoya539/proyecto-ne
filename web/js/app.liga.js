@@ -34,7 +34,7 @@ function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory, leagueSend) 
 
     /* Funcion que obtiene las ligas */
     $scope.getLeagues = function() {
-        document.getElementById("appJugador").style.cursor = "wait";
+        $.LoadingOverlay("show");
         $scope.leagues = {};
 
         leaguesFactory.fetchLeagues()
@@ -43,18 +43,19 @@ function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory, leagueSend) 
             // $scope.registro.integrantes = [];
             console.log("imprimo ligas..");
             console.log(response);
-            document.getElementById("appJugador").style.cursor = "default";
+            $.LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
              alert('Error al intentar obtener ligas.');
              alert(response);
+            $.LoadingOverlay("hide");
         });
     };
 
     $scope.leagueTeams = {};
     /* Funcion que obtiene los equipos de una liga */
     $scope.getLeagueTeams = function() {
-        document.getElementById("appJugador").style.cursor = "wait";
+        $("#ranking2").LoadingOverlay("show", {fontawesomeResizeFactor : 0.4});
         $scope.leagueTeams = {};
 
         leagueTeamsFactory.fetchLeagueTeams($scope.currentLeague.id, $scope.rankMin, $scope.teamsPerPage)
@@ -63,12 +64,12 @@ function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory, leagueSend) 
             // $scope.incidencia.integrantes = [];
             console.log("imprimo equipos de la liga " + $scope.currentLeague.id);
             console.log($scope.leagueTeams);
-            document.getElementById("appJugador").style.cursor = "default";
-
+            $("#ranking2").LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
              alert('Error al intentar obtener equipos.');
              alert(response);
+            $("#ranking2").LoadingOverlay("hide");
         });
     };
 
@@ -118,6 +119,7 @@ function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory, leagueSend) 
         }
 
         console.log("entro a enviar liga..");
+        $.LoadingOverlay("show");
         /* Envio request al servidor */
         leagueSend.sendLeague(action, league)
         .then(function(response) {
@@ -134,11 +136,12 @@ function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory, leagueSend) 
             NeAlert(response.data.state, "Atencion!", response.data.message);
             if(response.data.state === "OK")
                 $scope.getLeagues();
-
+            $.LoadingOverlay("hide");
         }, function(response) {
             //Second function handles error
              alert('Error al intentar enviar el registro de liga.');
              alert(response);
+            $.LoadingOverlay("hide");
         });       
     };
     
