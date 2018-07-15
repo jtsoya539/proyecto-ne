@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var appRegister = angular.module('register', []);
-appRegister.controller('ControllerRegistro', ControllerRegistro);
+//https://skalman.github.io/UglifyJS-online/
+////Accede directamente al modulo ProyectoNE definido en app.js
+'use strict';
+ProyectoNE.controller('ControllerRegistro', ControllerRegistro);
 
-function ControllerRegistro($scope, $http, contriesFactory, clubsFactory) {
+function ControllerRegistro($scope, countryService, clubService, registerService) {
     /* Definimos registro con los datos del usuario */
     $scope.registro = {
         pri_nombre: '',
@@ -27,7 +29,7 @@ function ControllerRegistro($scope, $http, contriesFactory, clubsFactory) {
     $scope.clubes = {};
 
     /* Obtenemos los paises */
-    contriesFactory.fetchCountries()
+    countryService.fetchCountries()
     .then(function(response) {
         $scope.paises = response.data.paises;
         // $scope.registro.integrantes = [];
@@ -40,7 +42,7 @@ function ControllerRegistro($scope, $http, contriesFactory, clubsFactory) {
     });
 
     /* Obtenemos los clubes */
-    clubsFactory.fetchClubs()
+    clubService.fetchClubs()
     .then(function(response) {
         $scope.clubes = response.data.clubes;
         // $scope.registro.integrantes = [];
@@ -55,11 +57,11 @@ function ControllerRegistro($scope, $http, contriesFactory, clubsFactory) {
     /* Funcion que envia los datos del nuevo usuario al servidor */
     $scope.enviar = function(){
        console.log("valido los datos..");
-        if  ($scope.registro.usuario == '') {
+        if  ($scope.registro.usuario === '') {
            alert('Debe ingresar el usuario');
            return false;
         }
-        if ($scope.clave == ''){
+        if ($scope.clave === ''){
            alert('Debe ingresar una contraseña');
            return false;
         } else {
@@ -69,11 +71,7 @@ function ControllerRegistro($scope, $http, contriesFactory, clubsFactory) {
        console.log("entro a eviar..");
         $.LoadingOverlay("show");
        /* Envio request al servidor */
-       $http.post("Register", {
-         data: {index: false,
-                spaces: false,
-                registro: $scope.registro}
-      })
+       registerService.register($scope.registro)
         .then(function(response) {
              $scope.registro.pri_nombre = '';
              $scope.registro.seg_nombre = '';
@@ -104,28 +102,40 @@ function ControllerRegistro($scope, $http, contriesFactory, clubsFactory) {
    };
 
 }
+ControllerRegistro.$inject = ['$scope', 'countryService', 'clubService', 'registerService'];
 
-/* Fabrica de datos de los paises */
-appRegister.factory("contriesFactory", ['$http',function($http){  
+/* Servicio de datos de los paises */
+ProyectoNE.factory("countryService", ['$http','Config',function($http, Config){  
     var obj = {};
     obj.fetchCountries = function(){ 
-        return $http.post("GetDatos?ori=datos_paises", {
+        return $http.post(Config.backendURL + "GetDatos?ori=datos_paises", {
          data: {index: false,
                 spaces: false }
       });
     };
     return obj;
 }]);
-
-/* Fabrica de datos de los clubes */
-appRegister.factory("clubsFactory", ['$http',function($http){  
+/* Servicio de datos de los clubes */
+ProyectoNE.factory("clubService", ['$http','Config',function($http, Config){  
     var obj = {};
     obj.fetchClubs = function(){ 
-        return $http.post("GetDatos?ori=datos_clubes", {
+        return $http.post(Config.backendURL + "GetDatos?ori=datos_clubes", {
          data: {index: false,
                 spaces: false,
                 extraData: [{   
-                    partido: ''}]}
+                    partido: '398'}]}
+      });
+    };
+    return obj;
+}]);
+/* Servicio de registro de usuario */
+ProyectoNE.factory("registerService", ['$http','Config',function($http, Config){  
+    var obj = {};
+    obj.register = function(registro){ 
+        return $http.post(Config.backendURL + "Register", {
+         data: {index: false,
+                spaces: false,
+                registro: registro}
       });
     };
     return obj;
