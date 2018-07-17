@@ -148,6 +148,7 @@ function ControllerLiga($scope, leaguesFactory, leagueTeamsFactory, leagueSend) 
     $scope.getLeagues();
 
 }
+ControllerLiga.$inject = ['$scope', 'leaguesFactory', 'leagueTeamsFactory', 'leagueSend'];
 
 /* Fabrica de datos de las ligas */
 appLiga.factory("leaguesFactory", ['$http',function($http){  

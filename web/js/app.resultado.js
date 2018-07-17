@@ -176,6 +176,7 @@ function ControllerResultado($scope, scoresFactory, incidencesFactory, incidence
     };
 
 }
+ControllerResultado.$inject = ['$scope', 'scoresFactory', 'incidencesFactory', 'incidenceTypesFactory', 'playersFactory'];
 
 /* Fabrica de datos de los resultados */
 appResultado.factory("scoresFactory", ['$http',function($http){  
