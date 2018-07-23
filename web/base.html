@@ -31,15 +31,29 @@
 
     <body onresize="NeToggleClass()">
 
-        <div id="appJugador" ng-app="jugador" ng-controller="ControllerJugador">
+        <div id="appJugador" ng-app="ProyectoNE" ng-controller="ControllerJugador">
 
             <!-- Menu en pantallas grandes -->
             <div id="menuLarge" class="w3-top">
             </div>
+<!--            <div id="menuLarge2" class="w3-top">
+                <div class="w3-bar w3-theme-d2" >
+                    <a ng-repeat="item in menu.menus"
+                       class="w3-bar-item w3-button w3-padding-large w3-{{item.ali}}" ng-class="{'w3-hide-small': item.hs == 'S', 'w3-hide-medium': item.hm == 'S','w3-hide-large': item.hl == 'S'}"
+                       href="{{item.en}}" title="{{item.det}}" style="text-decoration:none" ng-click="item.ev === '' ? null : toggleMenu()">
+                        <i class="{{item.ic}}"></i><i>&emsp;15{{item.it}}</i>
+                    </a>
+                </div>
+            </div>-->
 
             <!-- Menu en pantallas pequenas -->
             <div id="menuSmall" class="w3-top w3-hide w3-hide-medium w3-hide-large">
             </div>
+            <!-- <div id="menuLarge2" class="w3-top">
+                <div class="w3-bar w3-theme-d2" ng-repeat="item in menu.menus">
+                    <a class="w3-bar-item w3-button w3-padding-large w3-{{item.ali}}" href="{{item.en}}" title="{{item.det}}" style="text-decoration:none" ><i class="{{item.ic}}"></i><i>&emsp;{{item.it}}</i></a>
+                </div>
+            </div> -->
 
             <!-- Visualizador -->
             <div id="visualizador" class="w3-modal">
@@ -158,18 +172,20 @@
 
         </div>
         <!-- JavaScript -->
-        <script type="text/javascript" src="js/w3.js"></script>
-        <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
-        <script type="text/javascript" src="js/md5.js"></script>
-        <script type="text/javascript" src="js/angular.min.js"></script>
-        <script type="text/javascript" src="js/angular-filter.min.js"></script>
-        <script type="text/javascript" src="js/angular-route.min.js"></script>
-        <script type="text/javascript" src="js/underscore-min.js"></script>
-        <script type="text/javascript" src="js/dirPagination.js"></script>
-        <script type="text/javascript" src="js/loadingoverlay.min.js"></script>
+        <script type="text/javascript" src="lib/w3.js"></script>
+        <script type="text/javascript" src="lib/jquery-3.2.1.js"></script>
+        <script type="text/javascript" src="lib/md5.js"></script>
+        <script type="text/javascript" src="lib/angular.min.js"></script>
+        <script type="text/javascript" src="lib/angular-filter.min.js"></script>
+        <script type="text/javascript" src="lib/angular-route.min.js"></script>
+        <script type="text/javascript" src="lib/underscore-min.js"></script>
+        <script type="text/javascript" src="lib/dirPagination.js"></script>
+        <script type="text/javascript" src="lib/loadingoverlay.min.js"></script>
         <!-- Own JavaScripts -->
         <script type="text/javascript" src="js/ne.util.js"></script>
-        <script type="text/javascript" src="js/app.jugador.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+        <!--<script type="text/javascript" src="js/app.jugador.js"></script>-->
+        <script type="text/javascript" src="jsm/app.jugador.min.js"></script>
         <script>
             $.LoadingOverlaySetup({
                 background      : "rgba(0, 0, 0, 0.4)",
