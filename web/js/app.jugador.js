@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var appJugador = angular.module('jugador', ['angular.filter','ngRoute','angularUtils.directives.dirPagination']);
-appJugador.factory('PagerService', PagerService);
-appJugador.controller('ControllerJugador', ControllerJugador);
-appJugador.config(['$routeProvider', RouteProvider]);
-appJugador.directive("ngIsolateApp", ngIsolateApp);
+//var appJugador = angular.module('jugador', ['angular.filter','ngRoute','angularUtils.directives.dirPagination']);
+////Accede directamente al modulo ProyectoNE definido en app.js
+'use strict';
+ProyectoNE.factory('PagerService', PagerService);
+ProyectoNE.controller('ControllerJugador', ControllerJugador);
+ProyectoNE.config(['$routeProvider', RouteProvider]);
+ProyectoNE.directive("ngIsolateApp", ngIsolateApp);
 
 function ControllerJugador($scope, $http, PagerService) {    
     console.log("inicializo jugador..");
@@ -427,6 +429,30 @@ function ControllerJugador($scope, $http, PagerService) {
         });
     };
 
+    $scope.menu = {};
+    /* Funcion que obtiene datos del menu */
+    $scope.getMenu = function(datos) {
+        $.LoadingOverlay("show");
+        $http.post("GetDatos?ori=menu", {
+         data: {index: false,
+                spaces: false,
+                extraData: [{   
+                    app: 'WEB'}] }
+      })
+        .then(function(response) {
+            $scope.menu = response.data;
+            // $scope.incidencia.integrantes = [];
+            console.log("imprimo menu..");
+            console.log($scope.menu);
+            $.LoadingOverlay("hide");
+        }, function(response) {
+            //Second function handles error
+            alert('Error al intentar obtener datos del menu.');
+            alert(response);
+            $.LoadingOverlay("hide");
+        });
+    };
+
     /* Funcion que obtiene datos de los jugadores */
     $scope.getJugadores = function(datos) {
         $.LoadingOverlay("show");
@@ -637,6 +663,10 @@ function ControllerJugador($scope, $http, PagerService) {
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     };
 
+    /* Funcion para mostrar/ocultar menu */
+    $scope.toggleMenu = function(){
+        NeToggleMenu();
+    };
 
     /* Funcion para cambiar pagina de tabla */
     $scope.setPage = function(page) {
@@ -653,10 +683,12 @@ function ControllerJugador($scope, $http, PagerService) {
 
     console.log("inicializo aplicacion..");
     $scope.getSesion();
+    $scope.getMenu();
     $scope.getJugadores();
     $scope.getMisJugadores();
     $scope.getPosiciones();
 }
+ControllerJugador.$inject = ['$scope', '$http', 'PagerService'];
 
 /* Funcion para navegacion */
 function RouteProvider($routeProvider) {

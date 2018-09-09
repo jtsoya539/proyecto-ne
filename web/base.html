@@ -34,26 +34,49 @@
         <div id="appJugador" ng-app="ProyectoNE" ng-controller="ControllerJugador">
 
             <!-- Menu en pantallas grandes -->
+<!--            <div id="menuLarge" class="w3-top">
+            </div>-->
             <div id="menuLarge" class="w3-top">
-            </div>
-<!--            <div id="menuLarge2" class="w3-top">
                 <div class="w3-bar w3-theme-d2" >
-                    <a ng-repeat="item in menu.menus"
-                       class="w3-bar-item w3-button w3-padding-large w3-{{item.ali}}" ng-class="{'w3-hide-small': item.hs == 'S', 'w3-hide-medium': item.hm == 'S','w3-hide-large': item.hl == 'S'}"
-                       href="{{item.en}}" title="{{item.det}}" style="text-decoration:none" ng-click="item.ev === '' ? null : toggleMenu()">
-                        <i class="{{item.ic}}"></i><i>&emsp;15{{item.it}}</i>
+                    <a ng-repeat="item in menu.ml"
+                       class="w3-bar-item w3-button w3-padding-large w3-{{item.ali}}" ng-class="{'w3-hide-small': item.hs == 'S', 'w3-hide-medium': item.hm == 'S','w3-hide-large': item.hl == 'S', 'w3-theme-d1': tab == item.en}"
+                       ng-href="{{item.en}}" title="{{item.det}}" style="text-decoration:none" ng-click="item.ev === '' ? null : toggleMenu()">
+                            <i ng-if="item.ali !== 'right'" class="{{item.ic}}"></i>
+                            <i ng-if="item.it !== ''">&emsp;{{item.it}}&emsp;</i>
+                            <i ng-if="item.ali === 'right'" class="{{item.ic}}"></i>
+                        <img ng-if="item.im !== ''" ng-src="{{item.im}}" class="{{item.fo}}" style="height:20px;width:20px;margin-bottom:0px">
+                        
                     </a>
                 </div>
-            </div>-->
+            </div>
 
             <!-- Menu en pantallas pequenas -->
+<!--            <div id="menuSmall" class="w3-top w3-hide w3-hide-medium w3-hide-large">
+            </div>-->
             <div id="menuSmall" class="w3-top w3-hide w3-hide-medium w3-hide-large">
-            </div>
-            <!-- <div id="menuLarge2" class="w3-top">
-                <div class="w3-bar w3-theme-d2" ng-repeat="item in menu.menus">
-                    <a class="w3-bar-item w3-button w3-padding-large w3-{{item.ali}}" href="{{item.en}}" title="{{item.det}}" style="text-decoration:none" ><i class="{{item.ic}}"></i><i>&emsp;{{item.it}}</i></a>
+                <div class="w3-bar-block w3-theme-d2" >
+                    <div class="w3-bar-item" style="padding:0px">
+                        <a ng-repeat="item in menu.ms1"
+                           class="w3-button w3-padding-large w3-{{item.ali}}" ng-class="{'w3-hide-small': item.hs == 'S', 'w3-hide-medium': item.hm == 'S','w3-hide-large': item.hl == 'S'}"
+                           ng-href="{{item.en}}" title="{{item.det}}" style="text-decoration:none" ng-click="item.ev === '' ? null : toggleMenu()">
+                            <img ng-if="item.im !== ''" ng-src="{{item.im}}" class="{{item.fo}}" style="height:20px;width:20px;margin-bottom:0px">
+                                <i ng-if="item.ali !== 'right'" class="{{item.ic}}"></i>
+                                <i ng-if="item.it !== ''">&emsp;{{item.it}}&emsp;</i>
+                                <i ng-if="item.ali === 'right'" class="{{item.ic}}"></i>
+
+                        </a>
+                    </div>
+                    <a ng-repeat="item in menu.ms2"
+                       class="w3-bar-item w3-button w3-padding-large w3-{{item.ali}}" ng-class="{'w3-hide-small': item.hs == 'S', 'w3-hide-medium': item.hm == 'S','w3-hide-large': item.hl == 'S'}"
+                       ng-href="{{item.en}}" title="{{item.det}}" style="text-decoration:none" ng-click="item.ev === '' ? null : toggleMenu()">
+                        <img ng-if="item.im !== ''" ng-src="{{item.im}}" class="{{item.fo}}" style="height:20px;width:20px;margin-bottom:0px">
+                            <i ng-if="item.ali !== 'right'" class="{{item.ic}}"></i>
+                            <i ng-if="item.it !== ''">&emsp;{{item.it}}&emsp;</i>
+                            <i ng-if="item.ali === 'right'" class="{{item.ic}}"></i>
+                        
+                    </a>
                 </div>
-            </div> -->
+            </div>
 
             <!-- Visualizador -->
             <div id="visualizador" class="w3-modal">
@@ -182,9 +205,8 @@
         <script type="text/javascript" src="lib/dirPagination.js"></script>
         <script type="text/javascript" src="lib/loadingoverlay.min.js"></script>
         <!-- Own JavaScripts -->
-        <script type="text/javascript" src="js/ne.util.js"></script>
-        <script type="text/javascript" src="js/app.js"></script>
-        <!--<script type="text/javascript" src="js/app.jugador.js"></script>-->
+        <script type="text/javascript" src="dist/ne.util.min.js"></script>
+        <script type="text/javascript" src="dist/app.min.js"></script>
         <script type="text/javascript" src="dist/app.jugador.min.js"></script>
         <script>
             $.LoadingOverlaySetup({

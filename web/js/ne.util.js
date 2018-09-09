@@ -184,3 +184,10 @@ function NeToggleClass() {
             help.className = "w3-row-padding";
     }
 };
+
+/* Funcion para mostrar/ocultar menu */
+function NeToggleMenu(){
+    console.log('entro a mostrar/ocultar menu.');
+    w3.toggleClass('#menuSmall', 'w3-hide');
+    w3.toggleClass('#menuLarge', 'w3-hide-small');
+};

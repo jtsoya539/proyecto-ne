@@ -80,7 +80,7 @@ public class Login extends HttpServlet {
 
         String resultado = null;
         String mensaje = null;
-        String menu = null;
+        //String menu = null;
         //String seleccionJugadores = null;
 
         try {
@@ -111,7 +111,7 @@ public class Login extends HttpServlet {
                 try {
                     db.conectar("ne", "ruffus");
                     db.ejecutarProcedimiento("k_sistema.p_set_usuario('" + usuario + "')");
-                    menu = db.ejecutarFuncionClob("k_aplicacion_web.f_menu('WEB')");
+                   //menu = db.ejecutarFuncionClob("k_aplicacion_web.f_menu('WEB')");
                     //seleccionJugadores = db.ejecutarFuncionClob("k_aplicacion_web.f_seleccion_jugadores('WEB')");
                     db.cerrar();
                 } catch (SQLException ex) {
@@ -159,9 +159,9 @@ public class Login extends HttpServlet {
             if (mensaje != null) {
                 out.println(mensaje);
             }
-            if (menu != null) {
+            /*if (menu != null) {
                 out.println(menu);
-            }
+            }*/
             out.close();
         }
 

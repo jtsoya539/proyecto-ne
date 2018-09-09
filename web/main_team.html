@@ -100,7 +100,7 @@
                                                     <span ng-if="jugador.id === miEquipo.subcaptain" class="w3-display-topright w3-border w3-badge w3-theme w3-hide-small">S</span>
                                                     <span ng-if="jugador.id === miEquipo.subcaptain" class="w3-display-topright w3-border w3-badge w3-theme w3-tiny w3-hide-medium w3-hide-large">S</span>
 
-                                                    <img class="team-img" src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
+                                                    <img class="team-img" ng-src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
                                                     <!-- Pantallas grandes -->
                                                     <div class="w3-container w3-center w3-tag w3-theme-action w3-hide-small" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
                                                       <p>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.nm }}</p>
@@ -142,7 +142,7 @@
                                                     <span ng-if="jugador.id === miEquipo.captain" class="w3-display-topright w3-border w3-badge w3-theme">C</span>
                                                     <span ng-if="jugador.id === miEquipo.subcaptain" class="w3-display-topright w3-border w3-badge w3-theme">S</span>
 
-                                                    <img class="team-img" src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
+                                                    <img class="team-img" ng-src="img/team/{{ jugador.cl }}.png" style="width:50%" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}"> 
                                                     <!-- Pantallas grandes -->
                                                     <div class="w3-container w3-center w3-tag w3-theme-action w3-hide-small" ng-click="jugador.id === '' ? null : verIntegrante(jugador)" ng-style="{cursor: jugador.id === '' ? 'default' : 'pointer'}" style="width:100%">
                                                       <p>{{ jugador.id === '' ? 'Agregar ' + posiciones[key1].desc : jugador.nm }}</p>
@@ -201,7 +201,7 @@
                             <div class="w3-card-2 w3-round w3-white w3-margin-bottom">
                                 <div class="w3-container">
                                     <h4 class="w3-center">{{sesion.usuario}}</h4>
-                                    <p ng-if="sesion.avatar == 'S'" class="w3-center"><img src="Imagen?tb=T_USUARIOS&cp=IMAGEN&pk=ID_USUARIO&id={{ sesion.usuario }}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+                                    <p ng-if="sesion.avatar == 'S'" class="w3-center"><img ng-src="Imagen?tb=T_USUARIOS&cp=IMAGEN&pk=ID_USUARIO&id={{ sesion.usuario }}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
                                     <p ng-if="sesion.avatar == 'N' && sesion.sex == 'M'" class="w3-center"><img src="img/avatar/man2.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar" ></p>
                                     <p ng-if="sesion.avatar == 'N' && sesion.sex == 'F'" class="w3-center"><img src="img/avatar/woman2.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar" ></p>
                                     <!-- <a href="http://www.freepik.com">Designed by Freepik</a> -->
@@ -246,7 +246,7 @@
                             <div class="w3-card-2 w3-round w3-white w3-margin-bottom">
                                 <div class="w3-container">
                                     <h4 class="w3-center">{{clubes[sesion.club].desc}}</h4>
-                                    <p class="w3-center"><img src="Imagen?tb=T_CLUBES&cp=IMAGEN&pk=ID_CLUB&id={{sesion.club}}" style="height:106px" alt="Avatar"></p>
+                                    <p class="w3-center"><img ng-src="Imagen?tb=T_CLUBES&cp=IMAGEN&pk=ID_CLUB&id={{sesion.club}}" style="height:106px" alt="Avatar"></p>
                                     <hr>
                                     
                                     <p ng-if="clubes[sesion.club].web != ''"><i class="fa fa-globe fa-fw w3-margin-right w3-text-theme"></i> {{clubes[sesion.club].web}}</p>
