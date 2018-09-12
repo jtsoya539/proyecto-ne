@@ -24,6 +24,7 @@
     <script type="text/javascript" src="dist/ne.util.min.js"></script>
     <script type="text/javascript" src="dist/app.min.js"></script>
     <script type="text/javascript" src="dist/app.register.min.js"></script>
+    <script type="text/javascript" src="dist/app.login.min.js"></script>
     <script>
         $.LoadingOverlaySetup({
             background      : "rgba(0, 0, 0, 0.4)",
@@ -98,14 +99,18 @@
         </div>
 
         <!-- Login -->
-        <div>
+        <!--<div>
             <div w3-include-html="login.html"></div> 
             <script>
             includeHTML();
             </script>
-        </div>
+        </div>-->
 
         <div ng-app="ProyectoNE">
+            <!-- Login -->
+            <div ng-include="'login.html'">
+            </div>
+            <!-- Register -->
             <div ng-include="'register.html'">
             </div>
         </div>

@@ -418,6 +418,7 @@ function ControllerJugador($scope, $http, PagerService) {
             // $scope.incidencia.integrantes = [];
             console.log("imprimo sesion..");
             console.log($scope.sesion);
+            NeAlert(null, "Atencion!", $scope.getWelcome($scope.sesion));
             $.LoadingOverlay("hide");
             $scope.getClubes($scope.sesion.torneo);
             $scope.setProfile($scope.sesion.perfil);
@@ -427,6 +428,15 @@ function ControllerJugador($scope, $http, PagerService) {
              alert(response);
             $.LoadingOverlay("hide");
         });
+    };
+
+    $scope.getWelcome = function(sesion) {
+        var bienvenido = "Bienvenido/a";
+        if(sesion.sex === 'M')
+            bienvenido = "Bienvenido";
+        else if(sesion.sex === 'F')
+            bienvenido = "Bienvenida";
+        return bienvenido + " " + sesion.nombre + "!";
     };
 
     $scope.menu = {};
